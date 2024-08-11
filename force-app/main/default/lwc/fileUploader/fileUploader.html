@@ -1,0 +1,26 @@
+<template>
+  <lightning-card variant="base" title="Upload File Here">
+    <div class="slds-var-m-around_medium">
+      <lightning-input
+        type="file"
+        label="Attach file here"
+        onchange={fileUploadHandler}
+      ></lightning-input>
+      <div class="error-message">{fileName}</div>
+      <lightning-button
+        variant="brand"
+        label="Submit"
+        title="Submit"
+        onclick={handleSubmit}
+        disabled={isTrue}
+        class="slds-var-m-left_medium"
+      ></lightning-button>
+      <div class="" lwc:if={showLoadingSpinner}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="medium"
+        ></lightning-spinner>
+      </div>
+    </div>
+  </lightning-card>
+</template>
