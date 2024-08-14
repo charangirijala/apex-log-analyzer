@@ -61,6 +61,10 @@ export default class FileUploader extends LightningElement {
             this.data = result;
             this.fileName = this.fileName + "-Uploaded successfully";
             this.showLoadingSpinner = false;
+            console.log(
+              "Data recieved from server: ",
+              JSON.stringify(this.data)
+            );
           }
         })
         .catch((error) => {
