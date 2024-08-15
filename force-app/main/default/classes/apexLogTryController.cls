@@ -1,9 +1,15 @@
 public class apexLogTryController {
+  public static Integer currentLineIndex;
+  public static Integer previousLineIndex = 0;
+  public static String previousLineEvent;
+  public static String currentLineEvent = null;
+  public static Stack codeUnitsStack = new Stack();
   //test controller to try and checkout the logic
   @AuraEnabled(cacheable=true)
   public static resultSchema saveFile(String base64Data) {
     String data = JSON.deserializeUntyped(base64Data).toString();
     resultSchema processedLogRes = new resultSchema();
+    processedLogRes.codeUnits = new List<CodeUnitContainerSchema>();
     if (data.length() == 0) {
       System.debug('NO DATA FOUND FROM FILE::: ERROR');
       return null;
@@ -12,7 +18,7 @@ public class apexLogTryController {
     System.debug('NO OF LINES OF LOGS GENERATED: ' + logRawData.size());
     //call method processAllLines to run through all lines
     processAllLines(logRawData, processedLogRes);
-
+    System.debug('STACK SIZE: ' + codeUnitsStack.size());
     return processedLogRes;
   }
   //method containing for loop to process all the lines
@@ -21,39 +27,63 @@ public class apexLogTryController {
     resultSchema processedLogRes
   ) {
     Integer nofLines = logRawData.size();
-    for (Integer line = 0; line < nofLines; line++) {
+    for (
+      currentLineIndex = 0; currentLineIndex < nofLines; currentLineIndex++
+    ) {
+      //get previous line;
+      if (currentLineIndex == 0) {
+        //previousLine = null;
+      } else {
+        //previousLine = logRawData[currentLineIndex - 1];
+        previousLineIndex++;
+      }
       //process line one data and validation
-      String currentLine = logRawData[line].replaceAll('&#124;', '|');
-      System.debug('ANALYZING LINE NUMBER:> ' + line + ' >>> ' + currentLine);
-      if (line == 0) {
+      String currentLine = logRawData[currentLineIndex]
+        .replaceAll('&#124;', '|');
+      System.debug(
+        'ANALYZING LINE NUMBER:> ' + currentLineIndex + ' >>> ' + currentLine
+      );
+      if (currentLineIndex == 0) {
         if (validateLineOneData(currentLine)) {
           processedLogRes.profilingInfo = processLineOneData(currentLine);
         } else {
           //send that there is no API and category info data to lwc
         }
       } else {
-        levelOneCheck(currentLine);
+        levelOneCheck(currentLine, processedLogRes);
       }
     }
   }
 
   //level1 pattern check to check if it is Execute anonymous or standard expression
-  private static String levelOneCheck(String line) {
+  private static String levelOneCheck(
+    String line,
+    resultSchema processedLogRes
+  ) {
     Matcher execAnMatcher = utilityVariables.execAnRegex.matcher(line);
     Matcher standExpMatcher = utilityVariables.standExpRegex.matcher(line);
 
-    if (execAnMatcher.find()) {
+    if (execAnMatcher.matches()) {
       //execute anonymous line found hence get the input lines
       System.debug('LEVEL ONE CHECK::::EXECUTE ANONYMOUS LINE ;;;');
-    } else if (standExpMatcher.find()) {
+    } else if (standExpMatcher.matches()) {
       //standard Expression line found process it
       System.debug('LEVEL ONE CHECK::::STANDARD EXPRESSION LINE ;;;');
       //get the Event name of the line
-      String event = line.split('\\|')[1];
-      System.debug('EVENT FOUND IS:::' + event + ' ;;;');
+      previousLineEvent = currentLineEvent;
+      currentLineEvent = line.split('\\|')[1];
+
+      System.debug(
+        'EVENT FOUND IS:::' +
+          currentLineEvent +
+          ' ;;; PREVIOUS_LINE_EVENT::: ' +
+          previousLineEvent
+      );
       //run regex on the event to find all the master data
       //get all the regex according to the event type
-      Map<String, String> allData = utilityVariables.eventMasterData.get(event);
+      Map<String, String> allData = utilityVariables.eventMasterData.get(
+        currentLineEvent
+      );
 
       if (allData != null) {
         Set<String> allRegex = allData.keySet();
@@ -62,10 +92,22 @@ public class apexLogTryController {
           if (compiledRegex.matcher(line).matches()) {
             System.debug(
               'PATTERN MATCHED::: EVENT:::' +
-                event +
+                currentLineEvent +
                 ' ENTITY:::' +
                 allData.get(regex)
             );
+            if (currentLineEvent == 'CODE_UNIT_STARTED') {
+              CodeUnitContainerSchema cu = utilityVariables.getCodeUnitDetails(
+                line,
+                allData.get(regex)
+              );
+              if (cu != null) {
+                codeUnitsStack.push(cu);
+                processedLogRes.codeUnits.add(cu);
+              }
+            } else if (currentLineEvent == 'STATEMENT_EXECUTE') {
+              //add log line to the current executing code event
+            }
           }
         }
       }
