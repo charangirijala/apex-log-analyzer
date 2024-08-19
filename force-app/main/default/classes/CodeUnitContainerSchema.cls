@@ -1,4 +1,7 @@
 public class CodeUnitContainerSchema {
+  public CodeUnitContainerSchema() {
+    executedLinesAndSubUnits = new List<ExecutedLineAndSubUnitSchema>();
+  }
   @AuraEnabled
   public String codeUnitType;
   @AuraEnabled

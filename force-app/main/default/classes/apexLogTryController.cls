@@ -4,6 +4,7 @@ public class apexLogTryController {
   public static String previousLineEvent;
   public static String currentLineEvent = null;
   public static Stack codeUnitsStack = new Stack();
+  public static String stmtExec = 'Executed Line- ';
   //test controller to try and checkout the logic
   @AuraEnabled(cacheable=true)
   public static resultSchema saveFile(String base64Data) {
@@ -50,7 +51,13 @@ public class apexLogTryController {
           //send that there is no API and category info data to lwc
         }
       } else {
-        levelOneCheck(currentLine, processedLogRes);
+        String nextLine;
+        if (currentLineIndex < logRawData.size() - 1) {
+          nextLine = logRawData[currentLineIndex + 1];
+        } else {
+          nextLine = null;
+        }
+        levelOneCheck(currentLine, processedLogRes, nextLine);
       }
     }
   }
@@ -58,7 +65,8 @@ public class apexLogTryController {
   //level1 pattern check to check if it is Execute anonymous or standard expression
   private static String levelOneCheck(
     String line,
-    resultSchema processedLogRes
+    resultSchema processedLogRes,
+    String nextLine
   ) {
     Matcher execAnMatcher = utilityVariables.execAnRegex.matcher(line);
     Matcher standExpMatcher = utilityVariables.standExpRegex.matcher(line);
@@ -99,7 +107,8 @@ public class apexLogTryController {
             if (currentLineEvent == 'CODE_UNIT_STARTED') {
               CodeUnitContainerSchema cu = utilityVariables.getCodeUnitDetails(
                 line,
-                allData.get(regex)
+                allData.get(regex),
+                codeUnitsStack
               );
               if (cu != null) {
                 codeUnitsStack.push(cu);
@@ -107,6 +116,34 @@ public class apexLogTryController {
               }
             } else if (currentLineEvent == 'STATEMENT_EXECUTE') {
               //add log line to the current executing code event
+
+              if (utilityVariables.checkContStmtExec(nextLine)) {
+                stmtExec += utilityVariables.getStatementExecute(line);
+              } else {
+                stmtExec += utilityVariables.getStatementExecute(line);
+                CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) codeUnitsStack.peek();
+                // System.debug(
+                //   'CODE UNIT EXECUTED LINE STACK TOP::' +
+                //     currentCodeUnit.codeUnitName +
+                //     currentCodeUnit.methodExecuting +
+                //     ' STACK SIZE::' +
+                //     codeUnitsStack.size()
+                // );
+                ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
+                elss.logLine = stmtExec;
+                currentCodeUnit.executedLinesAndSubUnits.add(elss);
+                stmtExec = 'Executed Line- ';
+              }
+            } else if (currentLineEvent == 'CODE_UNIT_FINISHED') {
+              //Code Unit Finished method
+              System.debug('CODE_UNIT_FINISHED:::');
+
+              if (!codeUnitsStack.isEmpty()) {
+                codeUnitsStack.pop();
+              }
+              System.debug(
+                'STACK CONDITION::: SIZE:: ' + codeUnitsStack.size()
+              );
             }
           }
         }

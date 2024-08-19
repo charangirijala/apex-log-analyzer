@@ -1,4 +1,39 @@
 public class utilityVariables {
+  //String to store the API version of debug log
+  public static String apiVersion;
+
+  //Map of the String to their respective Apex Profiling categories
+  public static Map<String, String> apexProfilingCategories = new Map<String, String>{
+    'APEX_PROFILING' => '',
+    'APEX_CODE' => '',
+    'CALLOUT' => '',
+    'DB' => '',
+    'NBA' => '',
+    'SYSTEM' => '',
+    'VALIDATION' => '',
+    'WAVE' => '',
+    'WORKFLOW' => ''
+  };
+
+  //Regex to find if line has profiling info
+  public static Pattern profilingRegex = Pattern.compile(
+    '[1-9].\\.[0-9]\\s(APEX_CODE),[A-Z]*;(APEX_PROFILING),[A-Z]*;(CALLOUT),[A-Z]*;(DB),[A-Z]*;(NBA),[A-Z]*;(SYSTEM),[A-Z]*;(VALIDATION),[A-Z]*;(VISUALFORCE),[A-Z]*;(WAVE),[A-Z]*;(WORKFLOW),[A-Z]*'
+  );
+
+  //Regex to find if Line is standard Expression or not
+  public static Pattern standExpRegex = Pattern.compile(
+    '^[0-9:.]*\\s\\([0-9]*\\)(\\|)[A-Z_]*.*'
+  );
+
+  //Regex to find an execute anonymous line
+  public static Pattern execAnRegex = Pattern.compile(
+    '^(Execute\\sAnonymous:\\s).*'
+  );
+
+  //Variable to store all Execute anonymous statements
+  public static List<String> ExecAnStatements = new List<String>();
+
+  //Map of all the regex patterns and subsequent Standard Expression Events like CODE_UNIT_STARTED,STATEMENT_EXECUTE etc
   public static Map<String, Map<String, String>> eventMasterData = new Map<String, Map<String, String>>{
     'CODE_UNIT_STARTED' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(\\[EXTERNAL\\])(0-9)]+(\\|apex:\\/\\/).+(\\/ACTION\\$).+' => 'Class-Action',
@@ -10,18 +45,21 @@ public class utilityVariables {
     },
     'STATEMENT_EXECUTE' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(STATEMENT_EXECUTE\\|)\\[[0-9]+\\]' => 'Statement-Execute'
+    },
+    'CODE_UNIT_FINISHED' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_FINISHED\\|).*' => 'Finished-Generic'
     }
   };
-  public static Pattern standExpRegex = Pattern.compile(
-    '^[0-9:.]*\\s\\([0-9]*\\)(\\|)[A-Z_]*.*'
-  );
-  public static Pattern execAnRegex = Pattern.compile(
-    '^(Execute Anonymous:\\s)'
-  );
-  public static String EXECUTED_LINE_PATTERN = 'Executed Line - ';
+
+  public static String getStatementExecute(String line) {
+    List<String> splitArr = line.split('\\|');
+    return splitArr[splitArr.size() - 1];
+  }
+  //To Process CODE_UNIT_STARTED
   public static CodeUnitContainerSchema getCodeUnitDetails(
     String line,
-    String pattern
+    String pattern,
+    Stack codeUnitsStack
   ) {
     CodeUnitContainerSchema codeUnitDetails = new CodeUnitContainerSchema();
     Boolean enteredCondtion = false;
@@ -98,6 +136,28 @@ public class utilityVariables {
     }
     if (!enteredCondtion)
       return null;
+    if (!codeUnitsStack.isEmpty()) {
+      CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) codeUnitsStack.peek();
+      ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
+      elss.codeUnit = codeUnitDetails;
+      currentCodeUnit.executedLinesAndSubUnits.add(elss);
+      //push the codeunit to stack
+      codeUnitsStack.push(codeUnitDetails);
+      return null;
+    }
     return codeUnitDetails;
+  }
+
+  public static Boolean checkContStmtExec(String line) {
+    if (line == null)
+      return false;
+    Pattern regex = Pattern.compile(
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(STATEMENT_EXECUTE\\|)\\[[0-9]+\\]'
+    );
+    Matcher mc = regex.matcher(line);
+    if (mc.matches()) {
+      return true;
+    }
+    return false;
   }
 }
