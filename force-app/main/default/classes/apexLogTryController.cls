@@ -20,7 +20,7 @@ public class apexLogTryController {
     //call method processAllLines to run through all lines
     processAllLines(logRawData, processedLogRes);
     System.debug('STACK SIZE: ' + codeUnitsStack.size());
-    return processedLogRes;
+    return null;
   }
   //method containing for loop to process all the lines
   private static void processAllLines(
@@ -105,15 +105,15 @@ public class apexLogTryController {
                 allData.get(regex)
             );
             if (currentLineEvent == 'CODE_UNIT_STARTED') {
-              CodeUnitContainerSchema cu = utilityVariables.getCodeUnitDetails(
-                line,
-                allData.get(regex),
-                codeUnitsStack
-              );
-              if (cu != null) {
-                codeUnitsStack.push(cu);
-                processedLogRes.codeUnits.add(cu);
-              }
+              // CodeUnitContainerSchema cu = utilityVariables.getCodeUnitDetails(
+              //   line,
+              //   allData.get(regex),
+              //   codeUnitsStack
+              // );
+              // if (cu != null) {
+              //   codeUnitsStack.push(cu);
+              //   processedLogRes.codeUnits.add(cu);
+              // }
             } else if (currentLineEvent == 'STATEMENT_EXECUTE') {
               //add log line to the current executing code event
 

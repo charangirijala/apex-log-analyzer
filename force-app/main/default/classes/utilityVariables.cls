@@ -1,6 +1,18 @@
-public class utilityVariables {
+global class utilityVariables {
+  //ResultSchema Object to send to the cilent
+  public static resultSchema result = new resultSchema();
+
+  //Stack implemented variable to store the code units
+  global static Stack codeUnitsStack = new Stack();
+
   //String to store the API version of debug log
   public static String apiVersion;
+
+  //String to Store the current line event
+  public static String currentLineEvent;
+
+  //String to Store the previous line event
+  public static String previousLineEvent = null;
 
   //Map of the String to their respective Apex Profiling categories
   public static Map<String, String> apexProfilingCategories = new Map<String, String>{
@@ -56,11 +68,7 @@ public class utilityVariables {
     return splitArr[splitArr.size() - 1];
   }
   //To Process CODE_UNIT_STARTED
-  public static CodeUnitContainerSchema getCodeUnitDetails(
-    String line,
-    String pattern,
-    Stack codeUnitsStack
-  ) {
+  public static void getCodeUnitDetails(String line, String pattern) {
     CodeUnitContainerSchema codeUnitDetails = new CodeUnitContainerSchema();
     Boolean enteredCondtion = false;
     if (pattern == 'Class-Action') {
@@ -134,18 +142,27 @@ public class utilityVariables {
         codeUnitDetails.codeUnitName = splitArr1[1];
       }
     }
-    if (!enteredCondtion)
-      return null;
-    if (!codeUnitsStack.isEmpty()) {
-      CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) codeUnitsStack.peek();
-      ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
-      elss.codeUnit = codeUnitDetails;
-      currentCodeUnit.executedLinesAndSubUnits.add(elss);
-      //push the codeunit to stack
-      codeUnitsStack.push(codeUnitDetails);
-      return null;
+    if (!enteredCondtion) {
+      /**
+       * No condition entered for codeunitProcessing
+       */
+    } else {
+      if (!utilityVariables.codeUnitsStack.isEmpty()) {
+        CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
+        ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
+        elss.codeUnit = codeUnitDetails;
+        currentCodeUnit.executedLinesAndSubUnits.add(elss);
+        //push the codeunit to stack
+        utilityVariables.codeUnitsStack.push(codeUnitDetails);
+      } else {
+        utilityVariables.codeUnitsStack.push(codeUnitDetails);
+        //If codeUNits is null intitialize the codeUnit
+        if (utilityVariables.result.codeUnits == null) {
+          utilityVariables.result.codeUnits = new List<CodeUnitContainerSchema>();
+        }
+        utilityVariables.result.codeUnits.add(codeUnitDetails);
+      }
     }
-    return codeUnitDetails;
   }
 
   public static Boolean checkContStmtExec(String line) {
