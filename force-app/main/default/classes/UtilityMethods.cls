@@ -50,22 +50,20 @@ public class UtilityMethods {
   }
 
   /*
-   * @description this method gets the line number of the executed statement
-   */
-  public static String getStmtExeLineNum(String line) {
-    List<String> splitArr = line.split('\\|');
-    if (splitArr.size() > 1) {
-      return splitArr[splitArr.size() - 1];
-    }
-    return null;
-  }
-
-  /*
    * @description this method process the logs and prepares the resultSchema object
    * @param line
    * @return void
    */
   public static void processStmtExecute(String line) {
+    /*
+     * The below method adds the line number to the stmtsExecuted String
+     */
+    System.debug('Entered stmt Execute');
+    StmtExecuteLinesSchema.addLineNumber(line);
+    /*
+     * As of now line by line stmt Execute methods are being added instead of group simultaneous stmt Execute lines
+     */
+    StmtExecuteLinesSchema.commitToCU();
   }
 
   /*
@@ -116,6 +114,7 @@ public class UtilityMethods {
              * 3. If not push to the codeUnit
              * 4. The above logic in processStmtExecute
              */
+            //UtilityMethods.processStmtExecute(line);
           }
         }
       }

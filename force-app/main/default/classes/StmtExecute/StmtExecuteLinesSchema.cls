@@ -8,17 +8,22 @@ global class StmtExecuteLinesSchema {
    * 4. @Method commitToCU method to add the stmtsExecuted variable to the current CodeUnit
    */
 
-  public static String stmtsExecuted = 'Lines Executed- ';
+  private static String stmtsExecuted = 'Lines Executed- ';
 
   /*
    * 1. gets input the line number add it to stmtsExecuted
    */
-  public static void addLine(string lineNumber) {
-    if (stmtsExecuted == 'Lines Executed- ') {
-      stmtsExecuted += lineNumber;
-    } else {
-      stmtsExecuted += ', ' + lineNumber;
+  public static void addLineNumber(string line) {
+    List<String> splitArr = line.split('\\|');
+    if (splitArr.size() > 1) {
+      String lineNumber = splitArr[splitArr.size() - 1];
+      if (stmtsExecuted == 'Lines Executed- ') {
+        stmtsExecuted += lineNumber;
+      } else {
+        stmtsExecuted += ', ' + lineNumber;
+      }
     }
+    System.debug('Added linenumber: ' + stmtsExecuted);
   }
 
   /*
@@ -34,6 +39,9 @@ global class StmtExecuteLinesSchema {
    */
   public static void commitToCU() {
     if (!utilityVariables.codeUnitsStack.isEmpty()) {
+      System.debug(
+        'Added linenumber: ' + utilityVariables.codeUnitsStack.peek()
+      );
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
       elss.logLine = stmtsExecuted;
