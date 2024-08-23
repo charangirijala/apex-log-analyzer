@@ -1,9 +1,12 @@
-global class utilityVariables {
+public class utilityVariables {
   //ResultSchema Object to send to the cilent
   public static resultSchema result = new resultSchema();
 
   //Stack implemented variable to store the code units
-  global static Stack codeUnitsStack = new Stack();
+  public static Stack codeUnitsStack = new Stack();
+
+  //Stack to store all the executing methods
+  public static Stack methodUnitsStack = new Stack();
 
   //String to store the API version of debug log
   public static String apiVersion;

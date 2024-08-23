@@ -4,8 +4,8 @@ public class CodeUnitContainerSchema {
   }
   @AuraEnabled
   public String codeUnitType;
-  @AuraEnabled
-  public List<String> execAnoyCode;
+  // @AuraEnabled
+  // public List<String> execAnoyCode;
   @AuraEnabled
   public String codeUnitName;
   @AuraEnabled

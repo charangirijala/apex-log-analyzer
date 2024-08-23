@@ -5,15 +5,17 @@
 ContentVersion file = [
   SELECT Title, VersionData
   FROM ContentVersion
-  WHERE ContentDocument.id = '069dM000005rk6fQAA'
+  WHERE ContentDocument.id = '069dM000005ivlNQAQ'
 ];
 Blob myBlob = file.VersionData;
 System.debug('Blob Size is::' + myBlob.size());
 try {
   String rawDataString = myBlob.toString();
+  Integer numberOfLines = 0;
   System.debug('Length of Raw String: ' + rawDataString.length());
   UtilityRowIterator r = new UtilityRowIterator(rawDataString, '\n');
   while (r.hasNext()) {
+    numberOfLines++;
     String lineRaw = r.next();
     /*
      * Replace all the &#124; to pipe for each line
@@ -48,11 +50,27 @@ try {
        */
     }
   }
-
+  System.debug('Total number of lines processed: ' + numberOfLines);
   System.debug(
-    'Final check for Stack size: ' + utilityVariables.codeUnitsStack.size()
+    'Final check for CodeUnits Stack size: ' +
+    utilityVariables.codeUnitsStack.size()
   );
-
+  System.debug(
+    'Final check for MethodUnits Stack size: ' +
+    utilityVariables.methodUnitsStack.size()
+  );
+  System.debug(
+    'CPU used: ' +
+      System.Limits.getCpuTime() +
+      ' of ' +
+      System.Limits.getLimitCpuTime()
+  );
+  System.debug(
+    'Heap Size used: ' +
+      System.Limits.getHeapSize() +
+      ' of ' +
+      System.Limits.getLimitHeapSize()
+  );
   System.debug('Final Result after Log Processing: ' + utilityVariables.result);
   System.debug(
     'Final Result in JSON: ' + JSON.serialize(utilityVariables.result)

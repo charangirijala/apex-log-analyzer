@@ -33,8 +33,7 @@ public class UtilityMethods {
    * Execute Anonymous: ];
    */
   public static void processExecAnStatements(String line) {
-    String s = 'Execute Anonymous: ContentVersion file = [';
-    List<String> splitArr = s.split('^(Execute\\sAnonymous:\\s)');
+    List<String> splitArr = line.split('^(Execute\\sAnonymous:\\s)');
     utilityVariables.ExecAnStatements.add(splitArr[1]);
     //Store the result in the resultSchema object
     utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
@@ -58,7 +57,7 @@ public class UtilityMethods {
     /*
      * The below method adds the line number to the stmtsExecuted String
      */
-    System.debug('Entered stmt Execute');
+    // System.debug('Entered stmt Execute');
     StmtExecuteLinesSchema.addLineNumber(line);
     /*
      * As of now line by line stmt Execute methods are being added instead of group simultaneous stmt Execute lines
@@ -115,6 +114,17 @@ public class UtilityMethods {
              * 4. The above logic in processStmtExecute
              */
             //UtilityMethods.processStmtExecute(line);
+          } else if (utilityVariables.currentLineEvent == 'METHOD_ENTRY') {
+            /*
+             * 1. Validate line and get the method name,title and class Id
+             * 2. Push it on to the methodStack
+             * Call the method from MethodUtility class
+             * @param String line
+             * @param String eventInfo.get(regex) -> this returns the pattern name of the matched regex
+             */
+            MethodUtility.processMethodEntry(line, eventInfo.get(regex));
+          } else if (utilityVariables.currentLineEvent == 'METHOD_EXIT') {
+            System.debug('METHOD_EXIT detected');
           }
         }
       }
