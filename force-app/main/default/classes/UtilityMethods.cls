@@ -124,7 +124,11 @@ public class UtilityMethods {
              */
             MethodUtility.processMethodEntry(line, eventInfo.get(regex));
           } else if (utilityVariables.currentLineEvent == 'METHOD_EXIT') {
-            System.debug('METHOD_EXIT detected');
+            /*
+             * 1. Check the methodUnitsStack and pop the top
+             */
+            System.debug('IN METHOD_EXIT');
+            MethodUtility.processMethodExit();
           }
         }
       }

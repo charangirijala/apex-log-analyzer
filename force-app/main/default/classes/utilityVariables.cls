@@ -62,12 +62,13 @@ public class utilityVariables {
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(STATEMENT_EXECUTE\\|)\\[[0-9]+\\]' => 'Statement-Execute'
     },
     'METHOD_ENTRY' => new Map<String, String>{
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_ENTRY\\|)[\\[0-9\\]]+(\\|)[\\w]+(\\|)[\\w.\\)\\(]+' => 'Method-Generic',
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_ENTRY\\|)[\\[0-9\\]]+(\\|\\|)[\\w.\\(\\)]+' => 'Method-System'
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_ENTRY\\|)[\\[0-9\\]]+(\\|)[\\w]+(\\|).+' => 'Method-Generic',
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_ENTRY\\|)[\\[0-9\\]]+(\\|\\|).+' => 'Method-System'
     },
     'METHOD_EXIT' => new Map<String, String>{
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_EXIT\\|)[\\[0-9\\]]+(\\|)[\\w]+(\\|)[\\w.\\)\\(]+' => 'Method-Generic',
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_EXIT\\|)[\\[0-9\\]]+(\\|\\|)[\\w.\\(\\)]+' => 'Method-System'
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_EXIT\\|)[\\[0-9\\]]+(\\|)[\\w]+(\\|).+' => 'Method-Generic',
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_EXIT\\|)[\\[0-9\\]]+(\\|\\|).+' => 'Method-System',
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_EXIT\\|)[\\[0-9\\]]+(\\|).+' => 'Method-Simple'
     },
     'CODE_UNIT_FINISHED' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_FINISHED\\|).*' => 'Finished-Generic'

@@ -11,6 +11,26 @@ public class MethodUtility {
       //call the processMethodGeneric method
       processMethodGeneric(line);
     } else if (pattern == 'Method-System') {
+      //call the processMethodSystem method
+      processMethodSystem(line);
+    }
+  }
+
+  /*
+   * 1. This method will delete the Method Unit from stack
+   */
+  public static void processMethodExit() {
+    //call the popMethodFromStack method
+    popMethodFromStack();
+  }
+
+  /*
+   *
+   */
+  private static void popMethodFromStack() {
+    if (!utilityVariables.methodUnitsStack.isEmpty()) {
+      //pop the top of the stack
+      utilityVariables.methodUnitsStack.pop();
     }
   }
 
@@ -37,11 +57,22 @@ public class MethodUtility {
     List<String> splitArr = line.split('\\|');
     methodUnit.methodTitle = splitArr[splitArr.size() - 1];
     methodUnit.methodName = methodUnit.methodTitle.substringAfterLast('.');
-    System.debug('Size of the split:' + splitArr.size());
+    // System.debug('Size of the split:' + splitArr.size());
     if (splitArr.size() == 5) {
       methodUnit.classId = splitArr[splitArr.size() - 2];
     }
-    //Once methodUnit is completed push it to methodUnitsStack
+    //Once methodUnit fields are filled push it to methodUnitsStack
+    addMethodToStack(methodUnit);
+  }
+
+  /*
+   * Line Example: 22:11:59.1 (895044720)|METHOD_ENTRY|[45]||System.Pattern.matcher(String)
+   */
+  private static void processMethodSystem(String line) {
+    MethodSchema methodUnit = new MethodSchema();
+    methodUnit.methodTitle = 'System Method';
+    methodUnit.methodName = line.substringAfterLast('|');
+    //Once methodUnit fields are filled push it to methodUnitsStack
     addMethodToStack(methodUnit);
   }
 }
