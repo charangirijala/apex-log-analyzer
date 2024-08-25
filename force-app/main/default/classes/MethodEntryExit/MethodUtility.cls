@@ -40,13 +40,18 @@ public class MethodUtility {
    */
   private static void addMethodToStack(MethodSchema methodUnit) {
     utilityVariables.methodUnitsStack.push(methodUnit);
+    if (!utilityVariables.methodUnitsStack.isEmpty()) {
+      //push the methodUnit to the current MethodUnit
+    }
     //Get Current Executing codeUnit
-    CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
-    //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
-    ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
-    elss.methodUnit = methodUnit;
-    //Add the elss to the currentCodeUnit
-    currentCodeUnit.executedLinesAndSubUnits.add(elss);
+    else if (!utilityVariables.codeUnitsStack.isEmpty()) {
+      CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
+      //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
+      ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
+      elss.methodUnit = methodUnit;
+      //Add the elss to the currentCodeUnit
+      currentCodeUnit.executedLinesAndSubUnits.add(elss);
+    }
   }
 
   /*
