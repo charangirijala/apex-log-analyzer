@@ -169,6 +169,12 @@ public class utilityVariables {
       } else {
         utilityVariables.codeUnitsStack.push(codeUnitDetails);
         //If codeUNits is null intitialize the codeUnit
+        /*
+        if (utilityVariables.result.codeUnits == null) {
+          utilityVariables.result.codeUnits = new List<CodeUnitContainerSchema>();
+        }
+        utilityVariables.result.codeUnits.add(codeUnitDetails);
+        */
         if (utilityVariables.result.codeUnits == null) {
           utilityVariables.result.codeUnits = new List<CodeUnitContainerSchema>();
         }

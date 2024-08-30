@@ -1,6 +1,9 @@
 public class ProcessBatch implements Database.Batchable<String>, Database.Stateful {
   private List<String> rawDataList = new List<String>();
 
+  //State is preserved for this variable and is used as the final result send to client
+  public resultSchema result = new resultSchema();
+
   public ProcessBatch(String data) {
     this.rawDataList = new List<String>();
     UtilityRowIterator ur = new UtilityRowIterator(data, '\n');
@@ -54,6 +57,10 @@ public class ProcessBatch implements Database.Batchable<String>, Database.Statef
       'In Execute method: CodeUnits: ' + utilityVariables.codeUnitsStack.size()
     );
     System.debug('In execute method: Result:' + utilityVariables.result);
+    System.debug(
+      'In execute method: Result JSON: ' +
+      JSON.serialize(utilityVariables.result)
+    );
   }
 
   public void finish(Database.BatchableContext bc) {
@@ -83,5 +90,6 @@ public class ProcessBatch implements Database.Batchable<String>, Database.Statef
     System.debug(
       'Final Result in JSON: ' + JSON.serialize(utilityVariables.result)
     );
+    System.debug('-----End of ProcessBatch----');
   }
 }

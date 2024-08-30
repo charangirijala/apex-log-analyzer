@@ -17,7 +17,7 @@ try {
   // List<String> logList = new List<String>();
   //Execute batch class
   ProcessBatch batchJob = new ProcessBatch(rawDataString);
-  Database.executeBatch(batchJob, 100);
+  Database.executeBatch(batchJob, 5000);
   // while (r.hasNext()) {
   //   numberOfLines++;
   //   String lineRaw = r.next();

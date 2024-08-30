@@ -20,6 +20,9 @@ public class UtilityMethods {
       }
     }
     //Store the result in the resultSchema object
+    // utilityVariables.result.profilingInfo = utilityVariables.apexProfilingCategories;
+    // utilityVariables.result.apiVersion = utilityVariables.apiVersion;
+
     utilityVariables.result.profilingInfo = utilityVariables.apexProfilingCategories;
     utilityVariables.result.apiVersion = utilityVariables.apiVersion;
   }
@@ -36,6 +39,7 @@ public class UtilityMethods {
     List<String> splitArr = line.split('^(Execute\\sAnonymous:\\s)');
     utilityVariables.ExecAnStatements.add(splitArr[1]);
     //Store the result in the resultSchema object
+    // utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
     utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
   }
 
