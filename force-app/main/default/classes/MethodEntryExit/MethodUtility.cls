@@ -31,6 +31,7 @@ public class MethodUtility {
     if (!utilityVariables.methodUnitsStack.isEmpty()) {
       //pop the top of the stack
       utilityVariables.methodUnitsStack.pop();
+      System.debug('----Popped methodUnit from MethodUnitStack----');
     }
   }
 
@@ -39,19 +40,39 @@ public class MethodUtility {
    * 2. This method also adds the methodUnit to the current executing codeUnit
    */
   private static void addMethodToStack(MethodSchema methodUnit) {
-    utilityVariables.methodUnitsStack.push(methodUnit);
+    System.debug(
+      '----Code units Status Check: ' +
+        utilityVariables.codeUnitsStack.size() +
+        ' ----'
+    );
+    System.debug(
+      '----Method units Status Check: ' +
+        utilityVariables.methodUnitsStack.size() +
+        ' ----'
+    );
     if (!utilityVariables.methodUnitsStack.isEmpty()) {
-      //push the methodUnit to the current MethodUnit
-    }
-    //Get Current Executing codeUnit
-    else if (!utilityVariables.codeUnitsStack.isEmpty()) {
+      /**
+       * Get the top of methodUnitsStack and push it to current method Unit
+       */
+      MethodSchema currentMethodUnit = (MethodSchema) utilityVariables.methodUnitsStack.peek();
+      //create a new ExecutingLineAndSubUnitSchema and push it to the current MethodUnit
+      ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
+      elss.methodUnit = methodUnit;
+      //Add elsss to currentMenthodUnit
+      currentMethodUnit.executedLinesAndSubUnits.add(elss);
+      System.debug('----Added methodUnit to current methodUnit----');
+    } else if (!utilityVariables.codeUnitsStack.isEmpty()) {
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
       ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
       elss.methodUnit = methodUnit;
       //Add the elss to the currentCodeUnit
       currentCodeUnit.executedLinesAndSubUnits.add(elss);
+      System.debug('----Added methodUnit to current CodeUnit----');
     }
+
+    //Add methodUnit to stack
+    utilityVariables.methodUnitsStack.push(methodUnit);
   }
 
   /*
@@ -68,6 +89,7 @@ public class MethodUtility {
     }
     //Once methodUnit fields are filled push it to methodUnitsStack
     addMethodToStack(methodUnit);
+    System.debug('----Pushed methodUnit to MethodUnitStack----');
   }
 
   /*
@@ -79,5 +101,6 @@ public class MethodUtility {
     methodUnit.methodName = line.substringAfterLast('|');
     //Once methodUnit fields are filled push it to methodUnitsStack
     addMethodToStack(methodUnit);
+    System.debug('----Pushed methodUnit to MethodUnitStack----');
   }
 }

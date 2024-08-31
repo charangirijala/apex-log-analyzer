@@ -8,7 +8,6 @@ public class UtilityMethods {
     List<String> splitForApi = line.split(' ');
     utilityVariables.apiVersion = splitForApi[0];
     String restOfLine = splitForApi[1];
-
     List<String> categoryPairs = restOfLine.split(';');
     for (String pair : categoryPairs) {
       List<String> temp = pair.split(',');
@@ -131,8 +130,20 @@ public class UtilityMethods {
             /*
              * 1. Check the methodUnitsStack and pop the top
              */
-            System.debug('IN METHOD_EXIT');
+            //System.debug('IN METHOD_EXIT');
+            // System.debug('METHOD_EXIT LINE: ' + line);
             MethodUtility.processMethodExit();
+            // System.debug('METHOD EXIT COMPLETE');
+          } else if (
+            utilityVariables.currentLineEvent == 'SYSTEM_METHOD_ENTRY'
+          ) {
+            /*
+             * 1. Push the system method to the correct CodeUnit/MethodUnit
+             */
+            SystemMethodUtility.processSystemMethodEntry(
+              line,
+              eventInfo.get(regex)
+            );
           }
         }
       }

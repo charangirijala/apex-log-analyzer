@@ -1,11 +1,11 @@
 //Reg File-069dM000005ivlNQAQ
 //max limit file-069dM000005id9FQAQ
 //924 kb file-069dM000005rb09QAA
-//gglib file-069dM000005rk6fQAA
+//gglib file-069dM000006EfSrQAK
 ContentVersion file = [
   SELECT Title, VersionData
   FROM ContentVersion
-  WHERE ContentDocument.id = '069dM000005ivlNQAQ'
+  WHERE ContentDocument.id = '069dM000006EfSrQAK'
 ];
 Blob myBlob = file.VersionData;
 System.debug('Blob Size is:' + myBlob.size());
@@ -13,48 +13,49 @@ try {
   String rawDataString = myBlob.toString();
   Integer numberOfLines = 0;
   System.debug('Length of Raw String: ' + rawDataString.length());
-  // UtilityRowIterator r = new UtilityRowIterator(rawDataString, '\n');
+  UtilityRowIterator r = new UtilityRowIterator(rawDataString, '\n');
   // List<String> logList = new List<String>();
   //Execute batch class
-  ProcessBatch batchJob = new ProcessBatch(rawDataString);
-  Database.executeBatch(batchJob, 5000);
-  // while (r.hasNext()) {
-  //   numberOfLines++;
-  //   String lineRaw = r.next();
-  //   logList.add(lineRaw);
-  //   /*
-  //    * Replace all the &#124; to pipe for each line
-  //    * The line must be either:
-  //    * 1. Profiling Info
-  //    * 2. Standard Expression
-  //    * 3. Execute Anonymous Code
-  //    * 4. Normal Pattern less line
-  //    */
-  //   String line = lineRaw.replaceAll('&#124;', '|');
-  //   if (utilityVariables.profilingRegex.matcher(line).matches()) {
-  //     /*
-  //      * 1. Call processApexProfilingCategories() to process data and update @apiVersion and @apexProfilingCategories
-  //      * 2. Update the profiling info in ResultSchema Object
-  //      */
-  //     UtilityMethods.processApexProfilingCategories(line);
-  //   } else if (utilityVariables.standExpRegex.matcher(line).matches()) {
-  //     /*
-  //      * 1. Since it matches Standard exp each line should be matched with eventMasterData to find out event and process the data
-  //      * 2. Call processStandardExpStmts()
-  //      */
-  //     UtilityMethods.processStandardExpStmts(line);
-  //   } else if (utilityVariables.execAnRegex.matcher(line).matches()) {
-  //     /*
-  //      * 1. Store all the execute anonymous statements in list<String> static variable ExecAnStatements by calling processExecAnStatements
-  //      * 2. add the list to result executeAnonyCode field
-  //      */
-  //     UtilityMethods.processExecAnStatements(line);
-  //   } else {
-  //     /*
-  //      *1. No pattern matched for the line
-  //      */
-  //   }
-  // }
+  // ProcessBatch batchJob = new ProcessBatch(rawDataString);
+  // Database.executeBatch(batchJob, 5000);
+  while (r.hasNext()) {
+    numberOfLines++;
+    String lineRaw = r.next();
+    // logList.add(lineRaw);
+    /*
+     * Replace all the &#124; to pipe for each line
+     * The line must be either:
+     * 1. Profiling Info
+     * 2. Standard Expression
+     * 3. Execute Anonymous Code
+     * 4. Normal Pattern less line
+     */
+    String line = lineRaw.replaceAll('&#124;', '|');
+    if (utilityVariables.profilingRegex.matcher(line).matches()) {
+      /*
+       * 1. Call processApexProfilingCategories() to process data and update @apiVersion and @apexProfilingCategories
+       * 2. Update the profiling info in ResultSchema Object
+       */
+      UtilityMethods.processApexProfilingCategories(line);
+    } else if (utilityVariables.standExpRegex.matcher(line).matches()) {
+      /*
+       * 1. Since it matches Standard exp each line should be matched with eventMasterData to find out event and process the data
+       * 2. Call processStandardExpStmts()
+       */
+      // System.debug('STD Exp Matched....');
+      UtilityMethods.processStandardExpStmts(line);
+    } else if (utilityVariables.execAnRegex.matcher(line).matches()) {
+      /*
+       * 1. Store all the execute anonymous statements in list<String> static variable ExecAnStatements by calling processExecAnStatements
+       * 2. add the list to result executeAnonyCode field
+       */
+      UtilityMethods.processExecAnStatements(line);
+    } else {
+      /*
+       *1. No pattern matched for the line
+       */
+    }
+  }
   System.debug('Total number of lines processed: ' + numberOfLines);
   System.debug(
     'Final check for CodeUnits Stack size: ' +
@@ -78,7 +79,7 @@ try {
   );
   System.debug('Final Result after Log Processing: ' + utilityVariables.result);
   System.debug(
-    'Final Result in JSON: ' + JSON.serialize(utilityVariables.result)
+    'Final Result in JSON: ' + JSON.serialize(utilityVariables.result, true)
   );
 } catch (StringException e) {
   System.debug(
