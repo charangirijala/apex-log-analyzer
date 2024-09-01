@@ -80,7 +80,7 @@ try {
       ' of ' +
       System.Limits.getLimitHeapSize()
   );
-  System.debug('Final Result after Log Processing: ' + utilityVariables.result);
+  // System.debug('Final Result after Log Processing: ' + utilityVariables.result);
   System.debug(
     'Final Result in JSON: ' + JSON.serialize(utilityVariables.result, true)
   );

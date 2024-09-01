@@ -74,8 +74,15 @@ public class utilityVariables {
     'SYSTEM_METHOD_ENTRY' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(SYSTEM_METHOD_ENTRY\\|)[\\[0-9\\]]+(\\|).+' => 'System-Method-Single'
     },
+    'VARIABLE_ASSIGNMENT' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_ASSIGNMENT\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|).+(\\|).+' => 'Variable-No-Address',
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_ASSIGNMENT\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|).+\\|.+\\|[0-9a-z]+' => 'Variable-With-Address'
+    },
     'USER_DEBUG' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(USER_DEBUG\\|)\\[([0-9]+|(EXTERNAL))\\]\\|((DEBUG)|(INFO)|(WARN)|(ERROR)|(NONE)|(FINER)|(FINEST)|(FINE))(\\|).+' => 'Debug-Generic'
+    },
+    'VARIABLE_SCOPE_BEGIN' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_SCOPE_BEGIN\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|)(.+\\|.+\\|((true)|(false))\\|((true)|(false)))' => 'Variable-Scope-Generic'
     },
     'CODE_UNIT_FINISHED' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_FINISHED\\|).*' => 'Finished-Generic'

@@ -129,6 +129,14 @@ public class UtilityMethods {
              * 2. It removes the stack top and finish the codeUnit
              */
             UtilityMethods.processCodeUnitEnd();
+          } else if (
+            utilityVariables.currentLineEvent == 'VARIABLE_SCOPE_BEGIN'
+          ) {
+            /*
+             * 1. Get the variable details and create a logLine
+             * 2. Push the variable to the current CodeUnit/MethodUnit
+             */
+            VariableScopeUtility.processVariableScope(line);
           } else if (utilityVariables.currentLineEvent == 'STATEMENT_EXECUTE') {
             /*
              * 1. Validate the statement and get the execute line

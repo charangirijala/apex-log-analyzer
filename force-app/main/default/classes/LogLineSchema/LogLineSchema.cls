@@ -13,4 +13,12 @@ public class LogLineSchema {
   public String userDebugMessage;
   @AuraEnabled
   public String lineNumber;
+  @AuraEnabled
+  public String varName;
+  @AuraEnabled
+  public String varType;
+  @AuraEnabled
+  public Boolean isVarStatic;
+  @AuraEnabled
+  public Boolean isVarAccessible;
 }
