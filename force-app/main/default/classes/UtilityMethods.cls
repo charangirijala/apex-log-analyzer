@@ -144,6 +144,11 @@ public class UtilityMethods {
               line,
               eventInfo.get(regex)
             );
+          } else if (utilityVariables.currentLineEvent == 'USER_DEBUG') {
+            /*
+             * 1. get the logging level and the log message and add it to logLine schemd of elss
+             */
+            UserDebugUtility.processUserDebug(line);
           }
         }
       }

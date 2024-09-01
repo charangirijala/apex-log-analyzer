@@ -71,6 +71,9 @@ public class utilityVariables {
     'SYSTEM_METHOD_ENTRY' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(SYSTEM_METHOD_ENTRY\\|)[\\[0-9\\]]+(\\|).+' => 'System-Method-Single'
     },
+    'USER_DEBUG' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(USER_DEBUG\\|)\\[([0-9]+|(EXTERNAL))\\]\\|((DEBUG)|(INFO)|(WARN)|(ERROR)|(NONE)|(FINER)|(FINEST)|(FINE))(\\|).+' => 'Debug-Generic'
+    },
     'CODE_UNIT_FINISHED' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_FINISHED\\|).*' => 'Finished-Generic'
     }

@@ -1,6 +1,6 @@
 public class ExecutedLineAndSubUnitSchema {
   @AuraEnabled
-  public String logLine;
+  public LogLineSchema logLine;
   @AuraEnabled
   public CodeUnitContainerSchema codeUnit;
   @AuraEnabled

@@ -44,7 +44,7 @@ global class StmtExecuteLinesSchema {
       );
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
-      elss.logLine = stmtsExecuted;
+      //elss.logLine = stmtsExecuted;
       currentCodeUnit.executedLinesAndSubUnits.add(elss);
       //reset the stmtExecuted
       StmtExecuteLinesSchema.reset();

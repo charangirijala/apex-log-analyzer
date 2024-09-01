@@ -46,7 +46,7 @@ public class ProcessBatch implements Database.Batchable<String>, Database.Statef
          * 1. Since it matches Standard exp each line should be matched with eventMasterData to find out event and process the data
          * 2. Call processStandardExpStmts()
          */
-        UtilityMethods.processStandardExpStmts(line);
+        // UtilityMethods.processStandardExpStmts(line);
       } else if (utilityVariables.execAnRegex.matcher(line).matches()) {
         /*
          * 1. Store all the execute anonymous statements in list<String> static variable ExecAnStatements by calling processExecAnStatements

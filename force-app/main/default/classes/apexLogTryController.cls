@@ -130,7 +130,7 @@ public class apexLogTryController {
                 //     codeUnitsStack.size()
                 // );
                 ExecutedLineAndSubUnitSchema elss = new ExecutedLineAndSubUnitSchema();
-                elss.logLine = stmtExec;
+                // elss.logLine = stmtExec;
                 currentCodeUnit.executedLinesAndSubUnits.add(elss);
                 stmtExec = 'Executed Line- ';
               }

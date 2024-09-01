@@ -2,13 +2,13 @@
 //max limit file-069dM000005id9FQAQ
 //924 kb file-069dM000005rb09QAA
 //gglib file-069dM000006EfSrQAK
+//ContactTriggerDebugger-069dM000006Efr3QAC
 ContentVersion file = [
   SELECT Title, VersionData
   FROM ContentVersion
-  WHERE ContentDocument.id = '069dM000006EfSrQAK'
+  WHERE ContentDocument.id = '069dM000006Efr3QAC'
 ];
 Blob myBlob = file.VersionData;
-System.debug('Blob Size is:' + myBlob.size());
 try {
   String rawDataString = myBlob.toString();
   Integer numberOfLines = 0;
@@ -71,6 +71,7 @@ try {
       ' of ' +
       System.Limits.getLimitCpuTime()
   );
+  System.debug('Blob Size is:' + myBlob.size());
   System.debug(
     'Heap Size used: ' +
       System.Limits.getHeapSize() +
