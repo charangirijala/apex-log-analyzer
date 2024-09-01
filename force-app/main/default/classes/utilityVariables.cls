@@ -17,6 +17,9 @@ public class utilityVariables {
   //String to Store the previous line event
   public static String previousLineEvent = null;
 
+  //Track the currentHolding logLine
+  public static LogLineSchema currentLog = null;
+
   //Map of the String to their respective Apex Profiling categories
   public static Map<String, String> apexProfilingCategories = new Map<String, String>{
     'APEX_PROFILING' => '',
@@ -76,6 +79,9 @@ public class utilityVariables {
     },
     'CODE_UNIT_FINISHED' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_FINISHED\\|).*' => 'Finished-Generic'
+    },
+    'USER_INFO' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(USER_INFO\\|)\\[([0-9]+|(EXTERNAL))\\](\\|\\w+\\|)[A-Za-z0-9\\._%+\\-]+@[A-Za-z0-9\\.\\-]+\\.[A-Za-z]{2,}(\\|.+\\|)(GMT[+0-9:-]+)' => 'User-Info-Generic'
     }
   };
 

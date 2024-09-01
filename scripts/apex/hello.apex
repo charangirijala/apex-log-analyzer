@@ -2,11 +2,12 @@
 //max limit file-069dM000005id9FQAQ
 //924 kb file-069dM000005rb09QAA
 //gglib file-069dM000006EfSrQAK
-//ContactTriggerDebugger-069dM000006Efr3QAC
+//ContactTriggerDebugger-069dM000006FVjBQAW
+//fflib MOD-069dM000006FV6TQAW
 ContentVersion file = [
   SELECT Title, VersionData
   FROM ContentVersion
-  WHERE ContentDocument.id = '069dM000006Efr3QAC'
+  WHERE ContentDocument.id = '069dM000006FV6TQAW'
 ];
 Blob myBlob = file.VersionData;
 try {
@@ -54,6 +55,7 @@ try {
       /*
        *1. No pattern matched for the line
        */
+      UtilityMethods.processMiscLines(line);
     }
   }
   System.debug('Total number of lines processed: ' + numberOfLines);

@@ -3,7 +3,7 @@ public class UserDebugUtility {
     /*
      * Call the analyzeLine method to process the event
      */
-    System.debug('In processUserDebug');
+    // System.debug('In processUserDebug');
     analyzeLine(line);
   }
 
@@ -19,7 +19,7 @@ public class UserDebugUtility {
     LogLineSchema logLine = new LogLineSchema();
     logLine.type = 'DEBUG';
     if (Details.size() > 2) {
-      System.debug('Analyzing the loggingLevel');
+      // System.debug('Analyzing the loggingLevel');
       logLine.lineNumber = Details[0];
       if (
         Details[1] == 'DEBUG' ||
@@ -46,6 +46,7 @@ public class UserDebugUtility {
   private static void pushLogLine(LogLineSchema log) {
     /*
      * 1. Get Current Codeunit/MethodUnit and push elss
+     * 2. Update the currentLog variable
      */
 
     if (!utilityVariables.methodUnitsStack.isEmpty()) {
@@ -58,7 +59,9 @@ public class UserDebugUtility {
       elss.logLine = log;
       //Add elsss to currentMenthodUnit
       currentMethodUnit.executedLinesAndSubUnits.add(elss);
-      System.debug('Pushed to Current MethoDUnit');
+      //System.debug('Pushed to Current MethoDUnit');
+      //update currentLog
+      utilityVariables.currentLog = log;
     } else if (!utilityVariables.codeUnitsStack.isEmpty()) {
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
@@ -66,7 +69,20 @@ public class UserDebugUtility {
       elss.logLine = log;
       //Add the elss to the currentCodeUnit
       currentCodeUnit.executedLinesAndSubUnits.add(elss);
-      System.debug('Pushed to Current CodeuNit');
+      // System.debug('Pushed to Current CodeuNit');
+      //update currentLog
+      utilityVariables.currentLog = log;
     }
+  }
+
+  public static void processMiscUserDebug(String line) {
+    //push the line to currentLog
+    String logMessage =
+      utilityVariables.currentLog.userDebugMessage +
+      '\n' +
+      line;
+    // System.debug('Log Messages added: ' + logMessage);
+    utilityVariables.currentLog.userDebugMessage = logMessage;
+    //  System.debug('Log Message Updated in logLine');
   }
 }

@@ -69,6 +69,26 @@ public class UtilityMethods {
   }
 
   /*
+   * @description This method analyzes lines which dosent match any regex and adds them to the current LogLine
+   * Example : debug stmts having more than one line: All the unidentified stmts below USER_DEBUG and pushed into the logLine
+   * @param line
+   * @return void
+   */
+  public static void processMiscLines(String line) {
+    /*
+     * 1. Check for the currentEvent and process acccordingly
+     */
+    if (
+      utilityVariables.currentLineEvent == 'USER_DEBUG' &&
+      utilityVariables.currentLog != null &&
+      utilityVariables.currentLog.type == 'DEBUG'
+    ) {
+      // System.debug('processMiscUserDebug is called..');
+      UserDebugUtility.processMiscUserDebug(line);
+    }
+  }
+
+  /*
    * @description this method process standard exp and finds the event of the line
    * Checks for the event in eventMasterData and process the event details
    */
@@ -149,6 +169,11 @@ public class UtilityMethods {
              * 1. get the logging level and the log message and add it to logLine schemd of elss
              */
             UserDebugUtility.processUserDebug(line);
+          } else if (utilityVariables.currentLineEvent == 'USER_INFO') {
+            /*
+             * 1. get user details and store in the userInfoSchema object and add it to result
+             */
+            UserInfoUtility.processUserInfo(line);
           }
         }
       }

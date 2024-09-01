@@ -7,4 +7,6 @@ public class resultSchema {
   public List<CodeUnitContainerSchema> codeUnits;
   @AuraEnabled
   public List<String> executeAnonyCode;
+  @AuraEnabled
+  public UserInfoSchema userInfo;
 }
