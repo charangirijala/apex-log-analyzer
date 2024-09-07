@@ -13,12 +13,19 @@ public class LogLineSchema {
   public String userDebugMessage;
   @AuraEnabled
   public String lineNumber;
+  //Added for VARIABLE_SCOPE_BEGIN
   @AuraEnabled
   public String varName;
+  //Added for VARIABLE_SCOPE_BEGIN
   @AuraEnabled
   public String varType;
+  //Added for VARIABLE_ASSIGNMENT
+  @AuraEnabled
+  public String varValue;
+  //Added for VARIABLE_SCOPE_BEGIN
   @AuraEnabled
   public Boolean isVarStatic;
+  //Added for VARIABLE_SCOPE_BEGIN
   @AuraEnabled
   public Boolean isVarAccessible;
 }
