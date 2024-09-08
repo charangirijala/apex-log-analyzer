@@ -144,6 +144,10 @@ public class UtilityMethods {
              * 1. Get the variable name and var value create a logLine
              * 2. Push the logLine to the current CodeUnit/MethodUnit
              */
+            VariableAssignUtility.processVariableAssignment(
+              line,
+              eventInfo.get(regex)
+            );
           } else if (utilityVariables.currentLineEvent == 'STATEMENT_EXECUTE') {
             /*
              * 1. Validate the statement and get the execute line

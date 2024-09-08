@@ -7,7 +7,7 @@
 ContentVersion file = [
   SELECT Title, VersionData
   FROM ContentVersion
-  WHERE ContentDocument.id = '069dM000006FV6TQAW'
+  WHERE ContentDocument.id = '069dM000005ivlNQAQ'
 ];
 Blob myBlob = file.VersionData;
 try {

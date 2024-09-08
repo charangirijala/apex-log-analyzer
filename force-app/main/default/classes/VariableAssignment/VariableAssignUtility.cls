@@ -6,8 +6,21 @@ public class VariableAssignUtility {
       VariableAssignUtility.analyzeVarWithAdd(line);
     }
   }
-
+  /*
+   * 1. Example Line 01:06:24.0 (17080772)|VARIABLE_ASSIGNMENT|[4]|this.ShippingState|"Andhra Pradesh"
+   * 2. Example Line 01:06:24.0 (17129679)|VARIABLE_ASSIGNMENT|[3]|ac|null|
+   * In case of Ex 2 the split size will be 6
+   */
   private static void analyzeVarNoAdd(String line) {
+    List<String> splitArr = line.split('\\|');
+    if (splitArr.size() == 6 || splitArr.size() == 5) {
+      LogLineSchema lls = new LogLineSchema();
+      lls.type = 'VARAS';
+      lls.varName = splitArr[3];
+      lls.varValue = splitArr[4];
+      lls.lineNumber = splitArr[2];
+      addToUnit(lls);
+    }
   }
 
   private static void analyzeVarWithAdd(String line) {
