@@ -13,6 +13,9 @@ public class MethodSchema {
   //Id of the class from which method Invoked
   @AuraEnabled
   public String classId;
+  //parameters of constructor
+  @AuraEnabled
+  public string constrParams;
 
   @AuraEnabled
   public List<ExecutedLineAndSubUnitSchema> executedLinesAndSubUnits;

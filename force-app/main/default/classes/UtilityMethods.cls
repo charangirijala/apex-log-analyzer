@@ -148,6 +148,17 @@ public class UtilityMethods {
               line,
               eventInfo.get(regex)
             );
+          } else if (utilityVariables.currentLineEvent == 'CONSTRUCTOR_ENTRY') {
+            /*
+             * 1. Use same methods as METHOD_ENTRY
+             * 2. Process all details and call METHOD_ENTRY methods
+             */
+            ConstructorUtility.processConstructorEntry(line);
+          } else if (utilityVariables.currentLineEvent == 'CONSTRUCTOR_EXIT') {
+            /*
+             * 1. Use same methods as METHOD_EXIT
+             */
+            ConstructorUtility.processConstructorExit();
           } else if (utilityVariables.currentLineEvent == 'STATEMENT_EXECUTE') {
             /*
              * 1. Validate the statement and get the execute line

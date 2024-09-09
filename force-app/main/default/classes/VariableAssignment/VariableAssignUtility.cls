@@ -1,9 +1,7 @@
 public class VariableAssignUtility {
   public static void processVariableAssignment(String line, String pattern) {
-    if (pattern == 'Variable-No-Address') {
-      VariableAssignUtility.analyzeVarNoAdd(line);
-    } else if (pattern == 'Variable-With-Address') {
-      VariableAssignUtility.analyzeVarWithAdd(line);
+    if (pattern == 'Variable-Generic' || pattern == 'Variable-No-Address') {
+      VariableAssignUtility.analyzeVar(line);
     }
   }
   /*
@@ -11,7 +9,7 @@ public class VariableAssignUtility {
    * 2. Example Line 01:06:24.0 (17129679)|VARIABLE_ASSIGNMENT|[3]|ac|null|
    * In case of Ex 2 the split size will be 6
    */
-  private static void analyzeVarNoAdd(String line) {
+  private static void analyzeVar(String line) {
     List<String> splitArr = line.split('\\|');
     if (splitArr.size() == 6 || splitArr.size() == 5) {
       LogLineSchema lls = new LogLineSchema();
@@ -21,9 +19,6 @@ public class VariableAssignUtility {
       lls.lineNumber = splitArr[2];
       addToUnit(lls);
     }
-  }
-
-  private static void analyzeVarWithAdd(String line) {
   }
 
   private static void addToUnit(LogLineSchema lls) {

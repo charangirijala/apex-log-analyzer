@@ -27,7 +27,7 @@ public class MethodUtility {
   /*
    *
    */
-  private static void popMethodFromStack() {
+  public static void popMethodFromStack() {
     if (!utilityVariables.methodUnitsStack.isEmpty()) {
       //pop the top of the stack
       utilityVariables.methodUnitsStack.pop();
@@ -39,7 +39,7 @@ public class MethodUtility {
    * 1. This method adds the methodunit to the Stack of method Units
    * 2. This method also adds the methodUnit to the current executing codeUnit
    */
-  private static void addMethodToStack(MethodSchema methodUnit) {
+  public static void addMethodToStack(MethodSchema methodUnit) {
     // System.debug(
     //   '----Code units Status Check: ' +
     //     utilityVariables.codeUnitsStack.size() +

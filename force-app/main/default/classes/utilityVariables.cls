@@ -71,12 +71,18 @@ public class utilityVariables {
     'METHOD_EXIT' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(METHOD_EXIT\\|).+' => 'Method-Single'
     },
+    'CONSTRUCTOR_ENTRY' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CONSTRUCTOR_ENTRY\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|)[a-zA-Z-0-9]+(\\|<init>\\(.*\\))(\\|)(.)+' => 'Constructor-Entry-Single'
+    },
+    'CONSTRUCTOR_EXIT' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CONSTRUCTOR_EXIT\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|)[a-zA-Z-0-9]+(\\|<init>\\(.*\\))(\\|)(.)+' => 'Constructor-Exit-Single'
+    },
     'SYSTEM_METHOD_ENTRY' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(SYSTEM_METHOD_ENTRY\\|)[\\[0-9\\]]+(\\|).+' => 'System-Method-Single'
     },
     'VARIABLE_ASSIGNMENT' => new Map<String, String>{
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_ASSIGNMENT\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|).+(\\|).+' => 'Variable-No-Address',
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_ASSIGNMENT\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|).+\\|.+\\|[0-9a-z]+' => 'Variable-With-Address'
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_ASSIGNMENT\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|).+\\|.+\\|[0-9a-z]+' => 'Variable-Generic',
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_ASSIGNMENT\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|).+(\\|).+' => 'Variable-No-Address'
     },
     'USER_DEBUG' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(USER_DEBUG\\|)\\[([0-9]+|(EXTERNAL))\\]\\|((DEBUG)|(INFO)|(WARN)|(ERROR)|(NONE)|(FINER)|(FINEST)|(FINE))(\\|).+' => 'Debug-Generic'

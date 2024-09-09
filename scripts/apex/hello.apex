@@ -4,10 +4,11 @@
 //gglib file-069dM000006EfSrQAK
 //ContactTriggerDebugger-069dM000006FVjBQAW
 //fflib MOD-069dM000006FV6TQAW
+//External log txt file='069dM000006TPlxQAG'
 ContentVersion file = [
   SELECT Title, VersionData
   FROM ContentVersion
-  WHERE ContentDocument.id = '069dM000005ivlNQAQ'
+  WHERE ContentDocument.id = '069dM000005rb09QAA'
 ];
 Blob myBlob = file.VersionData;
 try {
