@@ -1,80 +1,54 @@
-import { LightningElement, track } from "lwc";
-import saveFile from "@salesforce/apex/apexLogTryController.saveFile";
+import { LightningElement } from "lwc";
 export default class FileUploader extends LightningElement {
-  @track fileName;
-  @track showLoadingSpinner = false;
-  @track data;
-  @track isTrue = false;
+  fileUploaded = false;
+  textAreaFilled = false;
+  fileNameLabel;
   fileData;
-  filesUploaded;
-  fileReader;
-  fileContents;
-  MAX_FILE_SIZE = 1500000;
-  fileUploadHandler(event) {
-    if (event.target.files.length > 0) {
-      this.filesUploaded = event.target.files;
-      this.fileName = this.filesUploaded[0].name;
-    }
+  get acceptedFormats() {
+    return [".log", ".txt"];
   }
-
-  handleSubmit() {
-    console.log("handleSubmit Called()");
-
-    if (this.filesUploaded.length > 0) {
-      console.log("this.filesUploaded.length > 0 condtion entered::)");
-
-      this.uploadFile();
-    } else {
-      this.fileName = "Please upload a file and click submit";
-    }
+  removeFileHandler() {
+    this.fileUploaded = false;
+    this.fileData = {};
+    // console.log("File Removed: " + this.fileData);
   }
-
-  uploadFile() {
-    console.log("uploadFile called()");
-    console.log("Size of file uploaded: ", this.filesUploaded[0].size);
-    console.log("MAX size allowed: ", this.MAX_FILE_SIZE);
-    if (this.filesUploaded[0].size > this.MAX_FILE_SIZE) {
-      console.log("File Size too large");
-    } else {
-      this.showLoadingSpinner = true;
-      this.fileReader = new FileReader();
-      this.fileReader.onloadend = () => {
-        this.fileContents = this.fileReader.result;
-        console.log("File Contents:", JSON.stringify(this.fileContents));
-        this.saveFile();
+  textAreaChangeHandler(event) {
+    // console.log("Data from inputAsText: " + JSON.stringify(event.detail));
+    const textAreaData = event.detail;
+    this.textAreaFilled = textAreaData.isValidData ? true : false;
+  }
+  handleFileUpload(event) {
+    const file = event.target.files[0];
+    var reader = new FileReader();
+    reader.onload = () => {
+      var base64 = reader.result.split(",")[1];
+      this.fileData = {
+        fileName: file.name,
+        base64: base64
       };
-      this.fileReader.readAsText(this.filesUploaded[0]);
+      // console.log("FileData: " + JSON.stringify(this.fileData));
+      this.fileNameLabel = "Uploaded File: " + this.fileData.fileName;
+      this.fileUploaded = true;
+    };
+    reader.readAsDataURL(file);
+  }
+  handleSubmit() {
+    //prepare data here and call apex class
+    // console.log(
+    //   "FileUploaded: ",
+    //   this.fileUploaded,
+    //   " TextAreaFilled: ",
+    //   this.textAreaFilled
+    // );
+
+    if (this.fileUploaded) {
+      //process fileData
+    } else if (this.textAreaFilled) {
+      //process textArea Data
     }
   }
 
-  saveFile() {
-    console.log("saveFile method entered()");
-
-    try {
-      saveFile({ base64Data: JSON.stringify(this.fileContents) })
-        .then((result) => {
-          if (result === null || result.length === 0) {
-            console.log("The File dosen't contain any data");
-            this.fileName = "The File dosen't contain any data";
-            this.showLoadingSpinner = false;
-          } else {
-            this.data = result;
-            this.fileName = this.fileName + "-Uploaded successfully";
-            this.showLoadingSpinner = false;
-            console.log(
-              "Data recieved from server: ",
-              JSON.stringify(this.data)
-            );
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          this.showLoadingSpinner = false;
-          this.fileName = "Error Loading file - " + this.fileName;
-        });
-    } catch (error) {
-      console.error(error);
-      this.showLoadingSpinner = false;
-    }
+  get displayButton() {
+    return this.textAreaFilled || this.fileUploaded;
   }
 }

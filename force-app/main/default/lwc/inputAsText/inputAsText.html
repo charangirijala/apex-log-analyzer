@@ -1,0 +1,14 @@
+<template>
+  <div class="slds-var-m-around_medium">
+    <lightning-textarea
+      name="debuglog-textarea"
+      label="Paste the debug log here..."
+      placeholder="Paste the debug log here..."
+      class="custom-textarea"
+      onchange={handleTextAreaChange}
+      disabled={textAreaDisabled}
+    ></lightning-textarea>
+    <div lwc:if={isFileUploaded}>File is uploaded.</div>
+    <div lwc:else>File is not uploaded.</div>
+  </div>
+</template>

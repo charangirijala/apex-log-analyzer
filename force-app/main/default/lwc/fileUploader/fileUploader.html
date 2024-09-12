@@ -1,26 +1,47 @@
 <template>
-  <lightning-card variant="base" title="Upload File Here">
-    <div class="slds-var-m-around_medium">
-      <lightning-input
-        type="file"
-        label="Attach file here"
-        onchange={fileUploadHandler}
-      ></lightning-input>
-      <div class="error-message">{fileName}</div>
-      <lightning-button
-        variant="brand"
-        label="Submit"
-        title="Submit"
-        onclick={handleSubmit}
-        disabled={isTrue}
-        class="slds-var-m-left_medium"
-      ></lightning-button>
-      <div class="" lwc:if={showLoadingSpinner}>
-        <lightning-spinner
-          alternative-text="Loading"
-          size="medium"
-        ></lightning-spinner>
+  <lightning-card variant="base" title="Upload File">
+    <div class="slds-grid slds-wrap">
+      <div class="slds-col slds-size_6-of-12">
+        <div class="slds-var-m-around_medium">
+          <lightning-input
+            type="file"
+            label="Upload the .log / .txt file here"
+            accept={acceptedFormats}
+            onchange={handleFileUpload}
+            disabled={textAreaFilled}
+          ></lightning-input>
+          <div lwc:if={fileUploaded}>
+            <lightning-badge
+              label={fileNameLabel}
+              class="slds-badge"
+              icon-alternative-text={fileData.fileName}
+              icon-name="doctype:attachment"
+              icon-position="start"
+            ></lightning-badge>
+            <lightning-button
+              variant="destructive-text"
+              label="Remove File"
+              onclick={removeFileHandler}
+            ></lightning-button>
+          </div>
+        </div>
       </div>
+      <div class="slds-col slds-size_6-of-12">
+        <c-input-as-text
+          is-file-uploaded={fileUploaded}
+          ontextareachange={textAreaChangeHandler}
+        ></c-input-as-text>
+      </div>
+    </div>
+    <div class="slds-clearfix" lwc:if={displayButton}>
+      <lightning-button
+        variant="brand-outline"
+        class="slds-align_absolute-center"
+        label="Analyze Log"
+        title="Click to analyze the log"
+        onclick={handleSubmit}
+        type="submit"
+      ></lightning-button>
     </div>
   </lightning-card>
 </template>
