@@ -39,19 +39,22 @@ export default class FileUploader extends LightningElement {
     //prepare data here and call apex class
     const requestBody = {
       type: "",
-      debugLogData: ""
+      debugLogData: "",
+      fileData: ""
     };
     if (this.fileUploaded) {
       //process fileData
       requestBody.type = "base64";
-      requestBody.debugLogData = this.fileData.base64;
+      requestBody.fileData = this.fileData.base64;
     } else if (this.textAreaFilled) {
       //process textArea Data
       requestBody.type = "text";
       requestBody.debugLogData = this.textAreaData.logData;
     }
     // console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
-    callApexFromClient({ requestData: requestBody })
+    const req = JSON.stringify(requestBody);
+    console.log("Req Sent to server: ", req);
+    callApexFromClient({ requestData: req })
       .then((data) => {
         console.log(data);
       })
