@@ -5,6 +5,8 @@ export default class FileUploader extends LightningElement {
   textAreaFilled = false;
   textAreaData;
   fileNameLabel;
+  isSuccess = true;
+  responseState = false;
   fileData = [];
   profilingData = {
     isAvailable: false,
@@ -12,6 +14,12 @@ export default class FileUploader extends LightningElement {
   };
   get acceptedFormats() {
     return [".log", ".txt"];
+  }
+  get renderUploader() {
+    if (this.responseState) {
+      if (!this.isSuccess) return false;
+    }
+    return true;
   }
   removeFileHandler() {
     this.fileUploaded = false;
@@ -44,14 +52,14 @@ export default class FileUploader extends LightningElement {
     };
     reader.readAsText(rawFile);
   }
-  handleSubmit() {
+  async handleSubmit() {
     //prepare data here and call apex class
     const requestBody = {
       debugLogData: []
     };
     if (this.fileUploaded) {
       //process fileData
-      requestBody.debugLogData = this.fileData.base64;
+      requestBody.debugLogData = this.fileData;
     } else if (this.textAreaFilled) {
       //process textArea Data
       requestBody.debugLogData = this.textAreaData.logData;
@@ -59,14 +67,17 @@ export default class FileUploader extends LightningElement {
     // console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
     const req = JSON.stringify(requestBody);
     // console.log("Req Sent to server: ", req);
-    callApexFromClient({ requestData: req })
-      .then((data) => {
-        console.log("Response from Server:", JSON.stringify(data));
-        this.processResponse(data);
-      })
-      .catch((err) => {
-        console.log("Oopss!! Error response from server", err);
-      });
+    try {
+      const data = await callApexFromClient({ requestData: req });
+      // console.log("Response from Server:", JSON.stringify(data));
+      this.isSuccess = true;
+      this.responseState = true;
+      this.processResponse(data);
+    } catch (err) {
+      this.responseState = true;
+      this.isSuccess = false;
+      console.log("Oopss!! Error response from server", JSON.stringify(err));
+    }
   }
 
   get displayButton() {
@@ -74,15 +85,8 @@ export default class FileUploader extends LightningElement {
   }
 
   processResponse(data) {
-    const _response = JSON.parse(data);
-    if (_response?.apiVersion !== undefined) {
-      this.profilingData.isAvailable = true;
-      this.profilingData.data = {
-        ...this.profilingData.data,
-        apiVersion: _response.apiVersion
-      };
-    }
-
-    console.log("Profiling Data :", JSON.stringify(this.profilingData));
+    const resObj = JSON.parse(data);
+    console.log("Parsed Response: ", resObj);
+    // console.log("Profiling Data :", JSON.stringify(this.profilingData));
   }
 }

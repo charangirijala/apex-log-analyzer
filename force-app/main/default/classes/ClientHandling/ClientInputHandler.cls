@@ -1,8 +1,6 @@
 public class ClientInputHandler {
   public class requestSchema {
-    public String type;
-    public String debugLogData;
-    public Blob fileData;
+    public List<String> debugLogData;
   }
 
   @AuraEnabled(cacheable=true)
@@ -13,13 +11,9 @@ public class ClientInputHandler {
       requestData,
       requestSchema.class
     );
-    if (req.type == 'text') {
-      rawLogData = req.debugLogData;
-    } else if (req.type == 'base64') {
-      rawLogData = req.fileData.toString();
-    }
-    resultSchema res = ProcessLogEntry.processLog(rawLogData);
-
+    // System.debug('Requestbody is: ' + req.debugLogData);
+    System.debug('Requestbody LogArr size: ' + req.debugLogData.size());
+    resultSchema res = ProcessLogEntry.processLog(req.debugLogData);
     return res;
   }
 }

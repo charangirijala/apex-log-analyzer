@@ -1,17 +1,14 @@
 public class ProcessLogEntry {
-  public static resultSchema processLog(String rawLog) {
+  public static resultSchema processLog(List<String> logArr) {
     try {
       Integer numberOfLines = 0;
-      System.debug('Length of Raw String: ' + rawLog.length());
-      System.debug('RawData String: ' + rawLog);
-      UtilityRowIterator r = new UtilityRowIterator(rawLog, '\n');
       // List<String> logList = new List<String>();
       //Execute batch class
       // ProcessBatch batchJob = new ProcessBatch(rawDataString);
       // Database.executeBatch(batchJob, 5000);
-      while (r.hasNext()) {
+      for (Integer i = 0; i < logArr.size(); i++) {
         numberOfLines++;
-        String lineRaw = r.next();
+        String lineRaw = logArr[i];
         // logList.add(lineRaw);
         /*
          * Replace all the &#124; to pipe for each line
@@ -21,7 +18,6 @@ public class ProcessLogEntry {
          * 3. Execute Anonymous Code
          * 4. Normal Pattern less line
          */
-        System.debug(lineRaw);
         String line = lineRaw.replaceAll('&#124;', '|');
         if (utilityVariables.profilingRegex.matcher(line).matches()) {
           /*

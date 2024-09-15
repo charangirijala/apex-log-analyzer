@@ -1,69 +1,49 @@
 <template>
   <lightning-card variant="base" title="Upload File">
-    <div class="slds-grid slds-wrap">
-      <div class="slds-col slds-size_6-of-12">
-        <div class="slds-var-m-around_medium">
-          <lightning-input
-            type="file"
-            label="Upload the .log / .txt file here"
-            accept={acceptedFormats}
-            onchange={handleFileUpload}
-            disabled={textAreaFilled}
-          ></lightning-input>
-          <div lwc:if={fileUploaded}>
-            <span class="slds-pill slds-pill_link">
-              <span class="slds-pill__icon_container">
-                <span
-                  class="slds-icon_container slds-icon-standard-account"
-                  title="Account"
-                >
-                  <svg class="slds-icon" aria-hidden="true">
-                    <use
-                      xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"
-                    ></use>
-                  </svg>
-                  <span class="slds-assistive-text">Account</span>
-                </span>
-              </span>
-              <span class="slds-pill__label">{}</span>
-              <button
-                class="slds-button slds-button_icon slds-button_icon slds-pill__remove"
-                title="Remove"
-                onclick={removeFileHandler}
-              >
-                <svg class="slds-button__icon" aria-hidden="true">
-                  <use
-                    xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
-                  ></use>
-                </svg>
-                <span class="slds-assistive-text">Remove File</span>
-              </button>
-            </span>
-            <lightning-button
-              variant="destructive-text"
-              label="Remove File"
-              onclick={removeFileHandler}
-            ></lightning-button>
+    <template lwc:if={renderUploader}>
+      <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_6-of-12">
+          <div class="slds-var-m-around_medium">
+            <lightning-input
+              type="file"
+              label="Upload the .log / .txt file here"
+              accept={acceptedFormats}
+              onchange={handleFileUpload}
+              disabled={textAreaFilled}
+            ></lightning-input>
+            <div lwc:if={fileUploaded}>
+              <c-pill
+                pill-label={fileNameLabel}
+                icon-name="attachment"
+                remove-btn-txt="Remove File"
+                onremove={removeFileHandler}
+              ></c-pill>
+            </div>
           </div>
         </div>
+        <div class="slds-col slds-size_6-of-12">
+          <c-input-as-text
+            is-file-uploaded={fileUploaded}
+            ontextareachange={textAreaChangeHandler}
+          ></c-input-as-text>
+        </div>
       </div>
-      <div class="slds-col slds-size_6-of-12">
-        <c-input-as-text
-          is-file-uploaded={fileUploaded}
-          ontextareachange={textAreaChangeHandler}
-        ></c-input-as-text>
+      <div class="slds-clearfix" lwc:if={displayButton}>
+        <lightning-button
+          variant="brand-outline"
+          class="slds-align_absolute-center"
+          label="Analyze Log"
+          title="Click to analyze the log"
+          onclick={handleSubmit}
+          type="submit"
+        ></lightning-button>
       </div>
-    </div>
-    <div class="slds-clearfix" lwc:if={displayButton}>
-      <lightning-button
-        variant="brand-outline"
-        class="slds-align_absolute-center"
-        label="Analyze Log"
-        title="Click to analyze the log"
-        onclick={handleSubmit}
-        type="submit"
-      ></lightning-button>
-    </div>
-    <c-log-chart-wrapper profiling-info={profilingData}></c-log-chart-wrapper>
+    </template>
+    <template lwc:if={responseState}>
+      <c-log-chart-wrapper
+        profiling-info={profilingData}
+        state={isSuccess}
+      ></c-log-chart-wrapper>
+    </template>
   </lightning-card>
 </template>

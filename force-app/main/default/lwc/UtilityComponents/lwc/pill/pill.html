@@ -1,0 +1,33 @@
+<template>
+  <span class="slds-pill slds-pill_link">
+    <!-- Render Pill Icon on condition -->
+    <template lwc:if={hasIcon}>
+      <span class="slds-pill__icon_container">
+        <span class="slds-icon_container">
+          <svg class="slds-icon" aria-hidden="true">
+            <use xlink:href={iconUrl}></use>
+          </svg>
+        </span>
+      </span>
+    </template>
+
+    <!-- Pill Label taken from pillLabel -->
+    <a href="#" class="slds-pill__action" title={pillLabel}>
+      <span class="slds-pill__label">{pillLabel}</span>
+    </a>
+
+    <!-- Pill button with assistive text taken form removeBtnTxt -->
+    <button
+      class="slds-button slds-button_icon slds-button_icon slds-pill__remove"
+      title={removeBtnTxt}
+      onclick={removeHandler}
+    >
+      <svg class="slds-button__icon" aria-hidden="true">
+        <use
+          xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
+        ></use>
+      </svg>
+      <span class="slds-assistive-text">{removeBtnTxt}</span>
+    </button>
+  </span>
+</template>

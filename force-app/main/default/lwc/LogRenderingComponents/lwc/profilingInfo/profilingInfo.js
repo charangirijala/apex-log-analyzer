@@ -1,9 +1,10 @@
 import { api, LightningElement } from "lwc";
+import LogLevel_Info from "@salesforce/label/c.LogLevel_Info";
 
 export default class ProfilingInfo extends LightningElement {
   @api apiVersion;
   @api profilingInfo;
-
+  toolTipText = LogLevel_Info;
   connectedCallback() {
     console.log("Connected ProfilingInfo");
     let _keys = [];
