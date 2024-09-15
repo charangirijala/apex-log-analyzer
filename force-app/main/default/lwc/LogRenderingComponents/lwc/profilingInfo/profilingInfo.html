@@ -20,10 +20,21 @@
       </span>
     </div>
     <div class="slds-media__body">
-      <div class="api-version">
-        <span class="slds-badge slds-badge_inverse">
-          <code>{apiVersion}</code>
-        </span>
+      <div class="slds-grid slds-wrap slds-gutters">
+        <div class="slds-col">
+          <div class="api-version">
+            <span class="slds-badge slds-badge_lightest">
+              <code>{apiVersion}</code>
+            </span>
+          </div>
+        </div>
+        <template for:each={profilingStd} for:item="profile">
+          <div class="slds-col" key={profile.key}>
+            <span class={profile.styling}>
+              <code>{profile.key} : {profile.value}</code>
+            </span>
+          </div>
+        </template>
       </div>
     </div>
   </div>

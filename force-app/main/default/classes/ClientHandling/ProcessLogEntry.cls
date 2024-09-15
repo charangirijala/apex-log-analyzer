@@ -21,6 +21,7 @@ public class ProcessLogEntry {
          * 3. Execute Anonymous Code
          * 4. Normal Pattern less line
          */
+        System.debug(lineRaw);
         String line = lineRaw.replaceAll('&#124;', '|');
         if (utilityVariables.profilingRegex.matcher(line).matches()) {
           /*

@@ -11,13 +11,34 @@
             disabled={textAreaFilled}
           ></lightning-input>
           <div lwc:if={fileUploaded}>
-            <lightning-badge
-              label={fileNameLabel}
-              class="slds-badge"
-              icon-alternative-text={fileData.fileName}
-              icon-name="doctype:attachment"
-              icon-position="start"
-            ></lightning-badge>
+            <span class="slds-pill slds-pill_link">
+              <span class="slds-pill__icon_container">
+                <span
+                  class="slds-icon_container slds-icon-standard-account"
+                  title="Account"
+                >
+                  <svg class="slds-icon" aria-hidden="true">
+                    <use
+                      xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"
+                    ></use>
+                  </svg>
+                  <span class="slds-assistive-text">Account</span>
+                </span>
+              </span>
+              <span class="slds-pill__label">{}</span>
+              <button
+                class="slds-button slds-button_icon slds-button_icon slds-pill__remove"
+                title="Remove"
+                onclick={removeFileHandler}
+              >
+                <svg class="slds-button__icon" aria-hidden="true">
+                  <use
+                    xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
+                  ></use>
+                </svg>
+                <span class="slds-assistive-text">Remove File</span>
+              </button>
+            </span>
             <lightning-button
               variant="destructive-text"
               label="Remove File"
@@ -43,6 +64,6 @@
         type="submit"
       ></lightning-button>
     </div>
-    <c-log-chart-wrapper></c-log-chart-wrapper>
+    <c-log-chart-wrapper profiling-info={profilingData}></c-log-chart-wrapper>
   </lightning-card>
 </template>

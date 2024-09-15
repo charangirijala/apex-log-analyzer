@@ -30,7 +30,8 @@ public class utilityVariables {
     'SYSTEM' => '',
     'VALIDATION' => '',
     'WAVE' => '',
-    'WORKFLOW' => ''
+    'WORKFLOW' => '',
+    'VISUALFORCE' => ''
   };
 
   //Regex to find if line has profiling info

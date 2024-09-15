@@ -1,5 +1,9 @@
 <template>
   <div class="slds-var-m-around_medium">
-    <c-profiling-info></c-profiling-info>
+    <c-profiling-info
+      api-version={apiVersion}
+      profiling-info={profilingInfo}
+    ></c-profiling-info>
+    <c-error></c-error>
   </div>
 </template>

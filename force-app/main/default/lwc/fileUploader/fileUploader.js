@@ -5,16 +5,17 @@ export default class FileUploader extends LightningElement {
   textAreaFilled = false;
   textAreaData;
   fileNameLabel;
-  fileData = {
-    fileName: "",
-    base64: ""
+  fileData = [];
+  profilingData = {
+    isAvailable: false,
+    data: null
   };
   get acceptedFormats() {
     return [".log", ".txt"];
   }
   removeFileHandler() {
     this.fileUploaded = false;
-    this.fileData = {};
+    this.fileData = [];
     // console.log("File Removed: " + this.fileData);
   }
   textAreaChangeHandler(event) {
@@ -23,47 +24,65 @@ export default class FileUploader extends LightningElement {
     this.textAreaFilled = this.textAreaData.isValidData ? true : false;
   }
   handleFileUpload(event) {
-    const file = event.target.files[0];
     var reader = new FileReader();
-    reader.onload = () => {
-      var base64 = reader.result.split(",")[1];
-      this.fileData.fileName = file.name;
-      this.fileData.base64 = base64;
-      // console.log("FileData: " + JSON.stringify(this.fileData));
-      this.fileNameLabel = "Uploaded File: " + this.fileData.fileName;
+    console.log("Processing Uploaded file...");
+    const rawFile = event.target.files[0];
+    console.log("File Size: ", rawFile.size);
+    reader.onload = (e) => {
+      const file = e.target.result;
+      // console.log(file);
+      this.fileData = file.split(/\r\n|\n/);
+      console.log("No.of Lines: ", this.fileData.length);
+      // lines.forEach((line) => {
+      //   console.log("Single Line: ", line);
+      // });
+      this.fileNameLabel = rawFile.name;
       this.fileUploaded = true;
     };
-    reader.readAsDataURL(file);
+    reader.onerror = (e) => {
+      console.log("Oops!!..Error Loading File..", e);
+    };
+    reader.readAsText(rawFile);
   }
   handleSubmit() {
     //prepare data here and call apex class
     const requestBody = {
-      type: "",
-      debugLogData: "",
-      fileData: ""
+      debugLogData: []
     };
     if (this.fileUploaded) {
       //process fileData
-      requestBody.type = "base64";
-      requestBody.fileData = this.fileData.base64;
+      requestBody.debugLogData = this.fileData.base64;
     } else if (this.textAreaFilled) {
       //process textArea Data
-      requestBody.type = "text";
       requestBody.debugLogData = this.textAreaData.logData;
     }
     // console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
     const req = JSON.stringify(requestBody);
-    console.log("Req Sent to server: ", req);
+    // console.log("Req Sent to server: ", req);
     callApexFromClient({ requestData: req })
       .then((data) => {
-        console.log(data);
+        console.log("Response from Server:", JSON.stringify(data));
+        this.processResponse(data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Oopss!! Error response from server", err);
       });
   }
 
   get displayButton() {
     return this.textAreaFilled || this.fileUploaded;
+  }
+
+  processResponse(data) {
+    const _response = JSON.parse(data);
+    if (_response?.apiVersion !== undefined) {
+      this.profilingData.isAvailable = true;
+      this.profilingData.data = {
+        ...this.profilingData.data,
+        apiVersion: _response.apiVersion
+      };
+    }
+
+    console.log("Profiling Data :", JSON.stringify(this.profilingData));
   }
 }
