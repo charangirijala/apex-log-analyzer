@@ -2,19 +2,41 @@ import { api, LightningElement } from "lwc";
 import LogLevel_Info from "@salesforce/label/c.LogLevel_Info";
 
 export default class ProfilingInfo extends LightningElement {
-  @api apiVersion;
+  apiVersion = "API : -";
   @api profilingInfo;
+  renderComp = false;
   toolTipText = LogLevel_Info;
   connectedCallback() {
-    console.log("Connected ProfilingInfo");
-    let _keys = [];
-    _keys = Object.keys(this.profilingInfo);
-    this.profilingStd.forEach((profile) => {
-      if (_keys.includes(profile.key)) {
-        profile.value = this.profilingInfo[profile.key];
-        profile.styling += this.stylingConfig(profile.value);
-      }
-    });
+    console.log("Connecting ProfilingInfo to DOM");
+    if (this.profilingInfo.isAvailable) {
+      this.renderComp = true;
+    }
+  }
+  renderedCallback() {
+    console.log("Rendering changes to ProfilingInfo");
+    if (!this.profilingInfo.isAvailable) {
+      this.renderComp = false;
+      // console.log("Profiling Info available.. processing..");
+      // console.log(
+      //   "Instance of data sent to profilingInfo: ",
+      //   JSON.stringify(this.profilingInfo)
+      // );
+      // this.renderComp = true;
+      //   if (
+      //     this.profilingInfo.data.apiVersion !== undefined ||
+      //     this.profilingInfo.data.apiVersion !== null
+      //   ) {
+      //     this.apiVersion = "API : " + this.profilingInfo.data.apiVersion;
+      //   }
+      // let _keys = [];
+      // _keys = Object.keys(this.profilingInfo.data);
+      // this.profilingStd.forEach((profile) => {
+      //   if (_keys.includes(profile.key)) {
+      //     profile.value = this.profilingInfo.data[profile.key];
+      //     profile.styling += this.stylingConfig(profile.value);
+      //   }
+      // });
+    }
   }
   profilingStd = [
     { key: "APEX_PROFILING", value: "-", styling: "slds-badge" },

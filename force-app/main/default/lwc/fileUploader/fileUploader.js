@@ -1,4 +1,4 @@
-import { LightningElement } from "lwc";
+import { LightningElement, track } from "lwc";
 import callApexFromClient from "@salesforce/apex/ClientInputHandler.callApexFromClient";
 export default class FileUploader extends LightningElement {
   fileUploaded = false;
@@ -8,7 +8,7 @@ export default class FileUploader extends LightningElement {
   isSuccess = true;
   responseState = false;
   fileData = [];
-  profilingData = {
+  @track profilingData = {
     isAvailable: false,
     data: null
   };
@@ -22,14 +22,16 @@ export default class FileUploader extends LightningElement {
     return true;
   }
   removeFileHandler() {
-    this.fileUploaded = false;
-    this.fileData = [];
+    this.resetApp();
     // console.log("File Removed: " + this.fileData);
   }
   textAreaChangeHandler(event) {
     // console.log("Data from inputAsText: " + JSON.stringify(event.detail));
     this.textAreaData = event.detail;
     this.textAreaFilled = this.textAreaData.isValidData ? true : false;
+    if (!this.textAreaFilled) {
+      this.resetApp();
+    }
   }
   handleFileUpload(event) {
     var reader = new FileReader();
@@ -66,10 +68,10 @@ export default class FileUploader extends LightningElement {
     }
     // console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
     const req = JSON.stringify(requestBody);
-    // console.log("Req Sent to server: ", req);
+    console.log("Req sent to server.. waiting..");
     try {
       const data = await callApexFromClient({ requestData: req });
-      // console.log("Response from Server:", JSON.stringify(data));
+      console.log("Success response from server");
       this.isSuccess = true;
       this.responseState = true;
       this.processResponse(data);
@@ -85,8 +87,41 @@ export default class FileUploader extends LightningElement {
   }
 
   processResponse(data) {
-    const resObj = JSON.parse(data);
-    console.log("Parsed Response: ", resObj);
-    // console.log("Profiling Data :", JSON.stringify(this.profilingData));
+    console.log("processing data from server");
+    if (data !== undefined && data !== null && Object.keys(data).length !== 0) {
+      //Extract apiVersion and ProfilingInfo
+      if (data.apiVersion !== undefined && data.apiVersion !== null) {
+        console.log("API version captured: ", data.apiVersion);
+        this.profilingData.isAvailable = true;
+        this.profilingData.data = {
+          ...this.profilingData.data,
+          apiVersion: data.apiVersion
+        };
+      }
+
+      if (data.profilingInfo !== undefined && data.profilingInfo !== null) {
+        console.log("Profiling info captured: ", data.profilingInfo);
+        this.profilingData.isAvailable = true;
+        this.profilingData.data = {
+          ...this.profilingData.data,
+          ...data.profilingInfo
+        };
+      }
+    }
+    console.log("processed data from server");
+  }
+
+  resetApp() {
+    this.fileUploaded = false;
+    this.textAreaFilled = false;
+    this.fileNameLabel = undefined;
+    this.profilingData = {
+      isAvailable: false,
+      data: null
+    };
+    this.textAreaData = undefined;
+    this.isSuccess = true;
+    this.responseState = false;
+    this.fileData = [];
   }
 }
