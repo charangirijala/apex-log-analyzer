@@ -30,6 +30,7 @@ export default class FileUploader extends LightningElement {
     this.textAreaData = event.detail;
     this.textAreaFilled = this.textAreaData.isValidData ? true : false;
     if (!this.textAreaFilled) {
+      // this.resetApp();
       this.resetApp();
     }
   }
