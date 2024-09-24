@@ -1,0 +1,30 @@
+<!-- sldsValidatorIgnore -->
+<template>
+  <lightning-card>
+    <div class={sectionClass}>
+      <h3 class="slds-section__title">
+        <button
+          aria-controls="expando-unique-id"
+          aria-expanded={isOpen}
+          class="slds-button slds-section__title-action slds-var-p-around_x-small"
+          onclick={toggleHandler}
+        >
+          <svg
+            class="slds-section__title-action-icon slds-button__icon slds-button__icon_left"
+            aria-hidden={isClosed}
+          >
+            <use
+              xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"
+            ></use>
+          </svg>
+          <span class="slds-truncate slds-text-title_caps" title={title}>
+            {title}</span
+          >
+        </button>
+      </h3>
+      <div class="slds-section__content" id="expando-unique-id">
+        <slot name="summary-body"></slot>
+      </div>
+    </div>
+  </lightning-card>
+</template>

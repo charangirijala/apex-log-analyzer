@@ -40,6 +40,24 @@
       </div>
     </template>
     <template lwc:if={responseState}>
+      <template lwc:if={fileUploaded}>
+        <div class="slds-var-m-around_medium">
+          <c-tile title="Raw Debug Log Preview">
+            <div slot="summary-body">
+              <c-log-preview table-data={fileData}></c-log-preview>
+            </div>
+          </c-tile>
+        </div>
+      </template>
+      <template lwc:if={textAreaFilled}>
+        <div class="slds-var-m-around_medium">
+          <c-tile title="Raw Debug Log Preview">
+            <div slot="summary-body">
+              <c-log-preview table-data={textAreaData.logData}></c-log-preview>
+            </div>
+          </c-tile>
+        </div>
+      </template>
       <c-log-chart-wrapper
         profiling-info={profilingData}
         state={isSuccess}
