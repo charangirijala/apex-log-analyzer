@@ -5,7 +5,8 @@ export default class LogPreview extends LightningElement {
   tableSize;
   renderedCallback() {
     console.log("Datatable rendering");
-    this.tableSize = this.tableData.length;
+    const temp = "No of Lines: ";
+    this.tableSize = temp + this.tableData.length;
   }
 
   get finalData() {
