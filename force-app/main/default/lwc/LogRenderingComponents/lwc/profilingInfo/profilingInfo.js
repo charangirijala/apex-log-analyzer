@@ -37,10 +37,10 @@ export default class ProfilingInfo extends LightningElement {
       //   }
       // });
     } else {
-      console.log(
-        "Value of profiling info: ",
-        JSON.stringify(this.profilingInfo)
-      );
+      // console.log(
+      //   "Value of profiling info: ",
+      //   JSON.stringify(this.profilingInfo)
+      // );
       if (
         this.profilingInfo.data.apiVersion !== null &&
         this.profilingInfo.data.apiVersion !== undefined
@@ -137,6 +137,20 @@ export default class ProfilingInfo extends LightningElement {
             theme: ""
           };
     res.push(validation);
+
+    const visualforce =
+      this.profilingInfo.data.VISUALFORCE !== null &&
+      this.profilingInfo.data.VISUALFORCE !== undefined
+        ? {
+            profile: "VISUALFORCE : " + this.profilingInfo.data.VISUALFORCE,
+            theme: this.stylingConfig(this.profilingInfo.data.VISUALFORCE)
+          }
+        : {
+            profile: "VISUALFORCE : -",
+            theme: ""
+          };
+    res.push(visualforce);
+
     const wave =
       this.profilingInfo.data.WAVE !== null &&
       this.profilingInfo.data.WAVE !== undefined
@@ -162,19 +176,6 @@ export default class ProfilingInfo extends LightningElement {
             theme: ""
           };
     res.push(workflow);
-
-    const visualforce =
-      this.profilingInfo.data.VISUALFORCE !== null &&
-      this.profilingInfo.data.VISUALFORCE !== undefined
-        ? {
-            profile: "VISUALFORCE : " + this.profilingInfo.data.VISUALFORCE,
-            theme: this.stylingConfig(this.profilingInfo.data.VISUALFORCE)
-          }
-        : {
-            profile: "VISUALFORCE : -",
-            theme: ""
-          };
-    res.push(visualforce);
 
     return res;
   }

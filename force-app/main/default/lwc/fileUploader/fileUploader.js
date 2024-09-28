@@ -7,6 +7,7 @@ export default class FileUploader extends LightningElement {
   fileNameLabel;
   isSuccess = true;
   responseState = false;
+  executeAnonyCode;
   fileData = [];
   @track profilingData = {
     isAvailable: false,
@@ -88,7 +89,7 @@ export default class FileUploader extends LightningElement {
   }
 
   processResponse(data) {
-    console.log("processing data from server");
+    console.log("processing data from server", JSON.stringify(data));
     if (data !== undefined && data !== null && Object.keys(data).length !== 0) {
       //Extract apiVersion and ProfilingInfo
       if (data.apiVersion !== undefined && data.apiVersion !== null) {
@@ -108,6 +109,15 @@ export default class FileUploader extends LightningElement {
           ...data.profilingInfo
         };
       }
+
+      //extract ExecuteAnonymous code
+      if (
+        data.executeAnonyCode !== undefined &&
+        data.executeAnonyCode !== null
+      ) {
+        console.log("Execute Anonymous code captured: ", data.executeAnonyCode);
+        this.executeAnonyCode = data.executeAnonyCode;
+      }
     }
     console.log("processed data from server");
   }
@@ -124,5 +134,6 @@ export default class FileUploader extends LightningElement {
     this.isSuccess = true;
     this.responseState = false;
     this.fileData = [];
+    this.executeAnonyCode = undefined;
   }
 }
