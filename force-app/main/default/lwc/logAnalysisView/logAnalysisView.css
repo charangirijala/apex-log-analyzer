@@ -1,0 +1,26 @@
+.font-monospace {
+  font-family: monospace;
+}
+
+.align-with-icon {
+  align-self: center;
+}
+.row-header {
+  line-height: normal;
+  font-weight: 500;
+}
+
+.name-col {
+  width: 70%;
+  padding: 0.25rem 0.5rem;
+}
+
+.type-col {
+  width: 15%;
+  padding: 0.25rem 0.5rem;
+}
+
+.error-col {
+  width: 15%;
+  padding: 0.25rem 0.5rem;
+}

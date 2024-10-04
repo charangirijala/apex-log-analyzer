@@ -10,6 +10,13 @@
             ></c-exe-anonymous-code-view>
           </div> </c-tile
       ></template>
+      <template lwc:if={codeUnits}>
+        <c-tile title="Log Analysis Results">
+          <div slot="summary-body">
+            <c-log-analysis-view code-units={codeUnits}></c-log-analysis-view>
+          </div>
+        </c-tile>
+      </template>
     </template>
     <template lwc:else>
       <c-error></c-error>

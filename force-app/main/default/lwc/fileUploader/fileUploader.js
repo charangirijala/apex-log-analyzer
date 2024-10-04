@@ -8,6 +8,7 @@ export default class FileUploader extends LightningElement {
   isSuccess = true;
   responseState = false;
   executeAnonyCode;
+  codeUnits;
   fileData = [];
   @track profilingData = {
     isAvailable: false,
@@ -115,8 +116,12 @@ export default class FileUploader extends LightningElement {
         data.executeAnonyCode !== undefined &&
         data.executeAnonyCode !== null
       ) {
-        console.log("Execute Anonymous code captured: ", data.executeAnonyCode);
+        console.log("Execute Anonymous code captured");
         this.executeAnonyCode = data.executeAnonyCode;
+      }
+      if (data.codeUnits !== undefined && data.codeUnits !== null) {
+        console.log("CodeUnits captured");
+        this.codeUnits = data.codeUnits;
       }
     }
     console.log("processed data from server");
