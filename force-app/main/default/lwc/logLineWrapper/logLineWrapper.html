@@ -1,0 +1,100 @@
+<template>
+  <table
+    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-table_striped"
+    aria-label="logline"
+  >
+    <thead>
+      <tr class="slds-line-height_reset">
+        <th scope="col">
+          <div class="slds-truncate" title="Line No.">Line No.</div>
+        </th>
+        <th scope="col">
+          <div class="slds-truncate" title="Event">Event</div>
+        </th>
+        <th scope="col">
+          <div class="slds-truncate" title="Description">Description</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <template for:each={logsArrData} for:item="line">
+        <tr class="slds-hint-parent" key={line.Id}>
+          <!-- Check if the logLine is a unit or line -->
+          <template lwc:if={line.isLine}>
+            <!-- Line number of the log -->
+            <td class="slds-text-body_small slds-cell-wrap line-number">
+              <div class="slds-line-clamp" title={line.logLineData.lineNumber}>
+                {line.logLineData.lineNumber}
+              </div>
+            </td>
+            <!-- Event Name -->
+            <td class="slds-text-body_small slds-cell-wrap event-name">
+              <div
+                class={line.logLineData.eventClassComb}
+                title={line.logLineData.type}
+              >
+                {line.logLineData.type}
+              </div>
+            </td>
+            <!-- Line Content -->
+
+            <!-- VARAS -->
+            <template lwc:if={line.logLineData.varValue}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div class="slds-line-clamp" title={line.logLineData.varValue}>
+                  <span class="slds-text-font_monospace">
+                    {line.logLineData.varName} =
+                    {line.logLineData.varValue};</span
+                  >
+                </div>
+              </td></template
+            >
+
+            <!-- VARIN -->
+            <template lwc:if={line.logLineData.varType}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div class="slds-line-clamp" title={line.logLineData.varName}>
+                  <span class="slds-text-font_monospace">
+                    {line.logLineData.varType} {line.logLineData.varName};
+                  </span>
+                  <template lwc:if={line.logLineData.isVarStatic}>
+                    <c-badge
+                      value="Static"
+                      margin-side="xxx-small"
+                      type="slds-badge_inverse"
+                    ></c-badge>
+                  </template>
+                  <template lwc:if={line.logLineData.isVarAccessible}
+                    ><c-badge
+                      value="Not Accessible"
+                      margin-side="xxx-small"
+                      type="slds-theme_error"
+                    ></c-badge>
+                  </template>
+                </div></td
+            ></template>
+
+            <!-- DEBUG -->
+            <template lwc:if={line.logLineData.userDebugMessage}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div
+                  class="slds-line-clamp"
+                  title={line.logLineData.userDebugMessage}
+                >
+                  <c-badge
+                    value={line.logLineData.loggingLevel}
+                    margin-side="xxx-small"
+                    type="slds-badge_inverse"
+                  ></c-badge>
+                  <span class="slds-text-font_monospace"
+                    >{line.logLineData.userDebugMessage}</span
+                  >
+                </div>
+              </td></template
+            >
+          </template>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+</template>

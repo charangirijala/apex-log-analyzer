@@ -1,0 +1,90 @@
+<template>
+  <div class="log-container">
+    <div class="nav-bar">
+      <lightning-layout vertical-align="center">
+        <!-- Close Btn -->
+        <lightning-layout-item
+          flexibility="auto"
+          size="12"
+          large-device-size="1"
+          medium-device-size="1"
+          padding="around-small"
+          small-device-size="2"
+        >
+          <lightning-button-icon
+            icon-name="utility:close"
+            alternative-text="Close"
+            variant="border-inverse"
+            title="Close"
+            onclick={closeLogViewer}
+            size="medium"
+          ></lightning-button-icon>
+        </lightning-layout-item>
+        <!-- Title and navigation btns -->
+        <lightning-layout-item
+          flexibility="auto"
+          size="12"
+          large-device-size="10"
+          medium-device-size="10"
+          padding="around-small"
+          small-device-size="8"
+        >
+          <div class="slds-text-align_center">
+            <lightning-button-icon
+              icon-name="utility:back"
+              alternative-text="back"
+              variant="border-inverse"
+              title="back"
+              onclick={handleBackward}
+              disabled={lowerLimitReached}
+              size="medium"
+            ></lightning-button-icon>
+            <h2
+              class="slds-text-heading_small slds-show_inline-block heading slds-var-m-horizontal_small"
+            >
+              <span class="slds-truncate" title="Some Title of Some class"
+                ><template lwc:if={LogHeaderDetails}
+                  >{LogHeaderDetails.name}</template
+                >
+              </span>
+            </h2>
+            <lightning-button-icon
+              icon-name="utility:forward"
+              alternative-text="Next CodeUnit"
+              variant="border-inverse"
+              title="Next CodeUnit"
+              onclick={handleForward}
+              disabled={upperLimitReached}
+              size="medium"
+            ></lightning-button-icon>
+          </div>
+        </lightning-layout-item>
+        <!-- Full Screen btn -->
+        <lightning-layout-item
+          flexibility="auto"
+          size="12"
+          large-device-size="1"
+          medium-device-size="1"
+          padding="around-small"
+          small-device-size="2"
+        >
+          <div class="slds-text-align_right">
+            <lightning-button-icon
+              icon-name="utility:new_window"
+              alternative-text="Full screen"
+              variant="border-inverse"
+              title="Full Screen"
+              size="medium"
+            ></lightning-button-icon>
+          </div>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+    <div class="logs-content">
+      <template lwc:if={LogDataForId}>
+        <c-log-line-wrapper log-data={LogDataForId}></c-log-line-wrapper>
+      </template>
+      <template lwc:else>Oops!! No Data for this unit</template>
+    </div>
+  </div>
+</template>

@@ -2,6 +2,9 @@
   font-family: monospace;
 }
 
+.button-on-focus:focus {
+  box-shadow: none !important;
+}
 .align-with-icon {
   align-self: center;
 }

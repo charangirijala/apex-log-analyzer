@@ -1,18 +1,18 @@
 <template>
   <div class="slds-var-m-around_medium">
     <template lwc:if={state}>
-      <c-profiling-info profiling-info={profilingInfo}></c-profiling-info>
-      <template lwc:if={executeAnonyCode}>
-        <c-tile title="Execute Anonymous Code">
-          <div slot="summary-body">
-            <c-exe-anonymous-code-view
-              execute-anony-code={executeAnonyCode}
-            ></c-exe-anonymous-code-view>
-          </div> </c-tile
-      ></template>
       <template lwc:if={codeUnits}>
         <c-tile title="Log Analysis Results">
           <div slot="summary-body">
+            <c-profiling-info profiling-info={profilingInfo}></c-profiling-info>
+            <template lwc:if={executeAnonyCode}>
+              <c-tile title="Execute Anonymous Code">
+                <div slot="summary-body">
+                  <c-exe-anonymous-code-view
+                    execute-anony-code={executeAnonyCode}
+                  ></c-exe-anonymous-code-view>
+                </div> </c-tile
+            ></template>
             <c-log-analysis-view code-units={codeUnits}></c-log-analysis-view>
           </div>
         </c-tile>
