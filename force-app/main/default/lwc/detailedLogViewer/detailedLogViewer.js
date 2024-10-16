@@ -1,28 +1,57 @@
 /* eslint-disable @lwc/lwc/no-api-reassignments */
 /* eslint-disable radix */
-import { api, LightningElement } from "lwc";
+import {
+  subscribe,
+  publish,
+  APPLICATION_SCOPE,
+  MessageContext
+} from "lightning/messageService";
+import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_State__c";
+
+import { api, LightningElement, wire } from "lwc";
 
 export default class DetailedLogViewer extends LightningElement {
   @api idLimitMin;
   @api idLimitMax;
-  @api logId;
+  logIdSubs = null;
+  logId;
+  @wire(MessageContext)
+  messageContext;
   @api logsMasterData;
   @api logLinesData;
   lowerLimitReached = true;
   upperLimitReached = false;
   closeLogViewer() {
-    console.log("Closing the viewer");
+    console.log("[detailedLogViewer.js] Closing the detailedViewer");
     this.dispatchEvent(new CustomEvent("closelogviewer"));
+  }
+
+  connectedCallback() {
+    this.subscribeToMessageChannel();
+  }
+  subscribeToMessageChannel() {
+    if (!this.logIdSubs) {
+      this.logIdSubs = subscribe(
+        this.messageContext,
+        LOG_ANALYSIS_STATE,
+        (message) => this.setLogId(message),
+        { scope: APPLICATION_SCOPE }
+      );
+    }
+  }
+
+  setLogId(message) {
+    this.logId = message.logId;
   }
   recheckLimits() {
     const id = parseInt(this.logId);
-    console.log("Id valueS: ", id);
+    console.log("[detailedLogViewer.js] Rechecking limits.. Id = ", id);
     if (id > this.idLimitMin && id < this.idLimitMax) {
       if (this.lowerLimitReached === true || this.upperLimitReached === true) {
         this.lowerLimitReached = false;
         this.upperLimitReached = false;
         console.log(
-          "Entered ambigous condition resetting the limits lowerLimitReached: ",
+          "[detailedLogViewer.js] Entered ambigous condition resetting the limits lowerLimitReached: ",
           this.lowerLimitReached,
           " upperLimitReached: ",
           this.upperLimitReached
@@ -32,7 +61,7 @@ export default class DetailedLogViewer extends LightningElement {
   }
   renderedCallback() {
     console.log(
-      "Rendering detailedViewer for Id:",
+      "[detailedLogViewer.js] Rendering detailedViewer for Id:",
       this.logId,
       "Log Lines data: ",
       this.logLinesData
@@ -43,9 +72,12 @@ export default class DetailedLogViewer extends LightningElement {
     if (this.logLinesData !== null && this.logLinesData !== undefined) {
       const parsedId = parseInt(this.logId);
       if (this.logLinesData.has(parsedId)) {
+        console.log(
+          "[detailedLogViewer.js] LogDataForId is found and sent to logLineWrapper"
+        );
         return this.logLinesData.get(parsedId);
       }
-      console.log("LogLinesData is null or undefined");
+      console.log("[detailedLogViewer.js] LogDataForId is null or undefined");
     }
 
     return undefined;
@@ -53,7 +85,7 @@ export default class DetailedLogViewer extends LightningElement {
   handleForward() {
     let nextLogId = parseInt(this.logId) + 1;
     console.log(
-      "changed the logViewer to nxt treenode nextLogId:",
+      "[detailedLogViewer.js] Changed the logViewer to nxt treenode nextLogId:",
       nextLogId,
       " idLimitMin",
       this.idLimitMin,
@@ -67,7 +99,8 @@ export default class DetailedLogViewer extends LightningElement {
       this.upperLimitReached = false;
       this.lowerLimitReached = false;
     }
-    this.logId = nextLogId.toString();
+    const payload = { logId: nextLogId.toString() };
+    publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
   }
   handleBackward() {
     const logid = parseInt(this.logId);
@@ -77,7 +110,7 @@ export default class DetailedLogViewer extends LightningElement {
     }
     const prevLogId = logid - 1;
     console.log(
-      "changed the logViewer to prev treenode prevLogId:",
+      "[detailedLogViewer.js] Changed the logViewer to prev treenode prevLogId:",
       prevLogId,
       " idLimitMin",
       this.idLimitMin,
@@ -91,15 +124,19 @@ export default class DetailedLogViewer extends LightningElement {
       this.upperLimitReached = false;
       this.lowerLimitReached = false;
     }
-    this.logId = prevLogId.toString();
+    const payload = { logId: prevLogId.toString() };
+    publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
   }
   get LogHeaderDetails() {
     if (this.logId) {
       const size = this.idLimitMax - this.idLimitMin;
       const temp = size + (this.idLimitMin - parseInt(this.logId));
       const idx = size - temp;
-      console.log("LogHeaderDetails calculated: ", this.logsMasterData[idx]);
-      console.log("pass selected Id index to parent");
+      console.log(
+        "[detailedLogViewer.js] LogHeaderDetails calculated: ",
+        JSON.parse(JSON.stringify(this.logsMasterData[idx]))
+      );
+      console.log("[detailedLogViewer.js] Passed selected Id index to parent");
       this.dispatchEvent(new CustomEvent("selectedid", { detail: idx }));
       return this.logsMasterData[idx];
     }

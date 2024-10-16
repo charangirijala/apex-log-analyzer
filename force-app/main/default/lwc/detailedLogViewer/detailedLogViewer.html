@@ -81,8 +81,8 @@
       </lightning-layout>
     </div>
     <div class="logs-content">
-      <template lwc:if={LogDataForId}>
-        <c-log-line-wrapper log-data={LogDataForId}></c-log-line-wrapper>
+      <template lwc:if={logLinesData}>
+        <c-log-line-wrapper log-lines-data={logLinesData}></c-log-line-wrapper>
       </template>
       <template lwc:else>Oops!! No Data for this unit</template>
     </div>

@@ -1,4 +1,7 @@
-import { api, LightningElement, track } from "lwc";
+import { publish, MessageContext } from "lightning/messageService";
+
+import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_State__c";
+import { api, LightningElement, track, wire } from "lwc";
 
 let IdBase = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
 const setSize = 100;
@@ -94,6 +97,10 @@ export default class LogAnalysisView extends LightningElement {
   cuInHierarchy = [];
   logViewCol = 6;
   currentLogId;
+
+  @wire(MessageContext)
+  messageContext;
+
   currentLogIdx = 0;
   setLogViewCol() {
     this.logViewCol = 12;
@@ -104,16 +111,18 @@ export default class LogAnalysisView extends LightningElement {
   openLogViewer(event) {
     const codeUnitId = event.currentTarget.dataset.unqid;
     console.log(
-      "CodeUnit clicked, Id: ",
+      "[logAnalysisView.js] CodeUnit clicked, Id: ",
       codeUnitId,
       " Opening detailed log for this Id"
     );
     this.logViewCol = 6;
-    this.currentLogId = codeUnitId;
+    // this.currentLogId = codeUnitId;
+    const payload = { logId: codeUnitId };
+    publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
   }
   setSelectedTreeNode(event) {
     this.test[0].a = this.test[0].a === "102" ? "103" : "102";
-    console.log("Selected Log idx: ", event.detail);
+    console.log("[logAnalysisView.js] Selected Log idx: ", event.detail);
     if (this.treeNodes !== null && this.treeNodes !== undefined) {
       this.treeNodes[this.currentLogIdx].isSelected = false;
       this.currentLogIdx = event.detail;
@@ -232,7 +241,7 @@ export default class LogAnalysisView extends LightningElement {
     }
   }
   get treeNodeRenderer() {
-    console.log("Getting latest verison");
+    console.log("[logAnalysisView.js] Getting latest version of treeNodes");
     return this.treeNodes;
   }
   handleToggle(event) {

@@ -1,4 +1,10 @@
-import { api, LightningElement } from "lwc";
+import { api, LightningElement, track, wire } from "lwc";
+import {
+  subscribe,
+  APPLICATION_SCOPE,
+  MessageContext
+} from "lightning/messageService";
+import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_State__c";
 /*
   Example Schema of logData:
   {"Id":88036,
@@ -17,43 +23,82 @@ import { api, LightningElement } from "lwc";
   "unitId":61497}
  */
 export default class LogLineWrapper extends LightningElement {
-  @api logData;
-
-  logsArr = [];
+  @api logLinesData;
+  logIdSubs = null;
+  logId;
+  @wire(MessageContext)
+  messageContext;
+  @track logsArr = [];
 
   get logsArrData() {
     return this.logsArr;
   }
   connectedCallback() {
-    this.logsArr = this.logData;
-    this.logsArr.forEach((log) => {
-      console.log("logsArr Data:", JSON.stringify(log));
-      if (log.type === "line") {
-        let logTemp = log;
-        logTemp.isLine = true;
-        logTemp.isUnit = false;
-        // <!-- VARAS -->
-        if (logTemp.logLineData.type === "VARAS") {
-          // logTemp.logLineData.eventClassComb = "slds-line-clamp varas";
-          logTemp.logLineData.type = "Variable Assigned:";
-        }
-        // <!-- VARIN -->
-        else if (logTemp.logLineData.type === "VARIN") {
-          // logTemp.logLineData.eventClassComb = "slds-line-clamp varin";
-          logTemp.logLineData.type = "Variable Initialized:";
-        }
+    this.subscribeToMessageChannel();
+  }
+  subscribeToMessageChannel() {
+    if (!this.logIdSubs) {
+      this.logIdSubs = subscribe(
+        this.messageContext,
+        LOG_ANALYSIS_STATE,
+        (message) => this.setLogId(message),
+        { scope: APPLICATION_SCOPE }
+      );
+    }
+  }
+  setLogId(message) {
+    console.log(
+      "[logLineWrapper.js] logId fetched from messageChannel is ",
+      this.logId
+    );
+    this.logId = message.logId;
+    this.prepareLogData();
+  }
 
-        // <!-- DEBUG -->
-        else if (logTemp.logLineData.type === "DEBUG") {
-          // logTemp.logLineData.eventClassComb = "slds-line-clamp debug";
-          logTemp.logLineData.type = "DEBUG Statement:";
-        }
-
-        log = logTemp;
-      } else if (log.type === "unit") {
-        log.isLine = false;
-        log.isUnit = true;
+  prepareLogData() {
+    if (this.logId && this.logLinesData) {
+      const parsedId = parseInt(this.logId, 10);
+      if (this.logLinesData.has(parsedId)) {
+        console.log("[logLineWrapper.js] LogDataForId is found");
+        this.logsArr = this.logLinesData.get(parsedId);
+      } else {
+        console.log("[logLineWrapper.js] LogDataForId is null or undefined");
+        this.logsArr = [];
       }
-    });
+    }
+    if (this.logsArr.length !== 0) {
+      console.log(
+        "[logLineWrapper.js] logsArr Data Changed with size:",
+        this.logsArr.length
+      );
+      this.logsArr.forEach((log) => {
+        if (log.type === "line") {
+          let logTemp = log;
+          logTemp.isLine = true;
+          logTemp.isUnit = false;
+          // <!-- VARAS -->
+          if (logTemp.logLineData.type === "VARAS") {
+            logTemp.eventClassComb = "slds-line-clamp varas";
+            // logTemp.logLineData.type = "Variable Assigned:";
+          }
+          // <!-- VARIN -->
+          else if (logTemp.logLineData.type === "VARIN") {
+            logTemp.eventClassComb = "slds-line-clamp varin";
+            // logTemp.logLineData.type = "Variable Initialized:";
+          }
+
+          // <!-- DEBUG -->
+          else if (logTemp.logLineData.type === "DEBUG") {
+            logTemp.eventClassComb = "slds-line-clamp debug";
+            // logTemp.logLineData.type = "DEBUG Statement:";
+          }
+
+          log = logTemp;
+        } else if (log.type === "unit") {
+          log.isLine = false;
+          log.isUnit = true;
+        }
+      });
+    }
   }
 }

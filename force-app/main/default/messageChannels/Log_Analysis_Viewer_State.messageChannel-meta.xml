@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningMessageChannel xmlns="https://soap.sforce.com/2006/04/metadata">
+<masterLabel>LogAnalysisViewerState</masterLabel>
+<isExposed>true</isExposed>
+<description>This channel is used to manage state of selected Log</description>
+<lightningMessageFields>
+<fieldName>logId</fieldName>
+<description>This is the log Id that is currently active</description>
+</lightningMessageFields>
+</LightningMessageChannel>

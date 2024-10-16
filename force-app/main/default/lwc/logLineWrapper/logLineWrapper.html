@@ -29,10 +29,7 @@
             </td>
             <!-- Event Name -->
             <td class="slds-text-body_small slds-cell-wrap event-name">
-              <div
-                class={line.logLineData.eventClassComb}
-                title={line.logLineData.type}
-              >
+              <div class={line.eventClassComb} title={line.logLineData.type}>
                 {line.logLineData.type}
               </div>
             </td>
@@ -92,6 +89,26 @@
                 </div>
               </td></template
             >
+          </template>
+
+          <!-- Unit -->
+          <template lwc:if={line.isUnit}>
+            <!-- Line number of the log -->
+            <td class="slds-text-body_small slds-cell-wrap line-number">
+              <div class="slds-line-clamp" title="Unit Duration">-</div>
+            </td>
+            <!-- Event Name -->
+            <td class="slds-text-body_small slds-cell-wrap event-name">
+              <div title={line.type}>{line.type}</div>
+            </td>
+            <!-- Line Content -->
+            <td class="slds-text-body_small slds-cell-wrap line-content">
+              <div class="slds-line-clamp" title={line.name}>
+                <button class="slds-button slds-button_neutral">
+                  {line.name}
+                </button>
+              </div>
+            </td>
           </template>
         </tr>
       </template>
