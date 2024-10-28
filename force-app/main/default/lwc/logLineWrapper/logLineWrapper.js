@@ -6,7 +6,7 @@ import {
 } from "lightning/messageService";
 import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_State__c";
 /*
-  Example Schema of logData:
+  Ex Schema of logData:
   {"Id":88036,
   "type":"line",
   "logLineData":{"lineNumber":"[44]",
