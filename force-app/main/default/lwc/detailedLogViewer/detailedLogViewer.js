@@ -11,6 +11,7 @@ import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_S
 import { api, LightningElement, wire } from "lwc";
 
 export default class DetailedLogViewer extends LightningElement {
+  minimize=true
   @api idLimitMin;
   @api idLimitMax;
   logIdSubs = null;
@@ -24,6 +25,19 @@ export default class DetailedLogViewer extends LightningElement {
   closeLogViewer() {
     console.log("[detailedLogViewer.js] Closing the detailedViewer");
     this.dispatchEvent(new CustomEvent("closelogviewer"));
+  }
+
+  //changes for fullscreen button
+  get iconName(){
+    return this.minimize ? "utility:new_window" : "utility:minimize_window";
+  }
+  fullscreen(){
+    console.log("[detailedLogViewer.js] Going Full Screen");
+      this.dispatchEvent(new CustomEvent("fullscreen",{
+        detail:{isFullScreen:this.minimize}
+      }));
+      this.minimize=!(this.minimize);
+      console.log(this.minimize)
   }
 
   connectedCallback() {

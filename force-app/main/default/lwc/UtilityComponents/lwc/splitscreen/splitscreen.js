@@ -1,15 +1,23 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement, track, api } from "lwc";
 
 export default class Splitscreen extends LightningElement {
+  @api closeLog
+  @api fullScreen
   @track leftWidth = 50;
   isResizing = false;
 
+  //changes for close and fullscreen buttons
   get leftSectionStyle() {
-    return `width: ${this.leftWidth}%;`;
+    if (this.closeLog) { return `width: 100%;` }
+    else if (!this.fullScreen) { return `width: ${this.leftWidth}%;` }
+    else { return `width: 0%;` }
   }
-
+  //changes for close and fullscreen buttons
   get rightSectionStyle() {
-    return `width: ${100 - this.leftWidth}%;`;
+    console.log("fullscreen: right", this.fullScreen)
+    if (this.closeLog) { return `width: 0%;` }
+    else if (!this.fullScreen) { return `width: ${100 - this.leftWidth}%;` }
+    else { return `width: 100%;` }
   }
 
   startResize(event) {

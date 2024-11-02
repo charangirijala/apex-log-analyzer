@@ -134,6 +134,7 @@
     </div>
     <div slot="right-content">
       <c-detailed-log-viewer
+        onfullscreen={goFullScreen}
         oncloselogviewer={setLogViewCol}
         onselectedid={setSelectedTreeNode}
         log-idfrom-parent={currentLogId}

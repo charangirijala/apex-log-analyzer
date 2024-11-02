@@ -82,6 +82,8 @@ class LogLine {
   }
 }
 export default class LogAnalysisView extends LightningElement {
+  closeLog=false
+  fullScreen =false
   @api codeUnits;
   idLimitMin = IdBase;
   idLimitMax;
@@ -102,8 +104,10 @@ export default class LogAnalysisView extends LightningElement {
   messageContext;
 
   currentLogIdx = 0;
+  //close button
   setLogViewCol() {
-    this.logViewCol = 12;
+    this.closeLog=true
+    //this.logViewCol = 12;
   }
   get detailedLogViewDisplay() {
     return this.logViewCol === 6 ? true : false;
@@ -265,5 +269,9 @@ export default class LogAnalysisView extends LightningElement {
         row.isExpanded = !row.isExpanded;
       }
     });
+  }
+  //adding for fullscreen button
+  goFullScreen(event){
+    this.fullScreen=event.detail.isFullScreen
   }
 }
