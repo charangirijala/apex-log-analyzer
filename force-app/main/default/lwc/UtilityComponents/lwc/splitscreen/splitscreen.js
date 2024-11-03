@@ -14,7 +14,6 @@ export default class Splitscreen extends LightningElement {
   }
   //changes for close and fullscreen buttons
   get rightSectionStyle() {
-    console.log("fullscreen: right", this.fullScreen)
     if (this.closeLog) { return 'width: 0%;' }
     else if (!this.fullScreen) { return `width: ${100 - this.leftWidth}%;` }
     else { return 'width: 100%;' }

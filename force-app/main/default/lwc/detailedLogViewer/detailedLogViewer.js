@@ -37,7 +37,6 @@ export default class DetailedLogViewer extends LightningElement {
         detail:{isFullScreen:this.minimize}
       }));
       this.minimize=!(this.minimize);
-      console.log(this.minimize)
   }
 
   connectedCallback() {
