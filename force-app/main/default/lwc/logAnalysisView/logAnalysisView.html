@@ -1,6 +1,6 @@
 <!-- sldsValidatorIgnore -->
 <template>
-  <c-splitscreen>
+  <c-splitscreen full-screen={fullScreen} close-log={closeLog}>
     <div slot="left-content">
       <template for:each={test} for:item="t">
         <div key={t.a} class="slds-hide">{t.a} {t.b}</div>
