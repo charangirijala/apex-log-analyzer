@@ -16,6 +16,18 @@ on:
         default: false
 
 jobs:
+  deploy-partial-sandbox:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.environment == 'partial-sandbox' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to partial sandbox
+        uses: ./.github/actions/deploy-environment
+        with:
+          sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PARTIALSB }}
+          environmentName: ${{ github.event.inputs.environment }}
+          validateOnly: ${{ github.event.inputs.validateOnly }}
+
   deploy-prod:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.environment == 'production' }}

@@ -1,0 +1,44 @@
+name: Deploy To Environment
+description: Deploys to a specified environment
+
+inputs:
+  validateOnly:
+    description: "Run the deployment as validation only"
+    type: boolean
+  environmentName:
+    description: "The name of the environment you are deploying to"
+    type: string
+    required: true
+  sfdx_auth_url:
+    description: "The auth url tied to your deployment environment"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install sfdx
+      shell: bash
+      run: |
+        npm install --global sfdx-cli
+        sfdx --version
+    - name: Login to ${{ inputs.environmentName }}
+      shell: bash
+      run: |
+        sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{ inputs.sfdx_auth_url }}")
+    - name: Generate package.xml
+      shell: bash
+      run: |
+        sfdx project generate manifest --source-dir force-app --output-dir manifest
+    - name: Deploy to ${{ inputs.environmentName }}
+      shell: bash
+      run: |
+        deployFlags=(
+            --manifest manifest/package.xml
+            --wait 30
+            --test-level RunLocalTests
+            --verbose
+          )
+        if [ "${{ inputs.validateOnly }}" = "true" ]; then
+          deployFlags+=( --dry-run )
+        fi
+        sfdx project deploy start "${deployFlags[@]}"
