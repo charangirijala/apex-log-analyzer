@@ -1,6 +1,6 @@
 <template>
   <div class="log-container">
-    <div class="nav-bar sld">
+    <div class="nav-bar">
       <div class="slds-grid">
         <div class="slds-col slds-size_1-of-12">
           <lightning-button-icon
@@ -9,7 +9,7 @@
             variant="border-inverse"
             title="Close"
             onclick={closeLogViewer}
-            size="medium"
+            size="medium" class="nav-btn"
           ></lightning-button-icon>
         </div>
         <div class="slds-col slds-size_10-of-12">
@@ -21,12 +21,12 @@
               title="back"
               onclick={handleBackward}
               disabled={lowerLimitReached}
-              size="medium"
+              size="medium" class="nav-btn"
             ></lightning-button-icon>
             <h2
               class="slds-text-heading_small slds-show_inline-block heading slds-var-m-horizontal_small"
             >
-              <span class="slds-truncate" title="Some Title of Some class"
+              <span class="slds-truncate slds-text-align_center logHead" title="Some Title of Some class"
                 ><template lwc:if={LogHeaderDetails}
                   >{LogHeaderDetails.name}</template
                 >
@@ -39,7 +39,7 @@
               title="Next CodeUnit"
               onclick={handleForward}
               disabled={upperLimitReached}
-              size="medium"
+              size="medium" class="nav-btn"
             ></lightning-button-icon>
           </div>
         </div>
@@ -51,6 +51,7 @@
             title="Full Screen"
             size="medium"
             onclick={fullscreen}
+            class="nav-btn"
           ></lightning-button-icon>
         </div>
       </div>
