@@ -1,0 +1,19 @@
+name: Validate Production Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "force-app/**"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validate on ${{ vars.ENVIRONMENT_NAME }}
+        uses: jawills/sf-deploy@v1.0
+        with:
+          SFDX_AUTH_URL: ${{ secrets.SFDX_AUTH_URL_PRODUCTION }}
+          DRY_RUN: true
+          TEST_LEVEL: NoTestRun
