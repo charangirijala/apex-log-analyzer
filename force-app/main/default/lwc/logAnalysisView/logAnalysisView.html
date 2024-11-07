@@ -113,7 +113,14 @@
                     </button>
                   </template>
                   <template lwc:else>
-                    <span class="font-monospace">{node.name}</span>
+                      <button
+                      class="slds-button slds-text-body_small button-on-focus"
+                      data-unqid={node.Id}
+                      onclick={openLogViewer}
+                      tabindex="-1"
+                      title="Open Detailed View"
+                    >
+                    <span class="font-monospace">{node.name}</span></button>
                   </template>
                 </div>
               </th>
@@ -142,6 +149,7 @@
         id-limit-min={idLimitMin}
         id-limit-max={idLimitMax}
         log-lines-data={TreeNodeLogs}
+        onhandlecodeunit={setSelectedTreeNode}
       ></c-detailed-log-viewer>
     </div>
   </c-splitscreen>

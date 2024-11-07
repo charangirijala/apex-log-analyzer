@@ -82,9 +82,8 @@ class LogLine {
   }
 }
 export default class LogAnalysisView extends LightningElement {
-  closeLog=false
-  fullScreen =false
-  resetSplit=false
+  closeLog = false
+  fullScreen = false
   @api codeUnits;
   idLimitMin = IdBase;
   idLimitMax;
@@ -108,7 +107,7 @@ export default class LogAnalysisView extends LightningElement {
   //close button
   setLogViewCol() {
     console.log("close log true")
-    this.closeLog=true
+    this.closeLog = true
     //this.logViewCol = 12;
   }
   get detailedLogViewDisplay() {
@@ -125,7 +124,6 @@ export default class LogAnalysisView extends LightningElement {
     // this.currentLogId = codeUnitId;
     const payload = { logId: codeUnitId };
     publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
-    
     //adding for re-opening log
     this.closeLog=false
   }

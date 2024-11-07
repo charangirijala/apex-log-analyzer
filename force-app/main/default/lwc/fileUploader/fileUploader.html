@@ -1,4 +1,5 @@
 <template>
+<template if:false={loading}>
   <lightning-card variant="base" title="Upload File">
     <template lwc:if={renderUploader}>
       <div class="slds-grid slds-wrap">
@@ -9,7 +10,7 @@
               label="Upload the .log / .txt file here"
               accept={acceptedFormats}
               onchange={handleFileUpload}
-              disabled={textAreaFilled}
+              disabled={textAreaFilled} style="text-align: center;"
             ></lightning-input>
             <div lwc:if={fileUploaded}>
               <c-pill
@@ -66,4 +67,8 @@
       ></c-log-chart-wrapper>
     </template>
   </lightning-card>
+</template>
+<template if:true={loading}>
+  <div class="loader"></div>
+</template>
 </template>
