@@ -1,6 +1,15 @@
 <template>
-<template if:false={loading}>
-  <lightning-card variant="base" title="Upload File">
+  <div><ul>
+    <li><lightning-button
+          class="nav-btn"
+          variant="brand"
+          label="Upload File"
+          title="Click to analyze the log"
+          onclick={resetApp}
+          type="submit"
+        ></lightning-button></li>
+  </ul></div>
+  <lightning-card variant="base" title="Upload File" if:false={responseState}>
     <template lwc:if={renderUploader}>
       <div class="slds-grid slds-wrap">
         <div class="slds-col slds-size_6-of-12">
@@ -10,9 +19,10 @@
               label="Upload the .log / .txt file here"
               accept={acceptedFormats}
               onchange={handleFileUpload}
-              disabled={textAreaFilled} style="text-align: center;"
+              disabled={textAreaFilled}
+              style="text-align: center;"
             ></lightning-input>
-            <div lwc:if={fileUploaded}>
+            <div lwc:if={fileUploaded} style="text-align: center;" >
               <c-pill
                 pill-label={fileNameLabel}
                 icon-name="attachment"
@@ -37,9 +47,10 @@
           title="Click to analyze the log"
           onclick={handleSubmit}
           type="submit"
-        ></lightning-button>
+        ></lightning-button> <template lwc:if={loading}><div class="loader"></div></template>
       </div>
     </template>
+  </lightning-card>
     <template lwc:if={responseState}>
       <template lwc:if={fileUploaded}>
         <div class="slds-var-m-around_medium">
@@ -66,9 +77,4 @@
         code-units={codeUnits}
       ></c-log-chart-wrapper>
     </template>
-  </lightning-card>
-</template>
-<template if:true={loading}>
-  <div class="loader"></div>
-</template>
 </template>
