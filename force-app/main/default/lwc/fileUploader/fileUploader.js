@@ -9,6 +9,7 @@ export default class FileUploader extends LightningElement {
   responseState = false;
   executeAnonyCode;
   codeUnits;
+  loading
   fileData = [];
   @track profilingData = {
     isAvailable: false,
@@ -72,10 +73,13 @@ export default class FileUploader extends LightningElement {
     // console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
     const req = JSON.stringify(requestBody);
     console.log("Req sent to server.. waiting..");
+    //added for loading icon
+    this.loading = true
     try {
       const data = await callApexFromClient({ requestData: req });
       console.log("Success response from server");
       this.isSuccess = true;
+      this.loading=false
       this.responseState = true;
       this.processResponse(data);
     } catch (err) {

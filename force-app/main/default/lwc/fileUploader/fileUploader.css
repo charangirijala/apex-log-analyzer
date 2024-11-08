@@ -1,0 +1,61 @@
+/* HTML: <div class="loader"></div> */
+.loader {
+  margin: auto;
+  margin-top: 10px;
+  width: 120px;
+  height: 10px;
+  border-radius: 20px;
+  color: rgb(22 50 92);
+  border: 2px solid;
+  position: relative;
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  margin: 2px;
+  inset: 0 100% 0 0;
+  border-radius: inherit;
+  background: currentColor;
+  animation: l6 2s infinite;
+}
+
+@keyframes l6 {
+  100% {
+    inset: 0
+  }
+}
+
+
+ul {
+  font-family: monospace;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(15, 33, 60);
+}
+
+li {
+  float: left;
+}
+
+li {
+  display: block;
+  text-align: center;
+  padding: 5px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0px;
+}
+
+li .nav-btn {
+  --sds-c-button-brand-color-background: white;
+  --sds-c-button-brand-color-border: white;
+  --sds-c-button-brand-color-background-hover: white;
+  --sds-c-button-brand-color-border-hover: white;
+  --slds-c-button-brand-radius-border: 0.1rem;
+  --slds-c-button-brand-text-color-hover:black;
+   --slds-c-button-brand-text-color-active:black;
+    --slds-c-button-brand-text-color:black;
+}
