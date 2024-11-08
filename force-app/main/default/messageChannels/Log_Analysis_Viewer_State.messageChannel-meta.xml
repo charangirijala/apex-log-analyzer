@@ -6,5 +6,16 @@
 <lightningMessageFields>
 <fieldName>logId</fieldName>
 <description>This is the log Id that is currently active</description>
+
 </lightningMessageFields>
+<lightningMessageFields>
+<fieldName>closeLog</fieldName>
+<description
+    >This is a boolean used to check if the state detailedLogViewer is open or not</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>fullScreen</fieldName>
+        <description
+    >This is a boolean used to check if the state detailedLogViewer is fullScreen or not</description>
+    </lightningMessageFields>
 </LightningMessageChannel>

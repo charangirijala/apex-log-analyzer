@@ -1,6 +1,6 @@
 <!-- sldsValidatorIgnore -->
 <template>
-  <c-splitscreen full-screen={fullScreen} close-log={closeLog}>
+  <c-splitscreen>
     <div slot="left-content">
       <template for:each={test} for:item="t">
         <div key={t.a} class="slds-hide">{t.a} {t.b}</div>
@@ -113,14 +113,15 @@
                     </button>
                   </template>
                   <template lwc:else>
-                      <button
+                    <button
                       class="slds-button slds-text-body_small button-on-focus"
                       data-unqid={node.Id}
                       onclick={openLogViewer}
                       tabindex="-1"
                       title="Open Detailed View"
                     >
-                    <span class="font-monospace">{node.name}</span></button>
+                      <span class="font-monospace">{node.name}</span>
+                    </button>
                   </template>
                 </div>
               </th>
