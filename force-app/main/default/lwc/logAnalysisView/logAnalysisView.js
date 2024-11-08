@@ -1,4 +1,9 @@
-import { publish, MessageContext } from "lightning/messageService";
+import {
+  publish,
+  MessageContext,
+  subscribe,
+  APPLICATION_SCOPE
+} from "lightning/messageService";
 
 import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_State__c";
 import { api, LightningElement, track, wire } from "lwc";
@@ -82,8 +87,9 @@ class LogLine {
   }
 }
 export default class LogAnalysisView extends LightningElement {
-  closeLog = false
-  fullScreen = false
+  closeLogSub = null;
+  closeLog;
+  fullScreen = false;
   @api codeUnits;
   idLimitMin = IdBase;
   idLimitMax;
@@ -106,8 +112,10 @@ export default class LogAnalysisView extends LightningElement {
   currentLogIdx = 0;
   //close button
   setLogViewCol() {
-    console.log("close log true")
-    this.closeLog = true
+    console.log("close log true");
+    this.closeLog = true;
+    const payload = { closeLog: true };
+    publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
     //this.logViewCol = 12;
   }
   get detailedLogViewDisplay() {
@@ -125,7 +133,7 @@ export default class LogAnalysisView extends LightningElement {
     const payload = { logId: codeUnitId };
     publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
     //adding for re-opening log
-    this.closeLog=false
+    this.closeLog = false;
   }
   setSelectedTreeNode(event) {
     this.test[0].a = this.test[0].a === "102" ? "103" : "102";
@@ -137,6 +145,9 @@ export default class LogAnalysisView extends LightningElement {
     }
   }
   connectedCallback() {
+    if (!this.closeLogSub) {
+      this.subscribeToMessageChannel();
+    }
     //prepare cuInHierarchy from codeunit data
     this.codeUnits.forEach((cu) => {
       const parent = new CUHierarchy(cu.codeUnitName, cu.codeUnitType);
@@ -152,7 +163,22 @@ export default class LogAnalysisView extends LightningElement {
     });
     this.idLimitMax = this.idLimitMin + this.treeNodes.length - 1;
   }
+  subscribeToMessageChannel() {
+    if (!this.closeLogSub) {
+      this.closeLogSub = subscribe(
+        this.messageContext,
+        LOG_ANALYSIS_STATE,
+        (message) => {
+          this.setCloseLog(message);
+        },
+        { scope: APPLICATION_SCOPE }
+      );
+    }
+  }
 
+  setCloseLog(message) {
+    this.closeLog = message.closeLog;
+  }
   generateTreeNodes(row, level, posinset, parentId) {
     const fRow = new TreeNode(
       row.Id,
@@ -272,9 +298,5 @@ export default class LogAnalysisView extends LightningElement {
         row.isExpanded = !row.isExpanded;
       }
     });
-  }
-  //adding for fullscreen button
-  goFullScreen(event){
-    this.fullScreen=event.detail.isFullScreen
   }
 }

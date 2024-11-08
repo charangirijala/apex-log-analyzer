@@ -11,7 +11,7 @@ import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_S
 import { api, LightningElement, wire } from "lwc";
 
 export default class DetailedLogViewer extends LightningElement {
-  minimize=true
+  minimize = false;
   @api idLimitMin;
   @api idLimitMax;
   logIdSubs = null;
@@ -28,15 +28,16 @@ export default class DetailedLogViewer extends LightningElement {
   }
 
   //changes for fullscreen button
-  get iconName(){
-    return this.minimize ? "utility:new_window" : "utility:minimize_window";
+  get iconName() {
+    return this.minimize ? "utility:minimize_window" : "utility:new_window";
   }
-  fullscreen(){
+  fullscreen() {
     console.log("[detailedLogViewer.js] Going Full Screen");
-      this.dispatchEvent(new CustomEvent("fullscreen",{
-        detail:{isFullScreen:this.minimize}
-      }));
-      this.minimize=!(this.minimize);
+    this.minimize = !this.minimize;
+    const payload = {
+      fullScreen: this.minimize
+    };
+    publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
   }
 
   connectedCallback() {
@@ -47,14 +48,17 @@ export default class DetailedLogViewer extends LightningElement {
       this.logIdSubs = subscribe(
         this.messageContext,
         LOG_ANALYSIS_STATE,
-        (message) => this.setLogId(message),
+        (message) => this.setVars(message),
         { scope: APPLICATION_SCOPE }
       );
     }
   }
 
-  setLogId(message) {
+  setVars(message) {
     this.logId = message.logId;
+    if (message.fullScreen !== null) {
+      this.minimize = message.fullScreen;
+    }
   }
   recheckLimits() {
     const id = parseInt(this.logId);
