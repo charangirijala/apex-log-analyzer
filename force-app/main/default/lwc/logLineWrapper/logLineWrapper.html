@@ -1,6 +1,8 @@
 <template>
-  <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-table_striped"
-    aria-label="logline">
+  <table
+    class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-table_striped"
+    aria-label="logline"
+  >
     <thead>
       <tr class="slds-line-height_reset">
         <th scope="col">
@@ -21,9 +23,17 @@
           <template lwc:if={line.isLine}>
             <!-- Line number of the log -->
             <td class="slds-text-body_small slds-cell-wrap line-number">
-              <div class="slds-line-clamp" title={line.logLineData.lineNumber}>
-                {line.logLineData.lineNumber}
-              </div>
+              <template lwc:if={line.logLineData.lineNumber}>
+                <div
+                  class="slds-line-clamp"
+                  title={line.logLineData.lineNumber}
+                >
+                  {line.logLineData.lineNumber}
+                </div></template
+              >
+              <template lwc:else>
+                <div class="slds-line-clamp" title="NA">-</div>
+              </template>
             </td>
             <!-- Event Name -->
             <td class="slds-text-body_small slds-cell-wrap event-name">
@@ -39,7 +49,8 @@
                 <div class="slds-line-clamp" title={line.logLineData.varValue}>
                   <span class="slds-text-font_monospace">
                     {line.logLineData.varName} =
-                    {line.logLineData.varValue};</span>
+                    {line.logLineData.varValue};</span
+                  >
                 </div>
               </td>
             </template>
@@ -52,10 +63,18 @@
                     {line.logLineData.varType} {line.logLineData.varName};
                   </span>
                   <template lwc:if={line.logLineData.isVarStatic}>
-                    <c-badge value="Static" margin-side="xxx-small" type="slds-badge_inverse"></c-badge>
+                    <c-badge
+                      value="Static"
+                      margin-side="xxx-small"
+                      type="slds-badge_inverse"
+                    ></c-badge>
                   </template>
-                  <template lwc:if={line.logLineData.isVarAccessible}><c-badge value="Not Accessible"
-                      margin-side="xxx-small" type="slds-theme_error"></c-badge>
+                  <template lwc:if={line.logLineData.isVarAccessible}
+                    ><c-badge
+                      value="Not Accessible"
+                      margin-side="xxx-small"
+                      type="slds-theme_error"
+                    ></c-badge>
                   </template>
                 </div>
               </td>
@@ -64,10 +83,32 @@
             <!-- DEBUG -->
             <template lwc:if={line.logLineData.userDebugMessage}>
               <td class="slds-text-body_small slds-cell-wrap line-content">
-                <div class="slds-line-clamp" title={line.logLineData.userDebugMessage}>
-                  <c-badge value={line.logLineData.loggingLevel} margin-side="xxx-small"
-                    type="slds-badge_inverse"></c-badge>
-                  <span class="slds-text-font_monospace">{line.logLineData.userDebugMessage}</span>
+                <div
+                  class="slds-line-clamp"
+                  title={line.logLineData.userDebugMessage}
+                >
+                  <c-badge
+                    value={line.logLineData.loggingLevel}
+                    margin-side="xxx-small"
+                    type="slds-badge_inverse"
+                  ></c-badge>
+                  <span class="slds-text-font_monospace"
+                    >{line.logLineData.userDebugMessage}</span
+                  >
+                </div>
+              </td>
+            </template>
+
+            <!-- FATAL ERROR -->
+            <template lwc:if={line.logLineData.errorMessage}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div
+                  class="slds-line-clamp"
+                  title={line.logLineData.errorMessage}
+                >
+                  <span class="slds-text-font_monospace">
+                    {line.logLineData.errorMessage}
+                  </span>
                 </div>
               </td>
             </template>

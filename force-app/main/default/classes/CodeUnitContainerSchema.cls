@@ -22,6 +22,9 @@ public class CodeUnitContainerSchema {
   public String triggerObject;
   @AuraEnabled
   public String triggerEvent;
+  //Added for FATAL_ERROR to check if the current methodUnit has error
+  @AuraEnabled
+  public Boolean hasError;
   @AuraEnabled
   public List<ExecutedLineAndSubUnitSchema> executedLinesAndSubUnits;
 }

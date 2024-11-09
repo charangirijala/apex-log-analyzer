@@ -94,6 +94,12 @@ public class utilityVariables {
     'CODE_UNIT_FINISHED' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_FINISHED\\|).*' => 'Finished-Generic'
     },
+    'FATAL_ERROR' => new Map<String, String>{
+      '^[0-9:.]*\\s\\([0-9]*\\)(\\|FATAL_ERROR\\|).*' => 'Fatal-Error-Generic'
+    },
+    'CUMULATIVE_LIMIT_USAGE' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|CUMULATIVE_LIMIT_USAGE' => 'Cumulative-Limit-Usage-Generic'
+    },
     'USER_INFO' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(USER_INFO\\|)\\[([0-9]+|(EXTERNAL))\\](\\|\\w+\\|)[A-Za-z0-9\\._%+\\-]+@[A-Za-z0-9\\.\\-]+\\.[A-Za-z]{2,}(\\|.+\\|)(GMT[+0-9:-]+)' => 'User-Info-Generic'
     }

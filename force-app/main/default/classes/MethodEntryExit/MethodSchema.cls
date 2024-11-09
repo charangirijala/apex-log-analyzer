@@ -16,7 +16,9 @@ public class MethodSchema {
   //parameters of constructor
   @AuraEnabled
   public string constrParams;
-
+  //Added for FATAL_ERROR to check if the current methodUnit has error
+  @AuraEnabled
+  public Boolean hasError;
   @AuraEnabled
   public List<ExecutedLineAndSubUnitSchema> executedLinesAndSubUnits;
 }

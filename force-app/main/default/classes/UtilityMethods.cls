@@ -85,6 +85,12 @@ public class UtilityMethods {
     ) {
       // System.debug('processMiscUserDebug is called..');
       UserDebugUtility.processMiscUserDebug(line);
+    } else if (
+      utilityVariables.currentLineEvent == 'FATAL_ERROR' &&
+      utilityVariables.currentLog != null &&
+      utilityVariables.currentLog.type == 'FAERR'
+    ) {
+      FatalErrorUtility.processMiscFatalError(line);
     }
   }
 
@@ -107,11 +113,11 @@ public class UtilityMethods {
     if (eventInfo != null) {
       //Get all the regex for the event
       Set<String> regexSet = eventInfo.keySet();
-
       for (String regex : regexSet) {
         Pattern compiledRegex = Pattern.compile(regex);
         if (compiledRegex.matcher(line).matches()) {
           /*
+           * Prevent the event from being processed again
            * Compare each event and process the line
            */
           if (utilityVariables.currentLineEvent == 'CODE_UNIT_STARTED') {
@@ -121,6 +127,7 @@ public class UtilityMethods {
              * @param String eventInfo.get(regex) -> this returns the pattern name of the matched regex
              */
             utilityVariables.getCodeUnitDetails(line, eventInfo.get(regex));
+            break;
           } else if (
             utilityVariables.currentLineEvent == 'CODE_UNIT_FINISHED'
           ) {
@@ -129,6 +136,7 @@ public class UtilityMethods {
              * 2. It removes the stack top and finish the codeUnit
              */
             UtilityMethods.processCodeUnitEnd();
+            break;
           } else if (
             utilityVariables.currentLineEvent == 'VARIABLE_SCOPE_BEGIN'
           ) {
@@ -137,6 +145,7 @@ public class UtilityMethods {
              * 2. Push the variable to the current CodeUnit/MethodUnit
              */
             VariableScopeUtility.processVariableScope(line);
+            break;
           } else if (
             utilityVariables.currentLineEvent == 'VARIABLE_ASSIGNMENT'
           ) {
@@ -148,17 +157,20 @@ public class UtilityMethods {
               line,
               eventInfo.get(regex)
             );
+            break;
           } else if (utilityVariables.currentLineEvent == 'CONSTRUCTOR_ENTRY') {
             /*
              * 1. Use same methods as METHOD_ENTRY
              * 2. Process all details and call METHOD_ENTRY methods
              */
             ConstructorUtility.processConstructorEntry(line);
+            break;
           } else if (utilityVariables.currentLineEvent == 'CONSTRUCTOR_EXIT') {
             /*
              * 1. Use same methods as METHOD_EXIT
              */
             ConstructorUtility.processConstructorExit();
+            break;
           } else if (utilityVariables.currentLineEvent == 'STATEMENT_EXECUTE') {
             /*
              * 1. Validate the statement and get the execute line
@@ -167,6 +179,7 @@ public class UtilityMethods {
              * 4. The above logic in processStmtExecute
              */
             //UtilityMethods.processStmtExecute(line);
+            break;
           } else if (utilityVariables.currentLineEvent == 'METHOD_ENTRY') {
             /*
              * 1. Validate line and get the method name,title and class Id
@@ -176,6 +189,7 @@ public class UtilityMethods {
              * @param String eventInfo.get(regex) -> this returns the pattern name of the matched regex
              */
             MethodUtility.processMethodEntry(line, eventInfo.get(regex));
+            break;
           } else if (utilityVariables.currentLineEvent == 'METHOD_EXIT') {
             /*
              * 1. Check the methodUnitsStack and pop the top
@@ -183,6 +197,7 @@ public class UtilityMethods {
             //System.debug('IN METHOD_EXIT');
             // System.debug('METHOD_EXIT LINE: ' + line);
             MethodUtility.processMethodExit();
+            break;
             // System.debug('METHOD EXIT COMPLETE');
           } else if (
             utilityVariables.currentLineEvent == 'SYSTEM_METHOD_ENTRY'
@@ -194,16 +209,21 @@ public class UtilityMethods {
               line,
               eventInfo.get(regex)
             );
+            break;
+          } else if (utilityVariables.currentLineEvent == 'FATAL_ERROR') {
+            FatalErrorUtility.processFatalError(line);
           } else if (utilityVariables.currentLineEvent == 'USER_DEBUG') {
             /*
              * 1. get the logging level and the log message and add it to logLine schemd of elss
              */
             UserDebugUtility.processUserDebug(line);
+            break;
           } else if (utilityVariables.currentLineEvent == 'USER_INFO') {
             /*
              * 1. get user details and store in the userInfoSchema object and add it to result
              */
             UserInfoUtility.processUserInfo(line);
+            break;
           }
         }
       }

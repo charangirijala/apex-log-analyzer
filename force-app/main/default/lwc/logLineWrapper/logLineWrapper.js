@@ -93,6 +93,11 @@ export default class LogLineWrapper extends LightningElement {
             // logTemp.logLineData.type = "DEBUG Statement:";
           }
 
+          // <!-- FATAL_ERROR -->
+          else if (logTemp.logLineData.type === "FAERR") {
+            logTemp.eventClassComb = "slds-line-clamp faerr";
+            console.log("Error: ", JSON.stringify(logTemp.logLineData));
+          }
           log = logTemp;
         } else if (log.type === "unit") {
           log.isLine = false;

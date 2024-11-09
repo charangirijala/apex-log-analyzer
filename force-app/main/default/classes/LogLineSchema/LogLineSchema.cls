@@ -28,4 +28,7 @@ public class LogLineSchema {
   //Added for VARIABLE_SCOPE_BEGIN
   @AuraEnabled
   public Boolean isVarAccessible;
+  //Added for FATAL_ERROR
+  @AuraEnabled
+  public String errorMessage;
 }
