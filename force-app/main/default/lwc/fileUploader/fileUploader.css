@@ -27,35 +27,55 @@
 }
 
 
-ul {
-  font-family: monospace;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+.navbar {
+  position: sticky;
+  z-index: 1;
+  top: 0;
   overflow: hidden;
   background-color: rgb(15, 33, 60);
 }
 
-li {
+.navbar b {
   float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  transition: 0.3s;
 }
 
-li {
+.navbar b:hover {
+  background-color: white;
+  color: black;
+}
+
+.brand {
+  background-color: rgb(15, 33, 60);
+  color: white;
+  font-size: bold;
+  float: left;
   display: block;
   text-align: center;
-  padding: 5px 16px;
-  text-decoration: none;
-  cursor: pointer;
-  border: 0px;
+  padding: 14px 16px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-li .nav-btn {
-  --sds-c-button-brand-color-background: white;
-  --sds-c-button-brand-color-border: white;
-  --sds-c-button-brand-color-background-hover: white;
-  --sds-c-button-brand-color-border-hover: white;
-  --slds-c-button-brand-radius-border: 0.1rem;
-  --slds-c-button-brand-text-color-hover:black;
-   --slds-c-button-brand-text-color-active:black;
-    --slds-c-button-brand-text-color:black;
+
+.bugicon{
+--slds-c-icon-color-background: rgb(15, 33, 60);
+-slds-c-icon-color-foreground:white;
+--slds-c-icon-color-foreground-default:white;
+  margin-right: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.fl-btn, .slds-button_neutral{
+--slds-c-button-brand-text-color : white;
+--slds-c-button-brand-color-background :rgb(15, 33, 60);
+--slds-c-button-brand-color-background-hover:white;
+--slds-c-button-brand-text-color-hover:rgb(15, 33, 60);
+--slds-c-button-brand-text-color-active:white;
 }

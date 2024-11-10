@@ -1,14 +1,10 @@
 <template>
-  <div><ul>
-    <li><lightning-button
-          class="nav-btn"
-          variant="brand"
-          label="Upload File"
-          title="Click to analyze the log"
-          onclick={resetApp}
-          type="submit"
-        ></lightning-button></li>
-  </ul></div>
+  <div class="navbar">
+    <p class="brand"><lightning-icon icon-name='utility:bug' alternative-text='bug' size='small' title='bug' class="bugicon"></lightning-icon>FORCE DEBUG</p>
+    <b>Home</b>
+    <b>Latest Updates</b>
+    <b style="float:right" onclick={resetApp}>Reset App</b>
+  </div>
   <lightning-card variant="base" title="Upload File" if:false={responseState}>
     <template lwc:if={renderUploader}>
       <div class="slds-grid slds-wrap">
@@ -41,8 +37,8 @@
       </div>
       <div class="slds-clearfix" lwc:if={displayButton}>
         <lightning-button
-          variant="brand-outline"
-          class="slds-align_absolute-center"
+          variant="brand"
+          class="slds-align_absolute-center fl-btn"
           label="Analyze Log"
           title="Click to analyze the log"
           onclick={handleSubmit}
