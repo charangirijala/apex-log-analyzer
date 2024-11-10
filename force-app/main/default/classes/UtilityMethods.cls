@@ -249,13 +249,13 @@ public class UtilityMethods {
              * 1. Use same methods as METHOD_ENTRY
              * 2. Process all details and call METHOD_ENTRY methods
              */
-            SoqlUtility.processSoqlbegin(line,eventInfo.get(regex));
+            SoqlUtility.processSoqlbegin(line);
             break;
           }else if (utilityVariables.currentLineEvent == 'SOQL_EXECUTE_END') {
             /*
              * 1. Use same methods as METHOD_EXIT
              */
-            SoqlUtility.processSoqlExit(line,eventInfo.get(regex));
+            SoqlUtility.processSoqlExit(line);
             break;
           }
         }

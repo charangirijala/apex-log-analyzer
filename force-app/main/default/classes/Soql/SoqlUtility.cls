@@ -1,7 +1,7 @@
 public class SoqlUtility {
 
   //11:43:50.1 (6696702)|SOQL_EXECUTE_BEGIN|[3]|Aggregations:0|SELECT Id FROM Opportunity
-  public static void processSoqlbegin(String line, String pattern) {
+  public static void processSoqlbegin(String line) {
     List<String> splitArr = line.split('\\|');
     if (splitArr.size() == 5) {
       LogLineSchema lls = new LogLineSchema();
@@ -13,7 +13,7 @@ public class SoqlUtility {
     }
   }
   //11:43:50.1 (14725333)|SOQL_EXECUTE_END|[3]|Rows:7
-    public static void processSoqlExit(String line, String pattern) {
+    public static void processSoqlExit(String line) {
       List<String> splitArr = line.split('\\|');
       if (splitArr.size() == 4) {
         LogLineSchema lls = new LogLineSchema();
@@ -35,6 +35,8 @@ public class SoqlUtility {
       elss.logLine = lls;
       //Add elsss to currentMenthodUnit
       currentMethodUnit.executedLinesAndSubUnits.add(elss);
+      //update currentLog
+      utilityVariables.currentLog = lls;  
     } else if (!utilityVariables.codeUnitsStack.isEmpty()) {
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
@@ -42,6 +44,8 @@ public class SoqlUtility {
       elss.logLine = lls;
       //Add the elss to the currentCodeUnit
       currentCodeUnit.executedLinesAndSubUnits.add(elss);
+      //update currentLog
+      utilityVariables.currentLog = lls;  
     }
   }
 }
