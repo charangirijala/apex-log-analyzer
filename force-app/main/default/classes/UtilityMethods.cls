@@ -218,6 +218,26 @@ public class UtilityMethods {
              */
             UserDebugUtility.processUserDebug(line);
             break;
+          } else if (utilityVariables.currentLineEvent == 'VALIDATION_RULE') {
+            /*
+             * 1. Create a new method unit in the name of validation
+             */
+            ValidationRuleUtility.processValidationRule(line);
+            break;
+          } else if (utilityVariables.currentLineEvent == 'VALIDATION_PASS') {
+            /*
+             * 1. Create a logline indicating validation passed
+             * 2. pop the validation unit from the methodStack
+             */
+            ValidationPassFail.processValidationPass(line);
+            break;
+          } else if (utilityVariables.currentLineEvent == 'VALIDATION_FAIL') {
+            /*
+             * 1. Create a logline indicating validation failed
+             * 2. pop the validation unit from the methodStack
+             */
+            ValidationPassFail.processValidationFail(line);
+            break;
           } else if (utilityVariables.currentLineEvent == 'USER_INFO') {
             /*
              * 1. get user details and store in the userInfoSchema object and add it to result

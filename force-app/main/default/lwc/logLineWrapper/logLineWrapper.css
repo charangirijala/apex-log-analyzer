@@ -13,7 +13,13 @@
 .faerr {
   color: rgb(194, 57, 52);
 }
+.valfl {
+  color: rgb(194, 57, 52);
+}
 
+.valps {
+  color: rgb(34, 150, 34);
+}
 .slds-line-clamp {
   line-clamp: 10;
   -webkit-line-clamp: 10;
