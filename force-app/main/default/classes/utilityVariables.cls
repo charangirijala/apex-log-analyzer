@@ -60,7 +60,8 @@ public class utilityVariables {
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|)[\\w.]+' => 'Class-Simple',
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|TRIGGERS)' => 'Trigger-Simple',
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|)\\w+(\\|)[\\w.]+\\s(on)\\s(\\w)+\\s(trigger\\sevent\\s)\\w+(\\|__sfdc_trigger\\/)[\\w\\/]+' => 'Trigger-Detailed',
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|)\\w+;\\w+;\\w+(\\|)[\\w\\.]+' => 'Trigger-Event'
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|)\\w+;\\w+;\\w+(\\|)[\\w\\.]+' => 'Trigger-Event',
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(\\[EXTERNAL\\])(0-9)]+(\\|Validation)\\:[\\w]+\\:[\\w\\d]+' => 'Validation-Generic'
     },
     'STATEMENT_EXECUTE' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(STATEMENT_EXECUTE\\|)\\[[0-9]+\\]' => 'Statement-Execute'
@@ -90,6 +91,15 @@ public class utilityVariables {
     },
     'VARIABLE_SCOPE_BEGIN' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(VARIABLE_SCOPE_BEGIN\\|)(\\[([0-9]+|(EXTERNAL))\\]\\|)(.+\\|.+\\|((true)|(false))\\|((true)|(false)))' => 'Variable-Scope-Generic'
+    },
+    'VALIDATION_RULE' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VALIDATION_RULE\\|)[\\w\\d]+(\\|)[\\w]+' => 'Valid-Rule-Generic'
+    },
+    'VALIDATION_PASS' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VALIDATION_PASS)' => 'Valid-Rule-Pass'
+    },
+    'VALIDATION_FAIL' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VALIDATION_FAIL)' => 'Valid-Rule-Fail'
     },
     'CODE_UNIT_FINISHED' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_FINISHED\\|).*' => 'Finished-Generic'
@@ -189,10 +199,19 @@ public class utilityVariables {
         codeUnitDetails.executingNamespace = splitArr1[0];
         codeUnitDetails.codeUnitName = splitArr1[1];
       }
+    } else if (pattern == 'Validation-Generic') {
+      enteredCondtion = true;
+      codeUnitDetails.codeUnitType = 'Validation';
+      codeUnitDetails.isTrigger = false;
+      List<String> splitArr = line.split(':');
+      String name = 'Validation on ';
+      name += splitArr[splitArr.size() - 2];
+      codeUnitDetails.codeUnitName = name;
     }
     if (!enteredCondtion) {
       /**
        * No condition entered for codeunitProcessing
+       * Possible code to handle this condition in future
        */
     } else {
       if (!utilityVariables.codeUnitsStack.isEmpty()) {

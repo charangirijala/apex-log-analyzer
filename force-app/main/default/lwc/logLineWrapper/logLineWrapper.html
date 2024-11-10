@@ -6,7 +6,7 @@
     <thead>
       <tr class="slds-line-height_reset">
         <th scope="col">
-          <div class="slds-truncate" title="Line No.">Line No.</div>
+          <div class="slds-truncate" title="Line No.">Line</div>
         </th>
         <th scope="col">
           <div class="slds-truncate" title="Event">Event</div>
@@ -108,6 +108,26 @@
                 >
                   <span class="slds-text-font_monospace">
                     {line.logLineData.errorMessage}
+                  </span>
+                </div>
+              </td>
+            </template>
+
+            <!-- FATAL ERROR -->
+            <template lwc:if={line.logLineData.isValidRulePass}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div class="slds-line-clamp" title="Validation Rule Passed">
+                  <span class="slds-text-font_monospace">
+                    Validation Rule Passed
+                  </span>
+                </div>
+              </td>
+            </template>
+            <template lwc:if={line.isValidRuleFail}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div class="slds-line-clamp" title="Validation Rule Failed">
+                  <span class="slds-text-font_monospace">
+                    Validation Rule Failed
                   </span>
                 </div>
               </td>

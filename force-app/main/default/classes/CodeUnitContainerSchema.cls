@@ -22,7 +22,7 @@ public class CodeUnitContainerSchema {
   public String triggerObject;
   @AuraEnabled
   public String triggerEvent;
-  //Added for FATAL_ERROR to check if the current methodUnit has error
+  //Added for FATAL_ERROR to check if the current methodUnit has error can be used for Validation
   @AuraEnabled
   public Boolean hasError;
   @AuraEnabled

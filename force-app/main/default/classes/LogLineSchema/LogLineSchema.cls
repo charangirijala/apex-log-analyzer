@@ -31,4 +31,7 @@ public class LogLineSchema {
   //Added for FATAL_ERROR
   @AuraEnabled
   public String errorMessage;
+  //Added for Validation Pass or fail
+  @AuraEnabled
+  public Boolean isValidRulePass;
 }
