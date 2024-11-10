@@ -4,12 +4,15 @@ public class MethodSchema {
     executedLinesAndSubUnits = new List<ExecutedLineAndSubUnitSchema>();
   }
 
-  //Actual Name of the method
+  //Actual Name of the method/Validation Rule
   @AuraEnabled
   public String methodName;
   //Total name of the method invoked with class and namespaces
   @AuraEnabled
   public String methodTitle;
+  //18-digit Id of validation rule
+  @AuraEnabled
+  public String ruleId;
   //Id of the class from which method Invoked
   @AuraEnabled
   public String classId;

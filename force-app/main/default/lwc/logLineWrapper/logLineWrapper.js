@@ -96,7 +96,17 @@ export default class LogLineWrapper extends LightningElement {
           // <!-- FATAL_ERROR -->
           else if (logTemp.logLineData.type === "FAERR") {
             logTemp.eventClassComb = "slds-line-clamp faerr";
-            console.log("Error: ", JSON.stringify(logTemp.logLineData));
+            // console.log("Error: ", JSON.stringify(logTemp.logLineData));
+          }
+
+          // <!-- VALIDATION_FAIL -->
+          else if (logTemp.logLineData.type === "VALFL") {
+            logTemp.eventClassComb = "slds-line-clamp valfl";
+            logTemp.isValidRuleFail = true;
+          }
+          // <!-- VALIDATION_PASS -->
+          else if (logTemp.logLineData.type === "VALPS") {
+            logTemp.eventClassComb = "slds-line-clamp valps";
           }
           log = logTemp;
         } else if (log.type === "unit") {
