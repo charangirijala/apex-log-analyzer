@@ -244,6 +244,19 @@ public class UtilityMethods {
              */
             UserInfoUtility.processUserInfo(line);
             break;
+          }else if (utilityVariables.currentLineEvent == 'SOQL_EXECUTE_BEGIN') {
+            /*
+             * 1. Use same methods as METHOD_ENTRY
+             * 2. Process all details and call METHOD_ENTRY methods
+             */
+            SoqlUtility.processSoqlbegin(line);
+            break;
+          }else if (utilityVariables.currentLineEvent == 'SOQL_EXECUTE_END') {
+            /*
+             * 1. Use same methods as METHOD_EXIT
+             */
+            SoqlUtility.processSoqlExit(line);
+            break;
           }
         }
       }

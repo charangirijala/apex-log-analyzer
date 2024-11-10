@@ -1,26 +1,29 @@
-public class VariableAssignUtility {
-  public static void processVariableAssignment(String line, String pattern) {
-    if (pattern == 'Variable-Generic' || pattern == 'Variable-No-Address') {
-      VariableAssignUtility.analyzeVar(line);
-    }
-  }
-  /*
-   * 1. Example Line 01:06:24.0 (17080772)|VARIABLE_ASSIGNMENT|[4]|this.ShippingState|"Andhra Pradesh"
-   * 2. Example Line 01:06:24.0 (17129679)|VARIABLE_ASSIGNMENT|[3]|ac|null|
-   * In case of Ex 2 the split size will be 6
-   */
-  private static void analyzeVar(String line) {
+public class SoqlUtility {
+
+  //11:43:50.1 (6696702)|SOQL_EXECUTE_BEGIN|[3]|Aggregations:0|SELECT Id FROM Opportunity
+  public static void processSoqlbegin(String line) {
     List<String> splitArr = line.split('\\|');
-    if (splitArr.size() == 6 || splitArr.size() == 5) {
+    if (splitArr.size() == 5) {
       LogLineSchema lls = new LogLineSchema();
-      lls.type = 'VARAS';
+      lls.type = 'SOQLB';
       lls.varName = splitArr[3];
       lls.varValue = splitArr[4];
       lls.lineNumber = splitArr[2];
       addToUnit(lls);
     }
   }
-
+  //11:43:50.1 (14725333)|SOQL_EXECUTE_END|[3]|Rows:7
+    public static void processSoqlExit(String line) {
+      List<String> splitArr = line.split('\\|');
+      if (splitArr.size() == 4) {
+        LogLineSchema lls = new LogLineSchema();
+        lls.type = 'SOQLE';
+        lls.varName = 'Retrieved';
+        lls.varValue = splitArr[3];
+        lls.lineNumber = splitArr[2];
+        addToUnit(lls);
+      }
+    }
   private static void addToUnit(LogLineSchema lls) {
     /*
      * 1. Check the correct codeunit/MethodUnit and add the logLine to the codeunit/MethodUnit
