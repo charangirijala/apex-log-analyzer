@@ -36,10 +36,12 @@ public class UtilityMethods {
    */
   public static void processExecAnStatements(String line) {
     List<String> splitArr = line.split('^(Execute\\sAnonymous:\\s)');
-    utilityVariables.ExecAnStatements.add(splitArr[1]);
-    //Store the result in the resultSchema object
-    // utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
-    utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
+    if (splitArr.size() == 2) {
+      utilityVariables.ExecAnStatements.add(splitArr[1]);
+      //Store the result in the resultSchema object
+      // utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
+      utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
+    }
   }
 
   /*
