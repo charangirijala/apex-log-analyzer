@@ -108,6 +108,16 @@ export default class LogLineWrapper extends LightningElement {
           else if (logTemp.logLineData.type === "VALPS") {
             logTemp.eventClassComb = "slds-line-clamp valps";
           }
+          //<!-- SOQLB -->
+          else if (logTemp.logLineData.type === "SOQLB") {
+            logTemp.eventClassComb = "slds-line-clamp soqb";
+            //console.log("Query: ", JSON.stringify(logTemp.logLineData));
+          }
+          //<!-- SOQLE -->
+          else if (logTemp.logLineData.type === "SOQLE") {
+            logTemp.eventClassComb = "slds-line-clamp soqe";
+            //console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+          }
           log = logTemp;
         } else if (log.type === "unit") {
           log.isLine = false;
