@@ -81,8 +81,11 @@ public class MethodUtility {
   private static void processMethodGeneric(String line) {
     MethodSchema methodUnit = new MethodSchema();
     List<String> splitArr = line.split('\\|');
-    methodUnit.methodTitle = splitArr[splitArr.size() - 1];
-    methodUnit.methodName = methodUnit.methodTitle.substringAfterLast('.');
+    methodUnit.methodTitle = splitArr[splitArr.size() - 1]; 
+    //changed for correct method unit name
+    String s2 = '(' + methodUnit.methodTitle.substringAfterLast('(');
+    methodUnit.methodName = methodUnit.methodTitle.replace(s2,'').substringAfterLast('.')+s2;
+    //methodUnit.methodName = methodUnit.methodTitle.substringAfterLast('.');
     // System.debug('Size of the split:' + splitArr.size());
     if (splitArr.size() == 5) {
       methodUnit.classId = splitArr[splitArr.size() - 2];
