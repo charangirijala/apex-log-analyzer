@@ -3,7 +3,7 @@
     <p class="brand"><lightning-icon icon-name='utility:bug' alternative-text='bug' size='small' title='bug' class="bugicon"></lightning-icon>FORCE DEBUG</p>
     <b>Home</b>
     <b>Latest Updates</b>
-    <b style="float:right" onclick={resetApp}>Reset App</b>
+    <b onclick={resetApp}>Analyze Log</b>
   </div>
   <lightning-card variant="base" title="Upload File" if:false={responseState}>
     <template lwc:if={renderUploader}>
