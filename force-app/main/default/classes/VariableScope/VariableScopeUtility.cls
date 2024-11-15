@@ -7,9 +7,7 @@ public class VariableScopeUtility {
     List<String> lineData = line.split('\\|');
     if (lineData.size() == 7) {
       String variableName = lineData[3];
-      if (!variableName.equalsIgnoreCase('this')) {
-        VariableScopeUtility.analyzeLine(lineData);
-      }
+      VariableScopeUtility.analyzeLine(lineData);
     }
   }
 

@@ -9,7 +9,8 @@
             variant="border-inverse"
             title="Close"
             onclick={closeLogViewer}
-            size="medium" class="nav-btn"
+            size="medium"
+            class="nav-btn"
           ></lightning-button-icon>
         </div>
         <div class="slds-col slds-size_10-of-12">
@@ -21,17 +22,21 @@
               title="back"
               onclick={handleBackward}
               disabled={lowerLimitReached}
-              size="medium" class="nav-btn"
+              size="medium"
+              class="nav-btn"
             ></lightning-button-icon>
-            <h2
-              class="slds-text-heading_small slds-show_inline-block heading slds-var-m-horizontal_small"
-            >
-              <span class="slds-truncate slds-text-align_center logHead" title="Some Title of Some class"
-                ><template lwc:if={LogHeaderDetails}
-                  >{LogHeaderDetails.name}</template
-                >
-              </span>
-            </h2>
+
+            <template lwc:if={LogHeaderDetails}>
+              <h2
+                class="slds-text-heading_small slds-show_inline-block heading slds-var-m-horizontal_small"
+              >
+                <span
+                  class="slds-truncate slds-text-align_center logHead"
+                  title={LogHeaderDetails.name}
+                  >{LogHeaderDetails.name}
+                </span>
+              </h2>
+            </template>
             <lightning-button-icon
               icon-name="utility:forward"
               alternative-text="Next CodeUnit"
@@ -39,7 +44,8 @@
               title="Next CodeUnit"
               onclick={handleForward}
               disabled={upperLimitReached}
-              size="medium" class="nav-btn"
+              size="medium"
+              class="nav-btn"
             ></lightning-button-icon>
           </div>
         </div>
