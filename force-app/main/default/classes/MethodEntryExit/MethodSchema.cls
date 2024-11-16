@@ -10,7 +10,7 @@ public class MethodSchema {
   //Total name of the method invoked with class and namespaces
   @AuraEnabled
   public String methodTitle;
-  //18-digit Id of validation rule
+  //18-digit Id of validation rule also Id for flow
   @AuraEnabled
   public String ruleId;
   //Id of the class from which method Invoked

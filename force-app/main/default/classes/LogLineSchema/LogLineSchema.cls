@@ -34,4 +34,9 @@ public class LogLineSchema {
   //Added for Validation Pass or fail
   @AuraEnabled
   public Boolean isValidRulePass;
+  //Added for Flow ruleName is both for element and rule
+  @AuraEnabled
+  public String ruleName;
+  @AuraEnabled
+  public Boolean isFlowElement;
 }

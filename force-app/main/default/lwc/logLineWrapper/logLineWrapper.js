@@ -118,6 +118,16 @@ export default class LogLineWrapper extends LightningElement {
             logTemp.eventClassComb = "slds-line-clamp soqe";
             console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
           }
+          //<!-- FLORL -->
+          else if (logTemp.logLineData.type === "FLORL") {
+            logTemp.eventClassComb = "slds-line-clamp florl";
+            console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+          }
+          //<!-- FLOEL -->
+          else if (logTemp.logLineData.type === "FLOEL") {
+            logTemp.eventClassComb = "slds-line-clamp floel";
+            console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+          }
           log = logTemp;
         } else if (log.type === "unit") {
           log.isLine = false;

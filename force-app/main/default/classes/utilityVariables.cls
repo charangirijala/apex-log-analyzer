@@ -17,6 +17,8 @@ public class utilityVariables {
   //String to Store the previous line event
   public static String previousLineEvent = null;
 
+  public static String flowId = null;
+
   //Track the currentHolding logLine
   public static LogLineSchema currentLog = null;
 
@@ -61,7 +63,8 @@ public class utilityVariables {
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|TRIGGERS)' => 'Trigger-Simple',
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|)\\w+(\\|)[\\w.]+\\s(on)\\s(\\w)+\\s(trigger\\sevent\\s)\\w+(\\|__sfdc_trigger\\/)[\\w\\/]+' => 'Trigger-Detailed',
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(0-9)(\\[EXTERNAL\\])]+(\\|)\\w+;\\w+;\\w+(\\|)[\\w\\.]+' => 'Trigger-Event',
-      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(\\[EXTERNAL\\])(0-9)]+(\\|Validation)\\:[\\w]+\\:[\\w\\d]+' => 'Validation-Generic'
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(CODE_UNIT_STARTED\\|)[(\\[EXTERNAL\\])(0-9)]+(\\|Validation)\\:[\\w]+\\:[\\w\\d]+' => 'Validation-Generic',
+      '^[0-9:.\\s\\(\\)]+(\\|)(CODE_UNIT_STARTED)(\\|)(\\[EXTERNAL\\])(\\|)Flow:[a-zA-Z_]+' => 'Flow-Generic'
     },
     'STATEMENT_EXECUTE' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(STATEMENT_EXECUTE\\|)\\[[0-9]+\\]' => 'Statement-Execute'
@@ -118,6 +121,27 @@ public class utilityVariables {
     },
     'SOQL_EXECUTE_END'=>new Map<String,String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(SOQL_EXECUTE_END\\|)\\[[0-9]+\\]+(\\|).*' => 'SOQL-End'
+    },
+    'FLOW_CREATE_INTERVIEW_BEGIN'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_CREATE_INTERVIEW_BEGIN)(\\|)([0-9a-zA-Z])+(\\|)([0-9a-zA-Z])+(\\|)([0-9a-zA-Z])+' => 'Flow-Generic-Start'
+    },
+    'FLOW_CREATE_INTERVIEW_END'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)FLOW_CREATE_INTERVIEW_END(\\|)[a-z0-9\\-]+(\\|)[a-zA-Z\\s_]+' => 'Flow-Generic-End'
+    },
+    'FLOW_ELEMENT_BEGIN'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_ELEMENT_BEGIN)(\\|)[0-9a-z\\-]+(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Element-Begin-Generic'
+    },
+    'FLOW_ELEMENT_END'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_ELEMENT_END)(\\|)[0-9a-z\\-]+(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Element-End-Generic'
+    },
+    'FLOW_BULK_ELEMENT_BEGIN'=>new Map<String,String>{
+      '[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_BEGIN)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Bulk-Element-Begin-Generic'
+    },
+    'FLOW_BULK_ELEMENT_END'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_END)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+(\\|)[0,1](\\|)[0,1]' => 'Flow-Bullk-Element-End-Generic'
+    },
+    'FLOW_VALUE_ASSIGNMENT'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_VALUE_ASSIGNMENT)(\\|)[0-9a-z\\-]+(\\|)[A-Za-z_]+(\\|)[a-z]+' => 'Flow-Value-Assignment'
     }
   };
 
@@ -206,6 +230,14 @@ public class utilityVariables {
       List<String> splitArr = line.split(':');
       String name = 'Validation on ';
       name += splitArr[splitArr.size() - 2];
+      codeUnitDetails.codeUnitName = name;
+    } else if (pattern == 'Flow-Generic') {
+      enteredCondtion = true;
+      codeUnitDetails.codeUnitType = 'Flow';
+      codeUnitDetails.isTrigger = false;
+      List<String> splitArr = line.split(':');
+      String name = 'Flow on ';
+      name += splitArr[splitArr.size() - 1];
       codeUnitDetails.codeUnitName = name;
     }
     if (!enteredCondtion) {
