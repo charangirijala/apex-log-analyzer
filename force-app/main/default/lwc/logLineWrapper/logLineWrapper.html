@@ -43,6 +43,16 @@
             </td>
             <!-- Line Content -->
 
+             <!-- Flow Elements and Rules -->
+            <template lwc:if={line.logLineData.isFlowElement}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div class="slds-line-clamp" title={line.logLineData.varValue}>
+                  <span class="slds-text-font_monospace">
+                    {line.logLineData.ruleName}</span
+                  >
+                </div>
+              </td>
+            </template>
             <!-- VARAS -->
             <template lwc:if={line.logLineData.varValue}>
               <td class="slds-text-body_small slds-cell-wrap line-content">

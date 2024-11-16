@@ -260,6 +260,44 @@ public class UtilityMethods {
             SoqlUtility.processSoqlExit(line);
             break;
           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_CREATE_INTERVIEW_BEGIN') {
+             flowUtility.analyzeFlowStart(line);
+             break;
+          }
+          else if (utilityVariables.currentLineEvent == 'FLOW_CREATE_INTERVIEW_END') {
+            flowUtility.analyzeFlowName(line);
+            break;
+          }
+           else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_BEGIN') {
+             flowUtility.addElement(line);
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_END') {
+             flowUtility.removeElement();
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_BEGIN') {
+             /*
+              * 1. Use same methods as FLOW_ELEMENT_BEGIN
+              */
+             flowUtility.addElement(line);
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_END') {
+             /*
+              * 1. Use same methods as FLOW_ELEMENT_END
+              */
+             flowUtility.removeElement();
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_VALUE_ASSIGNMENT') {
+           flowUtility.addvalue(line);
+           break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_START_INTERVIEWS_END') {
+            flowUtility.popMethodUnit();
+            break;
+            }
         }
       }
     } else {
