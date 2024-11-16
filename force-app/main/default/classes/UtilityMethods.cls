@@ -294,6 +294,10 @@ public class UtilityMethods {
            flowUtility.addvalue(line);
            break;
            }
+           else if (utilityVariables.currentLineEvent == 'FLOW_START_INTERVIEWS_END') {
+            flowUtility.popMethodUnit();
+            break;
+            }
         }
       }
     } else {

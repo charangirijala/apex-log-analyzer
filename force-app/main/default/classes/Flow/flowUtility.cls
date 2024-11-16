@@ -23,6 +23,7 @@ public class flowUtility {
        pushVal(logLine);
    }
    public static void removeElement() {
+
    }
    public static void addvalue(String line) {
      List<String> splitArr = line.split('\\|');
@@ -32,7 +33,11 @@ public class flowUtility {
      logLine.ruleName  = splitArr[splitArr.size() - 2] +' ' +splitArr[splitArr.size() - 1];
      pushVal(logLine);
    }
-
+   public static void popMethodUnit(){
+    if (!utilityVariables.methodUnitsStack.isEmpty()) {
+      utilityVariables.methodUnitsStack.pop();
+    }
+   }
    //adding the existing flow to method stack and codeunit
   private static void addMethodtoStack(MethodSchema methodUnit) {
     if (!utilityVariables.codeUnitsStack.isEmpty()) {

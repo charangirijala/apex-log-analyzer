@@ -142,6 +142,9 @@ public class utilityVariables {
     },
     'FLOW_VALUE_ASSIGNMENT'=>new Map<String,String>{
       '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_VALUE_ASSIGNMENT)(\\|)[0-9a-z\\-]+(\\|)[A-Za-z_]+(\\|)[a-z]+' => 'Flow-Value-Assignment'
+    },
+    'FLOW_START_INTERVIEWS_END'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)FLOW_START_INTERVIEWS_END(\\|)[0-1]' => 'Flow-Start-Interviews-End'
     }
   };
 
