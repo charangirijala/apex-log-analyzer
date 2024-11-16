@@ -36,10 +36,12 @@ public class UtilityMethods {
    */
   public static void processExecAnStatements(String line) {
     List<String> splitArr = line.split('^(Execute\\sAnonymous:\\s)');
-    utilityVariables.ExecAnStatements.add(splitArr[1]);
-    //Store the result in the resultSchema object
-    // utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
-    utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
+    if (splitArr.size() == 2) {
+      utilityVariables.ExecAnStatements.add(splitArr[1]);
+      //Store the result in the resultSchema object
+      // utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
+      utilityVariables.result.executeAnonyCode = utilityVariables.ExecAnStatements;
+    }
   }
 
   /*
@@ -249,13 +251,13 @@ public class UtilityMethods {
              * 1. Use same methods as METHOD_ENTRY
              * 2. Process all details and call METHOD_ENTRY methods
              */
-            SoqlUtility.processSoqlbegin(line,eventInfo.get(regex));
+            SoqlUtility.processSoqlbegin(line);
             break;
           }else if (utilityVariables.currentLineEvent == 'SOQL_EXECUTE_END') {
             /*
              * 1. Use same methods as METHOD_EXIT
              */
-            SoqlUtility.processSoqlExit(line,eventInfo.get(regex));
+            SoqlUtility.processSoqlExit(line);
             break;
           }
            else if (utilityVariables.currentLineEvent == 'FLOW_CREATE_INTERVIEW_BEGIN') {

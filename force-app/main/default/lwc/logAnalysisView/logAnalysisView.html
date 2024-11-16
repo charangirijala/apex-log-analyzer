@@ -20,7 +20,7 @@
                 class={col.classComb}
                 scope="col"
                 key={col.label}
-                style="padding-left:20px;"
+                style="padding-left: 20px"
               >
                 <div
                   class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate"
@@ -120,6 +120,16 @@
                       tabindex="-1"
                       title="Open Detailed View"
                     >
+                      <template lwc:if={node.isSelected}>
+                        <svg
+                          class="slds-button__icon slds-button__icon_left"
+                          aria-hidden="true"
+                        >
+                          <use
+                            xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#routing_offline"
+                          ></use>
+                        </svg>
+                      </template>
                       <span class="font-monospace">{node.name}</span>
                     </button>
                   </template>
@@ -128,11 +138,6 @@
               <td data-label="Type" role="gridcell">
                 <div class="slds-truncate" title={node.type}>
                   <span class="font-monospace">{node.type}</span>
-                </div>
-              </td>
-              <td data-label="hasError" role="gridcell">
-                <div class="slds-truncate" title={node.hasError}>
-                  <span class="font-monospace">{node.hasError}</span>
                 </div>
               </td>
             </tr>

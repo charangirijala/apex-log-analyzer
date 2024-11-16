@@ -20,11 +20,6 @@ const columns = [
     fieldName: "type",
     label: "Type",
     classComb: "slds-is-resizable slds-cell_action-mode type-col"
-  },
-  {
-    fieldName: "hasError",
-    label: "hasError",
-    classComb: "slds-is-resizable slds-cell_action-mode error-col"
   }
 ];
 
