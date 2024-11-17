@@ -2,7 +2,8 @@ import { api, LightningElement, track, wire } from "lwc";
 import {
   subscribe,
   APPLICATION_SCOPE,
-  MessageContext
+  MessageContext,
+  publish
 } from "lightning/messageService";
 import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_State__c";
 /*
@@ -31,6 +32,7 @@ export default class LogLineWrapper extends LightningElement {
   @track logsArr = [];
 
   get logsArrData() {
+    // console.log("[logLineWrapper.js] logsArr:", JSON.stringify(this.logsArr));
     return this.logsArr;
   }
   connectedCallback() {
@@ -54,7 +56,22 @@ export default class LogLineWrapper extends LightningElement {
     this.logId = message.logId;
     this.prepareLogData();
   }
+  openSubUnit(event) {
+    // console.log(
+    //   "[logLineWrapper.js] Sub Unit open called logId:",
+    //   event.target.dataset.logid
+    // );
+    const temp = event.target.dataset.logid;
+    if (temp !== null || temp !== undefined) {
+      const payload = { logId: temp };
+      // console.log(
+      //   "[logLineWrapper.js] Publish called: ",
+      //   JSON.stringify(payload)
+      // );
 
+      publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
+    }
+  }
   prepareLogData() {
     if (this.logId && this.logLinesData) {
       const parsedId = parseInt(this.logId, 10);
@@ -125,12 +142,12 @@ export default class LogLineWrapper extends LightningElement {
           //<!-- FLORL -->
           else if (logTemp.logLineData.type === "FLORL") {
             logTemp.eventClassComb = "slds-line-clamp florl";
-            console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+            // console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
           }
           //<!-- FLOEL -->
           else if (logTemp.logLineData.type === "FLOEL") {
             logTemp.eventClassComb = "slds-line-clamp floel";
-            console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+            // console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
           }
           log = logTemp;
         } else if (log.type === "unit") {
