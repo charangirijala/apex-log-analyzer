@@ -229,7 +229,10 @@ export default class LogAnalysisView extends LightningElement {
         this.pushToTreeNodeLogs(parent.Id, null, "unit", res.Name, res.Id);
         this.getChildren(unit.codeUnit.executedLinesAndSubUnits, res);
       } else if (unit.methodUnit) {
-        const res = new CUHierarchy(unit.methodUnit.methodName, "Method");
+        const res = new CUHierarchy(
+          unit.methodUnit.methodName,
+          unit.methodUnit.type
+        );
         // console.log("Method unit captured ", unit.methodUnit.methodName);
         parent.children.push(res);
         this.pushToTreeNodeLogs(parent.Id, null, "unit", res.Name, res.Id);

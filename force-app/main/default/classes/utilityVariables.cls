@@ -101,6 +101,9 @@ public class utilityVariables {
     'VALIDATION_PASS' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(VALIDATION_PASS)' => 'Valid-Rule-Pass'
     },
+    'VALIDATION_FORMULA' => new Map<String, String>{
+      '^[0-9:.]+\\s\\([0-9]+\\)\\|(VALIDATION_FORMULA)\\|.+' => 'Valid-Rule-Pass'
+    },
     'VALIDATION_FAIL' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(VALIDATION_FAIL)' => 'Valid-Rule-Fail'
     },
@@ -119,31 +122,31 @@ public class utilityVariables {
     'SOQL_EXECUTE_BEGIN' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(SOQL_EXECUTE_BEGIN\\|)\\[[0-9]+\\]+(\\|).+' => 'SOQL-Begin'
     },
-    'SOQL_EXECUTE_END'=>new Map<String,String>{
+    'SOQL_EXECUTE_END' => new Map<String, String>{
       '^[0-9:.]+\\s\\([0-9]+\\)\\|(SOQL_EXECUTE_END\\|)\\[[0-9]+\\]+(\\|).*' => 'SOQL-End'
     },
-    'FLOW_CREATE_INTERVIEW_BEGIN'=>new Map<String,String>{
+    'FLOW_CREATE_INTERVIEW_BEGIN' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_CREATE_INTERVIEW_BEGIN)(\\|)([0-9a-zA-Z])+(\\|)([0-9a-zA-Z])+(\\|)([0-9a-zA-Z])+' => 'Flow-Generic-Start'
     },
-    'FLOW_CREATE_INTERVIEW_END'=>new Map<String,String>{
+    'FLOW_CREATE_INTERVIEW_END' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)FLOW_CREATE_INTERVIEW_END(\\|)[a-z0-9\\-]+(\\|)[a-zA-Z\\s_]+' => 'Flow-Generic-End'
     },
-    'FLOW_ELEMENT_BEGIN'=>new Map<String,String>{
+    'FLOW_ELEMENT_BEGIN' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_ELEMENT_BEGIN)(\\|)[0-9a-z\\-]+(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Element-Begin-Generic'
     },
-    'FLOW_ELEMENT_END'=>new Map<String,String>{
+    'FLOW_ELEMENT_END' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_ELEMENT_END)(\\|)[0-9a-z\\-]+(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Element-End-Generic'
     },
-    'FLOW_BULK_ELEMENT_BEGIN'=>new Map<String,String>{
+    'FLOW_BULK_ELEMENT_BEGIN' => new Map<String, String>{
       '[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_BEGIN)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Bulk-Element-Begin-Generic'
     },
-    'FLOW_BULK_ELEMENT_END'=>new Map<String,String>{
+    'FLOW_BULK_ELEMENT_END' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_END)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+(\\|)[0,1](\\|)[0,1]' => 'Flow-Bullk-Element-End-Generic'
     },
-    'FLOW_VALUE_ASSIGNMENT'=>new Map<String,String>{
+    'FLOW_VALUE_ASSIGNMENT' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_VALUE_ASSIGNMENT)(\\|)[0-9a-z\\-]+(\\|)[A-Za-z_]+(\\|)[a-z]+' => 'Flow-Value-Assignment'
     },
-    'FLOW_START_INTERVIEWS_END'=>new Map<String,String>{
+    'FLOW_START_INTERVIEWS_END' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)FLOW_START_INTERVIEWS_END(\\|)[0-1]' => 'Flow-Start-Interviews-End'
     }
   };

@@ -39,4 +39,7 @@ public class LogLineSchema {
   public String ruleName;
   @AuraEnabled
   public Boolean isFlowElement;
+  //Added for Validation formula
+  @AuraEnabled
+  public String valFor;
 }
