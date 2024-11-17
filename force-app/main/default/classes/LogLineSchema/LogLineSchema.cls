@@ -45,8 +45,15 @@ public class LogLineSchema {
   public Boolean isInFlow;
   @AuraEnabled
   public Boolean isError;
+<<<<<<< HEAD
 
   //Added for Validation formula
   @AuraEnabled
   public String valFor;
 }
+=======
+  //Added for Validation formula
+  @AuraEnabled
+  public String valFor;
+}
+>>>>>>> 6f34af57a2e9341159db0eb418e172318f0b9ce5

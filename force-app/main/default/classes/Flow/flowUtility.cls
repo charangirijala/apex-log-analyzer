@@ -8,7 +8,6 @@ public class flowUtility {
   //pushing the method to Stack i.e each flow under a particular object
   public static void analyzeFlowName(String line) {
     MethodSchema methodUnit = new MethodSchema();
-    methodUnit.type = 'Flow';
     List<String> splitArr = line.split('\\|');
     methodUnit.methodName = splitArr[splitArr.size() - 1];
     methodUnit.ruleId = utilityVariables.flowId;

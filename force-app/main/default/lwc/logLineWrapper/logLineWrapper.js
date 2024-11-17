@@ -155,7 +155,10 @@ export default class LogLineWrapper extends LightningElement {
           //<!-- FLOAC -->
           else if (logTemp.logLineData.type === "FLOAC") {
             logTemp.eventClassComb = "slds-line-clamp floac";
+<<<<<<< HEAD
             // console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+=======
+>>>>>>> 6f34af57a2e9341159db0eb418e172318f0b9ce5
           }
           log = logTemp;
         } else if (log.type === "unit") {
