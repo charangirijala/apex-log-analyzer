@@ -80,11 +80,14 @@ public class MethodUtility {
    */
   private static void processMethodGeneric(String line) {
     MethodSchema methodUnit = new MethodSchema();
+    methodUnit.type = 'Method';
+
     List<String> splitArr = line.split('\\|');
-    methodUnit.methodTitle = splitArr[splitArr.size() - 1]; 
+    methodUnit.methodTitle = splitArr[splitArr.size() - 1];
     //changed for correct method unit name
     String s2 = '(' + methodUnit.methodTitle.substringAfterLast('(');
-    methodUnit.methodName = methodUnit.methodTitle.replace(s2,'').substringAfterLast('.')+s2;
+    methodUnit.methodName =
+      methodUnit.methodTitle.replace(s2, '').substringAfterLast('.') + s2;
     //methodUnit.methodName = methodUnit.methodTitle.substringAfterLast('.');
     // System.debug('Size of the split:' + splitArr.size());
     if (splitArr.size() == 5) {
@@ -101,6 +104,7 @@ public class MethodUtility {
   private static void processMethodSystem(String line) {
     MethodSchema methodUnit = new MethodSchema();
     methodUnit.methodTitle = 'System Method';
+    methodUnit.type = 'System Method';
     methodUnit.methodName = line.substringAfterLast('|');
     //Once methodUnit fields are filled push it to methodUnitsStack
     addMethodToStack(methodUnit);

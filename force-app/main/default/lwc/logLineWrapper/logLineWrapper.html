@@ -43,7 +43,7 @@
             </td>
             <!-- Line Content -->
 
-             <!-- Flow Elements and Rules -->
+            <!-- Flow Elements and Rules -->
             <template lwc:if={line.logLineData.isFlowElement}>
               <td class="slds-text-body_small slds-cell-wrap line-content">
                 <div class="slds-line-clamp" title={line.logLineData.varValue}>
@@ -131,8 +131,18 @@
                 </div>
               </td>
             </template>
+            <!-- VALIDATION_FORMULA -->
+            <template lwc:if={line.logLineData.valFor}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div class="slds-line-clamp" title={line.logLineData.valFor}>
+                  <span class="slds-text-font_monospace">
+                    {line.logLineData.valFor}
+                  </span>
+                </div>
+              </td>
+            </template>
 
-            <!-- FATAL ERROR -->
+            <!-- VALIDATION_RULE_PASS -->
             <template lwc:if={line.logLineData.isValidRulePass}>
               <td class="slds-text-body_small slds-cell-wrap line-content">
                 <div class="slds-line-clamp" title="Validation Rule Passed">
@@ -142,6 +152,8 @@
                 </div>
               </td>
             </template>
+
+            <!-- VALIDATION_RULE_PASS -->
             <template lwc:if={line.isValidRuleFail}>
               <td class="slds-text-body_small slds-cell-wrap line-content">
                 <div class="slds-line-clamp" title="Validation Rule Failed">
@@ -161,12 +173,16 @@
             </td>
             <!-- Event Name -->
             <td class="slds-text-body_small slds-cell-wrap event-name">
-              <div title={line.type}>{line.type}</div>
+              <div title={line.type}>Unit</div>
             </td>
             <!-- Line Content -->
             <td class="slds-text-body_small slds-cell-wrap line-content">
               <div class="slds-line-clamp" title={line.name}>
-                <button class="slds-button slds-button_neutral">
+                <button
+                  class="slds-button eventButton"
+                  data-logid={line.unitId}
+                  onclick={openSubUnit}
+                >
                   {line.name}
                 </button>
               </div>

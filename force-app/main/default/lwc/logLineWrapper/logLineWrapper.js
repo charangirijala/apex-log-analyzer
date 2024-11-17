@@ -2,7 +2,8 @@ import { api, LightningElement, track, wire } from "lwc";
 import {
   subscribe,
   APPLICATION_SCOPE,
-  MessageContext
+  MessageContext,
+  publish
 } from "lightning/messageService";
 import LOG_ANALYSIS_STATE from "@salesforce/messageChannel/Log_Analysis_Viewer_State__c";
 /*
@@ -31,6 +32,7 @@ export default class LogLineWrapper extends LightningElement {
   @track logsArr = [];
 
   get logsArrData() {
+    // console.log("[logLineWrapper.js] logsArr:", JSON.stringify(this.logsArr));
     return this.logsArr;
   }
   connectedCallback() {
@@ -54,7 +56,22 @@ export default class LogLineWrapper extends LightningElement {
     this.logId = message.logId;
     this.prepareLogData();
   }
+  openSubUnit(event) {
+    // console.log(
+    //   "[logLineWrapper.js] Sub Unit open called logId:",
+    //   event.target.dataset.logid
+    // );
+    const temp = event.target.dataset.logid;
+    if (temp !== null || temp !== undefined) {
+      const payload = { logId: temp };
+      // console.log(
+      //   "[logLineWrapper.js] Publish called: ",
+      //   JSON.stringify(payload)
+      // );
 
+      publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
+    }
+  }
   prepareLogData() {
     if (this.logId && this.logLinesData) {
       const parsedId = parseInt(this.logId, 10);
@@ -104,6 +121,10 @@ export default class LogLineWrapper extends LightningElement {
             logTemp.eventClassComb = "slds-line-clamp valfl";
             logTemp.isValidRuleFail = true;
           }
+          // <!-- VALIDATION_FORMULA -->
+          else if (logTemp.logLineData.type === "VALFR") {
+            logTemp.eventClassComb = "slds-line-clamp valfr";
+          }
           // <!-- VALIDATION_PASS -->
           else if (logTemp.logLineData.type === "VALPS") {
             logTemp.eventClassComb = "slds-line-clamp valps";
@@ -121,10 +142,15 @@ export default class LogLineWrapper extends LightningElement {
           //<!-- FLORL -->
           else if (logTemp.logLineData.type === "FLORL") {
             logTemp.eventClassComb = "slds-line-clamp florl";
+<<<<<<< HEAD
+=======
+            // console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+>>>>>>> b4c0d4f753390caf92205c30056441223c84badd
           }
           //<!-- FLOEL -->
           else if (logTemp.logLineData.type === "FLOEL") {
             logTemp.eventClassComb = "slds-line-clamp floel";
+<<<<<<< HEAD
           }
           //<!-- FLOER -->
           else if (logTemp.logLineData.type === "FLOER") {
@@ -133,6 +159,9 @@ export default class LogLineWrapper extends LightningElement {
           //<!-- FLOAC -->
           else if (logTemp.logLineData.type === "FLOAC") {
             logTemp.eventClassComb = "slds-line-clamp floac";
+=======
+            // console.log("No.of Rows: ", JSON.stringify(logTemp.logLineData));
+>>>>>>> b4c0d4f753390caf92205c30056441223c84badd
           }
           log = logTemp;
         } else if (log.type === "unit") {

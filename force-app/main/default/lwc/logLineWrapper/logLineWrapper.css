@@ -1,7 +1,9 @@
 .varas {
   color: rgb(204, 153, 205);
 }
-
+.valfr {
+  color: rgb(37, 55, 190);
+}
 .varin {
   color: rgb(240, 141, 73);
 }
@@ -40,4 +42,16 @@
 .slds-line-clamp {
   line-clamp: 10;
   -webkit-line-clamp: 10;
+}
+
+.eventButton {
+  border-radius: 0px;
+  font-weight: 600;
+  font-size: small;
+}
+
+.slds-button:focus {
+  --webkit-box-shadow: none;
+  box-shadow: none;
+  outline: 0;
 }

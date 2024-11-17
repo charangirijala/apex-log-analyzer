@@ -5,6 +5,7 @@ public class ConstructorUtility {
     List<String> splitArr = line.split('\\|');
     if (splitArr.size() == 6) {
       methodUnit.methodTitle = 'Constructor';
+      methodUnit.type = 'Constructor';
       methodUnit.classId = splitArr[3];
       methodUnit.methodName = splitArr[5];
       if (splitArr[4] != '<init>()') {

@@ -9,7 +9,7 @@ export default class FileUploader extends LightningElement {
   responseState = false;
   executeAnonyCode;
   codeUnits;
-  loading
+  loading;
   fileData = [];
   @track profilingData = {
     isAvailable: false,
@@ -39,14 +39,14 @@ export default class FileUploader extends LightningElement {
   }
   handleFileUpload(event) {
     var reader = new FileReader();
-    console.log("Processing Uploaded file...");
+    console.log("[fileUploader.js] Processing Uploaded file...");
     const rawFile = event.target.files[0];
-    console.log("File Size: ", rawFile.size);
+    console.log("[fileUploader.js] File Size: ", rawFile.size);
     reader.onload = (e) => {
       const file = e.target.result;
       // console.log(file);
       this.fileData = file.split(/\r\n|\n/);
-      console.log("No.of Lines: ", this.fileData.length);
+      console.log("[fileUploader.js] No.of Lines: ", this.fileData.length);
       // lines.forEach((line) => {
       //   console.log("Single Line: ", line);
       // });
@@ -54,7 +54,7 @@ export default class FileUploader extends LightningElement {
       this.fileUploaded = true;
     };
     reader.onerror = (e) => {
-      console.log("Oops!!..Error Loading File..", e);
+      console.log("[fileUploader.js] Oops!!..Error Loading File..", e);
     };
     reader.readAsText(rawFile);
   }
@@ -72,20 +72,24 @@ export default class FileUploader extends LightningElement {
     }
     // console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
     const req = JSON.stringify(requestBody);
-    console.log("Req sent to server.. waiting..");
+    console.log("[fileUploader.js] Req sent to server.. waiting..");
     //added for loading icon
-    this.loading = true
+    this.loading = true;
     try {
       const data = await callApexFromClient({ requestData: req });
-      console.log("Success response from server");
+      console.log("[fileUploader.js] Success response from server");
       this.isSuccess = true;
-      this.loading=false
+      // loading will be made false after the processing of response added at line 132
+      // this.loading=false
       this.responseState = true;
       this.processResponse(data);
     } catch (err) {
       this.responseState = true;
       this.isSuccess = false;
-      console.log("Oopss!! Error response from server", JSON.stringify(err));
+      console.log(
+        "[fileUploader.js] Oopss!! Error response from server",
+        JSON.stringify(err)
+      );
     }
   }
 
@@ -94,11 +98,17 @@ export default class FileUploader extends LightningElement {
   }
 
   processResponse(data) {
-    console.log("processing data from server", JSON.stringify(data));
+    console.log(
+      "[fileUploader.js] processing data from server",
+      JSON.stringify(data)
+    );
     if (data !== undefined && data !== null && Object.keys(data).length !== 0) {
       //Extract apiVersion and ProfilingInfo
       if (data.apiVersion !== undefined && data.apiVersion !== null) {
-        console.log("API version captured: ", data.apiVersion);
+        console.log(
+          "[fileUploader.js] API version captured: ",
+          data.apiVersion
+        );
         this.profilingData.isAvailable = true;
         this.profilingData.data = {
           ...this.profilingData.data,
@@ -107,7 +117,10 @@ export default class FileUploader extends LightningElement {
       }
 
       if (data.profilingInfo !== undefined && data.profilingInfo !== null) {
-        console.log("Profiling info captured: ", data.profilingInfo);
+        console.log(
+          "[fileUploader.js] Profiling info captured: ",
+          data.profilingInfo
+        );
         this.profilingData.isAvailable = true;
         this.profilingData.data = {
           ...this.profilingData.data,
@@ -120,15 +133,16 @@ export default class FileUploader extends LightningElement {
         data.executeAnonyCode !== undefined &&
         data.executeAnonyCode !== null
       ) {
-        console.log("Execute Anonymous code captured");
+        console.log("[fileUploader.js] Execute Anonymous code captured");
         this.executeAnonyCode = data.executeAnonyCode;
       }
       if (data.codeUnits !== undefined && data.codeUnits !== null) {
-        console.log("CodeUnits captured");
+        console.log("[fileUploader.js] CodeUnits captured");
         this.codeUnits = data.codeUnits;
       }
     }
-    console.log("processed data from server");
+    this.loading = false;
+    console.log("[fileUploader.js] processed data from server");
   }
 
   resetApp() {

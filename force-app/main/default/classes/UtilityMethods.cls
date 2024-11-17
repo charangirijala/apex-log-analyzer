@@ -79,13 +79,14 @@ public class UtilityMethods {
   public static void processMiscLines(String line) {
     /*
      * 1. Check for the currentEvent and process acccordingly
+     * ADDITIONS/DELETIONS:
+     *
      */
     if (
       utilityVariables.currentLineEvent == 'USER_DEBUG' &&
       utilityVariables.currentLog != null &&
       utilityVariables.currentLog.type == 'DEBUG'
     ) {
-      // System.debug('processMiscUserDebug is called..');
       UserDebugUtility.processMiscUserDebug(line);
     } else if (
       utilityVariables.currentLineEvent == 'FATAL_ERROR' &&
@@ -93,6 +94,12 @@ public class UtilityMethods {
       utilityVariables.currentLog.type == 'FAERR'
     ) {
       FatalErrorUtility.processMiscFatalError(line);
+    } else if (
+      utilityVariables.currentLineEvent == 'VALIDATION_FORMULA' &&
+      utilityVariables.currentLog != null &&
+      utilityVariables.currentLog.type == 'VALFR'
+    ) {
+      ValidationFormula.processMiscValidationFormula(line);
     }
   }
 
@@ -226,6 +233,11 @@ public class UtilityMethods {
              */
             ValidationRuleUtility.processValidationRule(line);
             break;
+          } else if (
+            utilityVariables.currentLineEvent == 'VALIDATION_FORMULA'
+          ) {
+            ValidationFormula.processValidationFormula(line);
+            break;
           } else if (utilityVariables.currentLineEvent == 'VALIDATION_PASS') {
             /*
              * 1. Create a logline indicating validation passed
@@ -246,27 +258,32 @@ public class UtilityMethods {
              */
             UserInfoUtility.processUserInfo(line);
             break;
-          }else if (utilityVariables.currentLineEvent == 'SOQL_EXECUTE_BEGIN') {
+          } else if (
+            utilityVariables.currentLineEvent == 'SOQL_EXECUTE_BEGIN'
+          ) {
             /*
              * 1. Use same methods as METHOD_ENTRY
              * 2. Process all details and call METHOD_ENTRY methods
              */
             SoqlUtility.processSoqlbegin(line);
             break;
-          }else if (utilityVariables.currentLineEvent == 'SOQL_EXECUTE_END') {
+          } else if (utilityVariables.currentLineEvent == 'SOQL_EXECUTE_END') {
             /*
              * 1. Use same methods as METHOD_EXIT
              */
             SoqlUtility.processSoqlExit(line);
             break;
-          }
-           else if (utilityVariables.currentLineEvent == 'FLOW_CREATE_INTERVIEW_BEGIN') {
-             flowUtility.analyzeFlowStart(line);
-             break;
-          }
-          else if (utilityVariables.currentLineEvent == 'FLOW_CREATE_INTERVIEW_END') {
+          } else if (
+            utilityVariables.currentLineEvent == 'FLOW_CREATE_INTERVIEW_BEGIN'
+          ) {
+            flowUtility.analyzeFlowStart(line);
+            break;
+          } else if (
+            utilityVariables.currentLineEvent == 'FLOW_CREATE_INTERVIEW_END'
+          ) {
             flowUtility.analyzeFlowName(line);
             break;
+<<<<<<< HEAD
           }
            else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_BEGIN') {
              flowUtility.addElement(line);
@@ -306,6 +323,43 @@ public class UtilityMethods {
             flowUtility.actionDetail(line);
             break;
           }
+=======
+          } else if (
+            utilityVariables.currentLineEvent == 'FLOW_ELEMENT_BEGIN'
+          ) {
+            flowUtility.addElement(line);
+            break;
+          } else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_END') {
+            flowUtility.removeElement();
+            break;
+          } else if (
+            utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_BEGIN'
+          ) {
+            /*
+             * 1. Use same methods as FLOW_ELEMENT_BEGIN
+             */
+            flowUtility.addElement(line);
+            break;
+          } else if (
+            utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_END'
+          ) {
+            /*
+             * 1. Use same methods as FLOW_ELEMENT_END
+             */
+            flowUtility.removeElement();
+            break;
+          } else if (
+            utilityVariables.currentLineEvent == 'FLOW_VALUE_ASSIGNMENT'
+          ) {
+            flowUtility.addvalue(line);
+            break;
+          } else if (
+            utilityVariables.currentLineEvent == 'FLOW_START_INTERVIEWS_END'
+          ) {
+            flowUtility.popMethodUnit();
+            break;
+          }
+>>>>>>> b4c0d4f753390caf92205c30056441223c84badd
         }
       }
     } else {
