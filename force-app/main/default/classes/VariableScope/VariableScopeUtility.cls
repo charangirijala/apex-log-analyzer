@@ -44,6 +44,8 @@ public class VariableScopeUtility {
       elss.logLine = lls;
       //Add elsss to currentMenthodUnit
       currentMethodUnit.executedLinesAndSubUnits.add(elss);
+      //update currentLog
+      utilityVariables.currentLog = lls;
     } else if (!utilityVariables.codeUnitsStack.isEmpty()) {
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
@@ -51,6 +53,8 @@ public class VariableScopeUtility {
       elss.logLine = lls;
       //Add the elss to the currentCodeUnit
       currentCodeUnit.executedLinesAndSubUnits.add(elss);
+      //update currentLog
+      utilityVariables.currentLog = lls;
     }
   }
 }

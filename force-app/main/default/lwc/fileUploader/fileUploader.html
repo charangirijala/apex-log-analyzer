@@ -1,6 +1,15 @@
 <template>
   <div class="navbar">
-    <p class="brand"><lightning-icon icon-name='utility:bug' alternative-text='bug' size='small' title='bug' class="bugicon"></lightning-icon>DEBUG FORCE</p>
+    <p class="brand">
+      <lightning-icon
+        icon-name="utility:bug"
+        alternative-text="bug"
+        size="small"
+        title="bug"
+        class="bugicon"
+      ></lightning-icon
+      >DEBUGFORCE
+    </p>
     <b>Home</b>
     <b>Latest Updates</b>
     <b onclick={resetApp}>Analyze Log</b>
@@ -16,9 +25,9 @@
               accept={acceptedFormats}
               onchange={handleFileUpload}
               disabled={textAreaFilled}
-              style="text-align: center;"
+              style="text-align: center"
             ></lightning-input>
-            <div lwc:if={fileUploaded} style="text-align: center;" >
+            <div lwc:if={fileUploaded} style="text-align: center">
               <c-pill
                 pill-label={fileNameLabel}
                 icon-name="attachment"
@@ -43,34 +52,35 @@
           title="Click to analyze the log"
           onclick={handleSubmit}
           type="submit"
-        ></lightning-button> <template lwc:if={loading}><div class="loader"></div></template>
+        ></lightning-button>
+        <template lwc:if={loading}><div class="loader"></div></template>
       </div>
     </template>
   </lightning-card>
-    <template lwc:if={responseState}>
-      <template lwc:if={fileUploaded}>
-        <div class="slds-var-m-around_medium">
-          <c-tile title="Raw Debug Log Preview">
-            <div slot="summary-body">
-              <c-log-preview table-data={fileData}></c-log-preview>
-            </div>
-          </c-tile>
-        </div>
-      </template>
-      <template lwc:if={textAreaFilled}>
-        <div class="slds-var-m-around_medium">
-          <c-tile title="Raw Debug Log Preview">
-            <div slot="summary-body">
-              <c-log-preview table-data={textAreaData.logData}></c-log-preview>
-            </div>
-          </c-tile>
-        </div>
-      </template>
-      <c-log-chart-wrapper
-        profiling-info={profilingData}
-        execute-anony-code={executeAnonyCode}
-        state={isSuccess}
-        code-units={codeUnits}
-      ></c-log-chart-wrapper>
+  <template lwc:if={responseState}>
+    <template lwc:if={fileUploaded}>
+      <div class="slds-var-m-around_medium">
+        <c-tile title="Raw Debug Log Preview">
+          <div slot="summary-body">
+            <c-log-preview table-data={fileData}></c-log-preview>
+          </div>
+        </c-tile>
+      </div>
     </template>
+    <template lwc:if={textAreaFilled}>
+      <div class="slds-var-m-around_medium">
+        <c-tile title="Raw Debug Log Preview">
+          <div slot="summary-body">
+            <c-log-preview table-data={textAreaData.logData}></c-log-preview>
+          </div>
+        </c-tile>
+      </div>
+    </template>
+    <c-log-chart-wrapper
+      profiling-info={profilingData}
+      execute-anony-code={executeAnonyCode}
+      state={isSuccess}
+      code-units={codeUnits}
+    ></c-log-chart-wrapper>
+  </template>
 </template>

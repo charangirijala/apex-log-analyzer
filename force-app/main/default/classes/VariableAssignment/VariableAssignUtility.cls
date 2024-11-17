@@ -33,7 +33,7 @@ public class VariableAssignUtility {
       //Add elsss to currentMenthodUnit
       currentMethodUnit.executedLinesAndSubUnits.add(elss);
       //update currentLog
-      utilityVariables.currentLog = lls;  
+      utilityVariables.currentLog = lls;
     } else if (!utilityVariables.codeUnitsStack.isEmpty()) {
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
@@ -42,7 +42,7 @@ public class VariableAssignUtility {
       //Add the elss to the currentCodeUnit
       currentCodeUnit.executedLinesAndSubUnits.add(elss);
       //update currentLog
-      utilityVariables.currentLog = lls;  
+      utilityVariables.currentLog = lls;
     }
   }
 }

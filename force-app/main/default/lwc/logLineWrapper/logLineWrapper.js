@@ -104,6 +104,10 @@ export default class LogLineWrapper extends LightningElement {
             logTemp.eventClassComb = "slds-line-clamp valfl";
             logTemp.isValidRuleFail = true;
           }
+          // <!-- VALIDATION_FORMULA -->
+          else if (logTemp.logLineData.type === "VALFR") {
+            logTemp.eventClassComb = "slds-line-clamp valfr";
+          }
           // <!-- VALIDATION_PASS -->
           else if (logTemp.logLineData.type === "VALPS") {
             logTemp.eventClassComb = "slds-line-clamp valps";

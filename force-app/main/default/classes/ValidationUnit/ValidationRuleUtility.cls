@@ -13,6 +13,7 @@ public class ValidationRuleUtility {
    */
   private static void analyzeValidation(String line) {
     MethodSchema methodUnit = new MethodSchema();
+    methodUnit.type = 'Validation Rule';
     List<String> splitArr = line.split('\\|');
     methodUnit.methodName = splitArr[splitArr.size() - 1];
     methodUnit.ruleId = splitArr[splitArr.size() - 2];

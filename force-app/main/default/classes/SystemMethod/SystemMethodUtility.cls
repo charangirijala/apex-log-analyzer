@@ -15,6 +15,7 @@ public class SystemMethodUtility {
   private static void addMethodtoUnit(String line) {
     String methodName = line.substringAfterLast('|');
     MethodSchema methodInstance = new MethodSchema();
+    methodInstance.type = 'System Method';
     methodInstance.methodTitle = 'System Method';
     methodInstance.methodName = methodName;
 

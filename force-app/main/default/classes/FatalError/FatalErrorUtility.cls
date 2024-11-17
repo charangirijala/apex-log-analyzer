@@ -36,6 +36,8 @@ public class FatalErrorUtility {
       elss.logLine = log;
       //Add elsss to currentMenthodUnit
       currentMethodUnit.executedLinesAndSubUnits.add(elss);
+      //update currentLog
+      utilityVariables.currentLog = log;
     } else if (!utilityVariables.codeUnitsStack.isEmpty()) {
       CodeUnitContainerSchema currentCodeUnit = (CodeUnitContainerSchema) utilityVariables.codeUnitsStack.peek();
       //create a new ExecutingLineAndSubUnitSchema and push it to the current codeUnit
