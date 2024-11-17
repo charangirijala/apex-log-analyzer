@@ -283,7 +283,6 @@ public class UtilityMethods {
           ) {
             flowUtility.analyzeFlowName(line);
             break;
-<<<<<<< HEAD
           }
            else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_BEGIN') {
              flowUtility.addElement(line);
@@ -323,43 +322,6 @@ public class UtilityMethods {
             flowUtility.actionDetail(line);
             break;
           }
-=======
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_ELEMENT_BEGIN'
-          ) {
-            flowUtility.addElement(line);
-            break;
-          } else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_END') {
-            flowUtility.removeElement();
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_BEGIN'
-          ) {
-            /*
-             * 1. Use same methods as FLOW_ELEMENT_BEGIN
-             */
-            flowUtility.addElement(line);
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_END'
-          ) {
-            /*
-             * 1. Use same methods as FLOW_ELEMENT_END
-             */
-            flowUtility.removeElement();
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_VALUE_ASSIGNMENT'
-          ) {
-            flowUtility.addvalue(line);
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_START_INTERVIEWS_END'
-          ) {
-            flowUtility.popMethodUnit();
-            break;
-          }
->>>>>>> b4c0d4f753390caf92205c30056441223c84badd
         }
       }
     } else {
