@@ -14,49 +14,67 @@
     <b>Latest Updates</b>
     <b onclick={resetApp}>Analyze Log</b>
   </div>
-  <lightning-card variant="base" title="Upload File" if:false={responseState}>
-    <template lwc:if={renderUploader}>
-      <div class="slds-grid slds-wrap">
-        <div class="slds-col slds-size_6-of-12">
-          <div class="slds-var-m-around_medium">
-            <lightning-input
-              type="file"
-              label="Upload the .log / .txt file here"
-              accept={acceptedFormats}
-              onchange={handleFileUpload}
-              disabled={textAreaFilled}
-              style="text-align: center"
-            ></lightning-input>
-            <div lwc:if={fileUploaded} style="text-align: center">
-              <c-pill
-                pill-label={fileNameLabel}
-                icon-name="attachment"
-                remove-btn-txt="Remove File"
-                onremove={removeFileHandler}
-              ></c-pill>
+  <div class="main-container">
+    <template if:false={responseState}>
+      <template lwc:if={renderUploader}>
+        <c-splitscreen>
+          <div slot="left-content">
+            <div class="slds-var-m-around_medium">
+              <lightning-input
+                type="file"
+                label="Upload the .log / .txt file here"
+                accept={acceptedFormats}
+                onchange={handleFileUpload}
+                disabled={textAreaFilled}
+                style="text-align: center"
+              ></lightning-input>
+              <div lwc:if={fileUploaded} style="text-align: center">
+                <c-pill
+                  pill-label={fileNameLabel}
+                  icon-name="attachment"
+                  remove-btn-txt="Remove File"
+                  onremove={removeFileHandler}
+                ></c-pill>
+              </div>
             </div>
+            <!-- <div class="slds-clearfix" lwc:if={displayButton}> -->
+            <template lwc:if={fileUploaded}>
+              <div class="slds-clearfix">
+                <lightning-button
+                  variant="brand"
+                  class="slds-align_absolute-center fl-btn"
+                  label="Analyze Log"
+                  title="Click to analyze the log"
+                  onclick={handleSubmit}
+                  type="submit"
+                ></lightning-button>
+              </div>
+              <template lwc:if={loading}><div class="loader"></div></template>
+            </template>
+
+            <!-- </div> -->
           </div>
-        </div>
-        <div class="slds-col slds-size_6-of-12">
-          <c-input-as-text
-            is-file-uploaded={fileUploaded}
-            ontextareachange={textAreaChangeHandler}
-          ></c-input-as-text>
-        </div>
-      </div>
-      <div class="slds-clearfix" lwc:if={displayButton}>
-        <lightning-button
-          variant="brand"
-          class="slds-align_absolute-center fl-btn"
-          label="Analyze Log"
-          title="Click to analyze the log"
-          onclick={handleSubmit}
-          type="submit"
-        ></lightning-button>
-        <template lwc:if={loading}><div class="loader"></div></template>
-      </div>
+          <div slot="right-content">
+            <c-input-as-text
+              is-file-uploaded={fileUploaded}
+              ontextareachange={textAreaChangeHandler}
+            ></c-input-as-text>
+            <template lwc:if={textAreaFilled}>
+              <div class="slds-clearfix">
+                <lightning-button
+                  variant="brand"
+                  class="slds-align_absolute-center fl-btn"
+                  label="Analyze Log"
+                  title="Click to analyze the log"
+                  onclick={handleSubmit}
+                  type="submit"
+                ></lightning-button>
+              </div>
+              <template lwc:if={loading}><div class="loader"></div></template>
+            </template></div></c-splitscreen
+      ></template>
     </template>
-  </lightning-card>
+  </div>
   <template lwc:if={responseState}>
     <template lwc:if={fileUploaded}>
       <div class="slds-var-m-around_medium">

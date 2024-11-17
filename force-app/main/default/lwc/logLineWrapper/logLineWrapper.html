@@ -164,12 +164,16 @@
             </td>
             <!-- Event Name -->
             <td class="slds-text-body_small slds-cell-wrap event-name">
-              <div title={line.type}>{line.type}</div>
+              <div title={line.type}>Unit</div>
             </td>
             <!-- Line Content -->
             <td class="slds-text-body_small slds-cell-wrap line-content">
               <div class="slds-line-clamp" title={line.name}>
-                <button class="slds-button slds-button_neutral">
+                <button
+                  class="slds-button eventButton"
+                  data-logid={line.unitId}
+                  onclick={openSubUnit}
+                >
                   {line.name}
                 </button>
               </div>

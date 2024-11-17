@@ -145,6 +145,10 @@ export default class DetailedLogViewer extends LightningElement {
     publish(this.messageContext, LOG_ANALYSIS_STATE, payload);
   }
   get LogHeaderDetails() {
+    console.log(
+      "[detailedLogViewer.js] LogHeaderDetails called with logId",
+      this.logId
+    );
     if (this.logId) {
       const size = this.idLimitMax - this.idLimitMin;
       const temp = size + (this.idLimitMin - parseInt(this.logId));
