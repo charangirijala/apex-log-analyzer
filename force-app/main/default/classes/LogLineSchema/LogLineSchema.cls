@@ -41,15 +41,12 @@ public class LogLineSchema {
   public String elementType;
   @AuraEnabled
   public Boolean isFlowElement;
-<<<<<<< HEAD
   @AuraEnabled
   public Boolean isInFlow;
   @AuraEnabled
   public Boolean isError;
 
-=======
   //Added for Validation formula
   @AuraEnabled
   public String valFor;
->>>>>>> b4c0d4f753390caf92205c30056441223c84badd
 }

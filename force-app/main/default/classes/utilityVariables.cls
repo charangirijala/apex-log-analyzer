@@ -140,19 +140,11 @@ public class utilityVariables {
     'FLOW_BULK_ELEMENT_BEGIN' => new Map<String, String>{
       '[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_BEGIN)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Bulk-Element-Begin-Generic'
     },
-<<<<<<< HEAD
-    'FLOW_BULK_ELEMENT_END'=>new Map<String,String>{
-      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_END)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+(\\|)[0-9]+(\\|)[0-9]+' => 'Flow-Bullk-Element-End-Generic'
-    },
-    'FLOW_VALUE_ASSIGNMENT'=>new Map<String,String>{
-      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_VALUE_ASSIGNMENT)(\\|)[0-9a-z\\-]+(\\|)[A-Za-z_0-9]+(\\|)[a-z]+' => 'Flow-Value-Assignment'
-=======
     'FLOW_BULK_ELEMENT_END' => new Map<String, String>{
-      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_END)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+(\\|)[0,1](\\|)[0,1]' => 'Flow-Bullk-Element-End-Generic'
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_END)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+(\\|)[0,1](\\|)[0,1]' => 'Flow-Bulk-Element-End-Generic'
     },
     'FLOW_VALUE_ASSIGNMENT' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_VALUE_ASSIGNMENT)(\\|)[0-9a-z\\-]+(\\|)[A-Za-z_]+(\\|)[a-z]+' => 'Flow-Value-Assignment'
->>>>>>> b4c0d4f753390caf92205c30056441223c84badd
     },
     'FLOW_START_INTERVIEWS_END' => new Map<String, String>{
       '^[0-9:.\\s\\(\\)]+(\\|)FLOW_START_INTERVIEWS_END(\\|)[0-1]' => 'Flow-Start-Interviews-End'
