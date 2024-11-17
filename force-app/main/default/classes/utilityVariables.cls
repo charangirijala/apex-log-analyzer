@@ -138,13 +138,19 @@ public class utilityVariables {
       '[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_BEGIN)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+' => 'Flow-Bulk-Element-Begin-Generic'
     },
     'FLOW_BULK_ELEMENT_END'=>new Map<String,String>{
-      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_END)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+(\\|)[0,1](\\|)[0,1]' => 'Flow-Bullk-Element-End-Generic'
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_BULK_ELEMENT_END)(\\|)[a-zA-Z]+(\\|)[a-zA-Z_]+(\\|)[0-9]+(\\|)[0-9]+' => 'Flow-Bullk-Element-End-Generic'
     },
     'FLOW_VALUE_ASSIGNMENT'=>new Map<String,String>{
-      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_VALUE_ASSIGNMENT)(\\|)[0-9a-z\\-]+(\\|)[A-Za-z_]+(\\|)[a-z]+' => 'Flow-Value-Assignment'
+      '^[0-9:.\\s\\(\\)]+(\\|)(FLOW_VALUE_ASSIGNMENT)(\\|)[0-9a-z\\-]+(\\|)[A-Za-z_0-9]+(\\|)[a-z]+' => 'Flow-Value-Assignment'
     },
     'FLOW_START_INTERVIEWS_END'=>new Map<String,String>{
       '^[0-9:.\\s\\(\\)]+(\\|)FLOW_START_INTERVIEWS_END(\\|)[0-1]' => 'Flow-Start-Interviews-End'
+    },
+    'FLOW_ELEMENT_ERROR'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)FLOW_ELEMENT_ERROR(\\|)[\\s\\w.,:\\-\\(\\)]+(\\|)[a-zA-Z]+(\\|)[a-zA-Z_0-9]+' => 'Flow-Error-Generic'
+    },
+    'FLOW_ACTIONCALL_DETAIL'=>new Map<String,String>{
+      '^[0-9:.\\s\\(\\)]+(\\|)FLOW_ACTIONCALL_DETAIL(\\|)[0-9a-z\\-]+(\\|)[\\w]+(\\|)[\\w\\s]+(\\|)[\\w]+(\\|)[a-z]+(\\|)[\\s\\w.,:\\-\\(\\\\)]+' => 'Flow-Action-Detail'
     }
   };
 

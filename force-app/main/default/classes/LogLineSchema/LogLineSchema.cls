@@ -38,5 +38,12 @@ public class LogLineSchema {
   @AuraEnabled
   public String ruleName;
   @AuraEnabled
+  public String elementType;
+  @AuraEnabled
   public Boolean isFlowElement;
+  @AuraEnabled
+  public Boolean isInFlow;
+  @AuraEnabled
+  public Boolean isError;
+
 }

@@ -273,7 +273,7 @@ public class UtilityMethods {
              break;
            }
            else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_END') {
-             flowUtility.removeElement();
+             flowUtility.removeElement(line);
              break;
            }
            else if (utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_BEGIN') {
@@ -287,7 +287,7 @@ public class UtilityMethods {
              /*
               * 1. Use same methods as FLOW_ELEMENT_END
               */
-             flowUtility.removeElement();
+             flowUtility.removeElement(line);
              break;
            }
            else if (utilityVariables.currentLineEvent == 'FLOW_VALUE_ASSIGNMENT') {
@@ -297,7 +297,15 @@ public class UtilityMethods {
            else if (utilityVariables.currentLineEvent == 'FLOW_START_INTERVIEWS_END') {
             flowUtility.popMethodUnit();
             break;
-            }
+          }
+          else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_ERROR') {
+            flowUtility.isError(line);
+            break;
+          }
+          else if (utilityVariables.currentLineEvent == 'FLOW_ACTIONCALL_DETAIL') {
+            flowUtility.actionDetail(line);
+            break;
+          }
         }
       }
     } else {
