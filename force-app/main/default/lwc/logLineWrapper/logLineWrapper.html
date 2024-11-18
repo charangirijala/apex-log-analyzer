@@ -48,8 +48,17 @@
               <td class="slds-text-body_small slds-cell-wrap line-content">
                 <div class="slds-line-clamp" title={line.logLineData.varValue}>
                   <span class="slds-text-font_monospace">
-                    {line.logLineData.ruleName}</span
-                  >
+                    {line.logLineData.ruleName} </span>
+                  <span class="slds-badge">{line.logLineData.elementType}</span>
+                </div>
+              </td>
+            </template>
+            <template lwc:if={line.logLineData.isInFlow}>
+              <td class="slds-text-body_small slds-cell-wrap line-content">
+                <div class="slds-line-clamp" title={line.logLineData.varValue}>
+                  <span class="slds-text-font_monospace">
+                    {line.logLineData.ruleName} </span>
+                    <template lwc:if={line.logLineData.isError}><span class="slds-badge slds-theme_error">Error</span></template>
                 </div>
               </td>
             </template>

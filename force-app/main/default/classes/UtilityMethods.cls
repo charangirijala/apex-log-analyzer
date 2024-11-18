@@ -283,39 +283,43 @@ public class UtilityMethods {
           ) {
             flowUtility.analyzeFlowName(line);
             break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_ELEMENT_BEGIN'
-          ) {
-            flowUtility.addElement(line);
-            break;
-          } else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_END') {
-            flowUtility.removeElement();
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_BEGIN'
-          ) {
-            /*
-             * 1. Use same methods as FLOW_ELEMENT_BEGIN
-             */
-            flowUtility.addElement(line);
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_END'
-          ) {
-            /*
-             * 1. Use same methods as FLOW_ELEMENT_END
-             */
-            flowUtility.removeElement();
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_VALUE_ASSIGNMENT'
-          ) {
-            flowUtility.addvalue(line);
-            break;
-          } else if (
-            utilityVariables.currentLineEvent == 'FLOW_START_INTERVIEWS_END'
-          ) {
+          }
+           else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_BEGIN') {
+             flowUtility.addElement(line);
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_END') {
+             flowUtility.removeElement(line);
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_BEGIN') {
+             /*
+              * 1. Use same methods as FLOW_ELEMENT_BEGIN
+              */
+             flowUtility.addElement(line);
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_BULK_ELEMENT_END') {
+             /*
+              * 1. Use same methods as FLOW_ELEMENT_END
+              */
+             flowUtility.removeElement(line);
+             break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_VALUE_ASSIGNMENT') {
+           flowUtility.addvalue(line);
+           break;
+           }
+           else if (utilityVariables.currentLineEvent == 'FLOW_START_INTERVIEWS_END') {
             flowUtility.popMethodUnit();
+            break;
+          }
+          else if (utilityVariables.currentLineEvent == 'FLOW_ELEMENT_ERROR') {
+            flowUtility.isError(line);
+            break;
+          }
+          else if (utilityVariables.currentLineEvent == 'FLOW_ACTIONCALL_DETAIL') {
+            flowUtility.actionDetail(line);
             break;
           }
         }
