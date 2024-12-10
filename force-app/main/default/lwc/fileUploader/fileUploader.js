@@ -1,4 +1,5 @@
 import { LightningElement, track } from "lwc";
+import { UtilityMethods } from "c/utilityMethods";
 import callApexFromClient from "@salesforce/apex/ClientInputHandler.callApexFromClient";
 export default class FileUploader extends LightningElement {
   fileUploaded = false;
@@ -44,6 +45,7 @@ export default class FileUploader extends LightningElement {
     console.log("[fileUploader.js] File Size: ", rawFile.size);
     reader.onload = (e) => {
       const file = e.target.result;
+      console.log(file);
       // console.log(file);
       this.fileData = file.split(/\r\n|\n/);
       console.log("[fileUploader.js] No.of Lines: ", this.fileData.length);
@@ -66,11 +68,14 @@ export default class FileUploader extends LightningElement {
     if (this.fileUploaded) {
       //process fileData
       requestBody.debugLogData = this.fileData;
+
+      new UtilityMethods().processLog(this.fileData);
     } else if (this.textAreaFilled) {
       //process textArea Data
       requestBody.debugLogData = this.textAreaData.logData;
     }
-    // console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
+
+    console.log("RequestBody sent to client: ", JSON.stringify(requestBody));
     const req = JSON.stringify(requestBody);
     console.log("[fileUploader.js] Req sent to server.. waiting..");
     //added for loading icon
