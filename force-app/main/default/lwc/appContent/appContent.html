@@ -1,0 +1,10 @@
+<template>
+  <div class="slds-brand-band slds-brand-band_large">
+    <template lwc:if={isHome}
+      ><c-log-file-processor></c-log-file-processor>
+    </template>
+    <template lwc:if={isRawLogViewer}> RawLogViewer </template>
+    <template lwc:if={isLogAnalysis}>LogAnalysisViewer </template>
+    <template lwc:if={isDetailLogViewer}>DetailLogViewer</template>
+  </div>
+</template>
