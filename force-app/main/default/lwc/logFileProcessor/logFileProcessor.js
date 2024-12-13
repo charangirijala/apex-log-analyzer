@@ -1,5 +1,8 @@
-import { LightningElement } from "lwc";
+import { LightningElement, wire } from "lwc";
 import { eventsRegexMaster } from "./utilVariables";
+import { publish, MessageContext } from "lightning/messageService";
+
+import STATE from "@salesforce/messageChannel/App_Service__c";
 /*
  * treeNodes Schema:
  * {
@@ -52,10 +55,11 @@ export default class LogFileProcessor extends LightningElement {
   level = 1;
   posinset = 1;
   maxsize = 100;
+  @wire(MessageContext)
+  messageContext;
   get acceptedFormats() {
     return [".log", ".txt"];
   }
-
   handleFileUpload(event) {
     var reader = new FileReader();
     console.log("[fileUploader.js] Processing Uploaded file...");
@@ -66,6 +70,10 @@ export default class LogFileProcessor extends LightningElement {
       console.log(file);
       // console.log(file);
       this.fileData = file.split(/\r\n|\n/);
+
+      //publish fileData to MessageChannel
+      const payload = { fileData: this.fileData };
+      publish(this.messageContext, STATE, payload);
       console.log("[fileUploader.js] No.of Lines: ", this.fileData.length);
       // lines.forEach((line) => {
       //   console.log("Single Line: ", line);

@@ -9,3 +9,9 @@ a {
 a:hover {
   text-decoration: none !important;
 }
+
+.slds-no-print {
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
