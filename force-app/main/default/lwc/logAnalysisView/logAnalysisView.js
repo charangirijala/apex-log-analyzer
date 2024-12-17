@@ -272,7 +272,10 @@ export default class LogAnalysisView extends LightningElement {
     }
   }
   get treeNodeRenderer() {
-    console.log("[logAnalysisView.js] Getting latest version of treeNodes");
+    console.log(
+      "[logAnalysisView.js] Getting latest version of treeNodes",
+      JSON.stringify(this.treeNodes)
+    );
     return this.treeNodes;
   }
   handleToggle(event) {

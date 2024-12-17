@@ -18,4 +18,9 @@
         <description
     >This is a boolean used to check if the state detailedLogViewer is fullScreen or not</description>
     </lightningMessageFields>
+
+    <lightningMessageFields>
+     <fieldName>fileData</fieldName>
+     <description>This is the raw file data uploaded</description>
+</lightningMessageFields>
 </LightningMessageChannel>
