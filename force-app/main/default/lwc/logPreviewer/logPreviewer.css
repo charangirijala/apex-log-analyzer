@@ -2,6 +2,12 @@ a {
   text-decoration: none;
   color: #015ba7;
 }
+
+:host {
+  --dxp-s-form-element-text-font-size: 0.75rem;
+  --dxp-s-button-font-size: 0.8125rem;
+  --dxp-s-form-element-label-font-size: 0.75rem;
+}
 /* .reportView {
   position: absolute;
   left: 0;
@@ -283,7 +289,113 @@ th {
   border: 1px solid rgb(201, 201, 201);
 }
 
-.widgets {
+.widgets-inner {
   overflow: auto;
-  height: 500px;
+  /* 
+    156px -> height of header - 40px
+          -> height of footer(Navigation items for pagination) - 40px
+          -> padding of AppContent - 12px
+          -> report title and other details - 64px
+    100vh -> height of viewport
+   */
+  height: calc(100vh - 156px);
+}
+
+.filter-panel {
+  height: auto;
+  overflow: visible;
+}
+
+.slds-button:hover {
+  color: #76716b;
+  border-color: #76716b;
+}
+
+.utility-bar {
+  flex-direction: row-reverse;
+}
+
+.utility-bar-span-text {
+  align-self: center;
+  font-size: 0.9rem;
+  /* color: #747474; */
+}
+
+.utility-bar-input {
+  width: 5rem;
+}
+
+.line-number-text {
+  color: rgb(68, 68, 68);
+  font-weight: 400;
+}
+
+.line-text {
+  color: #16315a;
+  fill: #16315a;
+  font-weight: 400;
+}
+
+.line-header {
+  font-weight: 700;
+  height: 23px;
+}
+
+.widget-container {
+  width: 100%;
+  overflow: auto;
+}
+
+.widgets {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.filter-being-edited {
+  background-color: rgb(250, 255, 189);
+  border: 1px solid #a86403;
+}
+
+.filter-header-btn-container {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid rgb(229, 229, 229);
+  background: var(--slds-g-color-neutral-base-95, #f3f3f3);
+  -webkit-box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.16);
+  z-index: 8000;
+}
+
+.popover-section {
+  position: absolute;
+  right: 20rem;
+}
+
+.filterPanel {
+  padding: 1rem;
+}
+
+.slds-form-element__label {
+  color: #444444;
+  font-size: 0.75rem;
+}
+
+.float-right {
+  float: right;
+}
+
+.filter-body {
+  width: 100%;
+  line-break: anywhere;
+  line-height: 1.5;
+}
+
+.slds-button {
+  height: 2rem;
 }

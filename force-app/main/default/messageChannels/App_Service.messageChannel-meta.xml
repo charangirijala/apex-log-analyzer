@@ -12,5 +12,9 @@
      <fieldName>fileData</fieldName>
      <description>This is the raw file data uploaded</description>
 </lightningMessageFields>
+<lightningMessageFields>
+     <fieldName>fileMetadata</fieldName>
+     <description>This is the raw file metadata</description>
+</lightningMessageFields>
 
 </LightningMessageChannel>

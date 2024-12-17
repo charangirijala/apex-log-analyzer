@@ -1,0 +1,34 @@
+:host {
+  --full-width: 100%;
+  --zero-position: 0;
+}
+.fullheigth {
+  height: 100%;
+}
+.oneCenterStage {
+  left: var(--zero-position);
+  top: var(--zero-position);
+  width: var(--full-width);
+  overflow: visible;
+  background-color: transparent;
+}
+
+.centerRegion {
+  overflow-y: auto;
+  display: flex;
+  flex-flow: row wrap;
+  flex: 1 1 0%;
+  height: 100%;
+}
+
+.leftRegion {
+  display: flex;
+  overflow-y: auto;
+  height: 100%;
+  width: 400px;
+}
+
+.slds-button:hover {
+  color: #76716b;
+  border-color: #76716b;
+}

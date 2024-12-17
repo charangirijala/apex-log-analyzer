@@ -1,4 +1,5 @@
 <template>
+  <div class="slds-hide">{reRenderVal}</div>
   <div class="reportView">
     <div class="reportBuilderContainer">
       <div class="reportBuilder reportBuilder-view hide-settings-footer">
@@ -31,11 +32,11 @@
                       <div class="slds-page-header__name">
                         <div class="slds-page-header__name-title">
                           <h1>
-                            <span>Report: Accounts</span
+                            <span>Log Viewer</span
                             ><span
                               class="slds-page-header__title slds-truncate"
                               title="New Accounts Report"
-                              >New Accounts Report</span
+                              >{fileMetadata.fileName}</span
                             >
                           </h1>
                         </div>
@@ -52,7 +53,6 @@
                         <div class="slds-m-left--xx-small">
                           <div
                             class="slds-button-group actionBarButtonGroup"
-                            id="3MCT24AYo"
                             role="group"
                           >
                             <button
@@ -111,7 +111,6 @@
                         <div class="slds-m-left--xx-small">
                           <div
                             class="slds-button-group actionBarButtonGroup"
-                            id="TBvjhcRTCj"
                             role="group"
                           >
                             <button
@@ -137,7 +136,6 @@
                         <div class="slds-m-left--xx-small">
                           <div
                             class="slds-button-group actionBarButtonGroup"
-                            id="EIgwcggzBZ"
                             role="group"
                           >
                             <div
@@ -152,6 +150,7 @@
                                     aria-expanded="false"
                                     class="action-bar-action-toggleFilter reportAction report-action-toggleFilter filtersButton slds-button slds-not-selected slds-button_icon-border"
                                     type="button"
+                                    onclick={openFilter}
                                   >
                                     <svg
                                       aria-hidden="true"
@@ -263,7 +262,6 @@
                           background-color: rgb(255, 255, 255);
                           overflow-y: auto;
                         "
-                        onscroll={handleScroll}
                       >
                         <div
                           class="grid-layout-container"
@@ -279,7 +277,210 @@
                             "
                           >
                             <div class="widget-grid">
-                              <div class="widgets">
+                              <div class="widgets" style={dynamicHeight}>
+                                <!-- Filter Panel -->
+                                <div class={filterClass}>
+                                  <template lwc:if={ShowFilterSave}>
+                                    <div class="filter-header-btn-container">
+                                      <button
+                                        type="button"
+                                        class="slds-button slds-button_neutral"
+                                        onclick={cancelFilterEdit}
+                                      >
+                                        Cancel
+                                      </button>
+                                      <button
+                                        type="button"
+                                        class="slds-button slds-button_brand"
+                                        onclick={saveFilterEdit}
+                                      >
+                                        Save
+                                      </button>
+                                    </div>
+                                  </template>
+                                  <template lwc:if={isFilterPopOverShowing}>
+                                    <section
+                                      class="slds-popover popover-section slds-nubbin_right"
+                                      role="dialog"
+                                    >
+                                      <div class="filterPanel">
+                                        <lightning-combobox
+                                          name="Field"
+                                          label="Field"
+                                          value={fieldValue}
+                                          placeholder="Select Field"
+                                          options={fieldOptions}
+                                          onchange={handleFieldChange}
+                                        ></lightning-combobox>
+                                        <lightning-combobox
+                                          name="Operator"
+                                          label="Operator"
+                                          value={operatorValue}
+                                          placeholder="Select Operator"
+                                          options={operatorOptions}
+                                          onchange={handleOperatorChange}
+                                        ></lightning-combobox>
+                                        <template
+                                          lwc:if={isFilterValuePicklist}
+                                        >
+                                          <c-multi-select-combobox
+                                            label="Value"
+                                            name="Value"
+                                            options={filterValueOptions}
+                                            onclose={handleFilterValueChange}
+                                          ></c-multi-select-combobox>
+                                        </template>
+                                        <template lwc:else>
+                                          <lightning-input
+                                            type="text"
+                                            label="Value"
+                                            minlength="3"
+                                            value={filterValue}
+                                            onchange={handleFilterTextChange}
+                                          ></lightning-input>
+                                        </template>
+
+                                        <div
+                                          class="float-right slds-var-p-bottom_medium"
+                                        >
+                                          <button
+                                            type="button"
+                                            class="slds-button slds-button_neutral slds-var-m-top_medium"
+                                            onclick={handlePopoverClose}
+                                          >
+                                            <span>Done</span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </section>
+                                  </template>
+                                  <div class="slds-panel__header">
+                                    <h2
+                                      class="slds-panel__header-title slds-text-heading_small slds-truncate"
+                                      title="Filters"
+                                    >
+                                      Filters
+                                    </h2>
+                                    <div class="slds-panel__header-actions">
+                                      <button
+                                        class="slds-button slds-button_icon slds-button_icon-small slds-panel__close"
+                                        title="Collapse Filter"
+                                        onclick={closeFilter}
+                                      >
+                                        <svg
+                                          class="slds-button__icon"
+                                          aria-hidden="true"
+                                        >
+                                          <use
+                                            xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
+                                          ></use>
+                                        </svg>
+                                        <span class="slds-assistive-text"
+                                          >Collapse Filter</span
+                                        >
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <div class="slds-panel__body panelbody">
+                                    <div class="slds-filters">
+                                      <ol
+                                        class="slds-list_vertical slds-list_vertical-space"
+                                      >
+                                        <li class="slds-item slds-hint-parent">
+                                          <div
+                                            class="slds-filters__item slds-grid slds-grid_vertical-align-center"
+                                          >
+                                            <button
+                                              class="slds-button_reset slds-grow slds-has-blur-focus"
+                                            >
+                                              <span class="slds-assistive-text"
+                                                >Edit filter:</span
+                                              >
+                                              <span
+                                                class="slds-show slds-text-body_small"
+                                                >Show Me</span
+                                              >
+                                              <span class="slds-show"
+                                                >All Lines</span
+                                              >
+                                            </button>
+                                          </div>
+                                        </li>
+                                      </ol>
+                                      <template lwc:if={hasActiveFilters}>
+                                        <h3
+                                          class="slds-text-body_small slds-m-vertical_x-small"
+                                        >
+                                          Matching all these filters
+                                        </h3>
+                                        <ol
+                                          class="slds-list_vertical slds-list_vertical-space"
+                                        >
+                                          <template
+                                            for:each={activeFilters}
+                                            for:item="filter"
+                                          >
+                                            <li
+                                              class="slds-item slds-hint-parent"
+                                              key={filter.id}
+                                            >
+                                              <div
+                                                class={filter.filterItemClass}
+                                              >
+                                                <button
+                                                  class="slds-button_reset slds-grow slds-has-blur-focus"
+                                                  onclick={onFilterElementClick}
+                                                  data-id={filter.id}
+                                                >
+                                                  <span
+                                                    class="slds-show slds-text-body_small"
+                                                    >{filter.field}</span
+                                                  >
+                                                  <span
+                                                    class="slds-show filter-body"
+                                                    >{filter.operator}
+                                                    {filter.value}</span
+                                                  >
+                                                </button>
+                                                <button
+                                                  class="slds-button slds-button_icon slds-button_icon slds-button_icon-small"
+                                                  title="Remove Filter"
+                                                  data-id={filter.id}
+                                                  onclick={removeFilter}
+                                                >
+                                                  <svg
+                                                    class="slds-button__icon slds-button__icon_hint"
+                                                    aria-hidden="true"
+                                                  >
+                                                    <use
+                                                      xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#delete"
+                                                    ></use>
+                                                  </svg>
+                                                </button>
+                                              </div>
+                                            </li>
+                                          </template>
+                                        </ol>
+                                      </template>
+                                      <div
+                                        class="slds-filters__footer slds-grid slds-shrink-none"
+                                      >
+                                        <button
+                                          class="slds-button_reset slds-text-link"
+                                          onclick={addFilter}
+                                        >
+                                          Add Filter
+                                        </button>
+                                        <button
+                                          class="slds-button_reset slds-text-link slds-col_bump-left"
+                                          onclick={removeAllFilters}
+                                        >
+                                          Remove All
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                                 <div
                                   class="widget-container widget-container_scroll-container"
                                 >
@@ -299,7 +500,7 @@
                                           aria-label=""
                                           style="display: block"
                                         ></span>
-                                        <div class="widgets">
+                                        <div class="widgets-inner">
                                           <div
                                             class="widget-container widget-container_reportMetrics"
                                           >
@@ -320,12 +521,12 @@
                                                         class="metricsElement metricsTitle"
                                                         title="Total Records"
                                                       >
-                                                        Total Records
+                                                        Total Lines
                                                       </div>
                                                       <div
                                                         class="metricsElement metricsValue"
                                                       >
-                                                        640
+                                                        {fileMetadata.nofLines}
                                                       </div>
                                                     </li>
                                                     <li>
@@ -333,12 +534,12 @@
                                                         class="metricsElement metricsTitle"
                                                         title="Total Annual Revenue"
                                                       >
-                                                        Total Annual Revenue
+                                                        Total CodeUnits
                                                       </div>
                                                       <div
                                                         class="metricsElement metricsValue"
                                                       >
-                                                        ₹8,83,61,55,493
+                                                        {fileMetadata.nofCodeUnits}
                                                       </div>
                                                     </li>
                                                     <li>
@@ -346,12 +547,12 @@
                                                         class="metricsElement metricsTitle"
                                                         title="Total Partner Account"
                                                       >
-                                                        Total Partner Account
+                                                        Total MethodUnits
                                                       </div>
                                                       <div
                                                         class="metricsElement metricsValue"
                                                       >
-                                                        0
+                                                        {fileMetadata.nofMethodUnits}
                                                       </div>
                                                     </li>
                                                     <li>
@@ -373,63 +574,34 @@
                                             </div>
                                           </div>
                                           <table>
-                                            <colgroup>
-                                              <col style="width: 40px" />
-                                              <col style="width: 500px" />
-                                            </colgroup>
                                             <tr>
-                                              <th></th>
-                                              <th style="text-align: left">
+                                              <th class="line-header"></th>
+                                              <th
+                                                class="line-header"
+                                                style="text-align: left"
+                                              >
                                                 Line
                                               </th>
                                             </tr>
                                             <template
                                               for:each={displayedData}
-                                              for:item="line"
-                                              for:index="idx"
+                                              for:item="lineObj"
                                             >
-                                              <tr key={line}>
+                                              <tr key={lineObj.lineNumber}>
                                                 <td style="text-align: center">
-                                                  {idx}
+                                                  <span class="line-number-text"
+                                                    >{lineObj.lineNumber}</span
+                                                  >
                                                 </td>
-                                                <td>{line}</td>
+                                                <td>
+                                                  <span class="line-text"
+                                                    >{lineObj.line}</span
+                                                  >
+                                                </td>
                                               </tr>
                                             </template>
                                           </table>
                                         </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div
-                                  class="widget-container widget-container_reportChatter"
-                                >
-                                  <div draggable="false" class="widget">
-                                    <div class="dashboard-widget css-13udsys">
-                                      <div
-                                        class="report-chatter-feed-panel widgetReady finalState"
-                                      >
-                                        <!-- Loading Screen -->
-                                        <template lwc:if={isLoading}
-                                          ><div
-                                            class="chatter-loading slds-spinner_container"
-                                          >
-                                            <div
-                                              aria-hidden="false"
-                                              class="slds-spinner slds-spinner_brand slds-spinner_small"
-                                              role="status"
-                                            >
-                                              <span class="slds-assistive-text"
-                                                >Loading...</span
-                                              >
-                                              <div
-                                                class="slds-spinner__dot-a"
-                                              ></div>
-                                              <div
-                                                class="slds-spinner__dot-b"
-                                              ></div>
-                                            </div></div
-                                        ></template>
                                       </div>
                                     </div>
                                   </div>
@@ -452,77 +624,70 @@
   </div>
   <div class="footerContainer">
     <footer class="slds-utility-bar_container" aria-label="Utility Bar">
-      <h2 class="slds-assistive-text">Utility Bar</h2>
-      <ul class="slds-utility-bar">
-        <li class="slds-utility-bar__item">
-          <button
-            class="slds-button slds-utility-bar__action"
-            aria-pressed="false"
-          >
-            <svg
-              class="slds-button__icon slds-button__icon_left"
-              aria-hidden="true"
-            >
-              <use
-                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#call"
-              ></use>
-            </svg>
-            <span class="slds-utility-bar__text">Call</span>
-          </button>
+      <ul class="slds-utility-bar utility-bar slds-var-p-around_xx-small">
+        <li
+          class="slds-utility-bar__item slds-var-p-horizontal_xxx-small utility-bar-input"
+        >
+          <input
+            type="text"
+            value={linesPerPage}
+            class={linesPerPageClass}
+            maxlength="4"
+            inputmode="decimal"
+            oninput={onLinesPerPageChange}
+          />
         </li>
-        <li class="slds-utility-bar__item slds-utility-bar__item_pop-out">
-          <button
-            class="slds-button slds-utility-bar__action slds-is-active"
-            aria-pressed="true"
-          >
-            <svg
-              class="slds-button__icon slds-button__icon_left"
-              aria-hidden="true"
-            >
-              <use
-                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#clock"
-              ></use>
-            </svg>
-            <span class="slds-utility-bar__text">History</span>
-            <span class="slds-assistive-text"
-              >: is popped out in new window</span
-            >
-          </button>
+        <li
+          class="slds-utility-bar__item slds-var-p-horizontal_xxx-small utility-bar-span-text"
+        >
+          <span>Lines per page:</span>
         </li>
-        <li class="slds-utility-bar__item">
-          <button
-            class="slds-button slds-utility-bar__action"
-            aria-pressed="false"
-          >
-            <svg
-              class="slds-button__icon slds-button__icon_left"
-              aria-hidden="true"
+        <li class="slds-utility-bar__item slds-var-p-horizontal_xxx-small">
+          <div class="slds-button-group">
+            <button
+              class="slds-button slds-button_icon slds-button_icon-border"
+              title="Previous Page"
+              onclick={prevHandler}
+              tabindex="0"
             >
-              <use
-                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#note"
-              ></use>
-            </svg>
-            <span class="slds-utility-bar__text">Notes</span>
-          </button>
+              <svg class="slds-button__icon" aria-hidden="true">
+                <use
+                  xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#undo"
+                ></use></svg
+              ><span class="slds-assistive-text">Previous Page</span></button
+            ><button
+              class="slds-button slds-button_icon slds-button_icon-border"
+              title="Next Page"
+              onclick={nextHandler}
+            >
+              <svg class="slds-button__icon" aria-hidden="true">
+                <use
+                  xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#redo"
+                ></use></svg
+              ><span class="slds-assistive-text">Next Page</span>
+            </button>
+          </div>
         </li>
-        <li class="slds-utility-bar__item">
-          <button
-            class="slds-button slds-utility-bar__action"
-            aria-pressed="false"
-          >
-            <svg
-              class="slds-button__icon slds-button__icon_left"
-              aria-hidden="true"
-            >
-              <use
-                xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#omni_channel"
-              ></use>
-            </svg>
-            <span class="slds-utility-bar__text">
-              <span class="slds-m-bottom_xxx-small">Online</span>
-              <span>Omni-Channel</span>
-            </span>
-          </button>
+        <li
+          class="slds-utility-bar__item utility-bar-span-text slds-var-p-horizontal_xxx-small"
+        >
+          <span>of <strong>{noOfPages}</strong></span>
+        </li>
+        <li
+          class="slds-utility-bar__item slds-var-p-horizontal_xxx-small utility-bar-input"
+        >
+          <input
+            type="text"
+            value={pageNumber}
+            class={pageNumberClass}
+            inputmode="decimal"
+            oninput={onPageNumberChange}
+          />
+        </li>
+        <li
+          class="slds-utility-bar__item utility-bar-span-text slds-var-p-horizontal_xxx-small"
+        >
+          <span>Page</span>
         </li>
       </ul>
     </footer>

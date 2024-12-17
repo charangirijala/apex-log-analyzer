@@ -22,6 +22,26 @@ import STATE from "@salesforce/messageChannel/App_Service__c";
  */
 
 /**
+ * FILE DATA PARTIAL Schema:
+ * {
+      line: line,
+      event: event,
+      lineNumber: lineNumber
+    };
+ */
+
+/**
+ * FILE METADATA Schema
+ * {
+ *   "fileName": "",
+ *   "nofLines": "",
+ *   "nofEvents": "",
+ *   "nofCodeUnits": "",
+ *   "nofMethodUnits": "",
+ * }
+ */
+
+/**
  * CODE UNIT Schema:
   {
    "Id":0,
@@ -51,6 +71,13 @@ export default class LogFileProcessor extends LightningElement {
   methodUnitsCount = 0;
   execAnonyCount = 0;
   fileData;
+  fileMetadata = {
+    fileName: "",
+    nofLines: 0,
+    nofCodeUnits: 0,
+    nofMethodUnits: 0
+  };
+  fileDataPartial = [];
   treeNodes = [];
   level = 1;
   posinset = 1;
@@ -64,16 +91,14 @@ export default class LogFileProcessor extends LightningElement {
     var reader = new FileReader();
     console.log("[fileUploader.js] Processing Uploaded file...");
     const rawFile = event.target.files[0];
+    this.fileMetadata.fileName = rawFile.name;
     console.log("[fileUploader.js] File Size: ", rawFile.size);
     reader.onload = (e) => {
       const file = e.target.result;
-      console.log(file);
+      // console.log(file);
       // console.log(file);
       this.fileData = file.split(/\r\n|\n/);
 
-      //publish fileData to MessageChannel
-      const payload = { fileData: this.fileData };
-      publish(this.messageContext, STATE, payload);
       console.log("[fileUploader.js] No.of Lines: ", this.fileData.length);
       // lines.forEach((line) => {
       //   console.log("Single Line: ", line);
@@ -85,7 +110,6 @@ export default class LogFileProcessor extends LightningElement {
     };
     reader.readAsText(rawFile);
   }
-
   processLogData() {
     this.fileData.forEach((line, idx) => {
       if (this.STD_EXP_MATCHER.test(line)) {
@@ -111,7 +135,7 @@ export default class LogFileProcessor extends LightningElement {
           const RegexMap = eventsRegexMaster.get(lineEvent);
           for (let [key, value] of RegexMap) {
             if (key.test(line)) {
-              console.log(value, "=>", key.test(line), "=>", line);
+              // console.log(value, "=>", key.test(line), "=>", line);
               this.createMethodUnit(line, value, idx);
               break;
             }
@@ -122,10 +146,19 @@ export default class LogFileProcessor extends LightningElement {
         } else {
           this.addLinetoCUorMU(line, lineEvent, idx);
         }
+
+        this.addToFileDataPartial(line, lineEvent, idx + 1);
       } else if (this.EXE_ANONYMOUS_MATCHER.test(line)) {
         this.execAnonyCount++;
+        this.addToFileDataPartial(line, "EXECUTE_ANONYMOUS", idx + 1);
+      } else {
+        // console.log("[fileUploader.js] Skipping line: ", line);
+        this.addToFileDataPartial(line, "ORPHAN", idx + 1);
       }
     });
+
+    //publish fileData to MessageChannel
+    this.publishFileMetadata();
 
     console.log("Total stdExps: ", this.stdExpCount);
     console.log("Total exeAnonys: ", this.execAnonyCount);
@@ -371,5 +404,25 @@ export default class LogFileProcessor extends LightningElement {
     };
     this.posinset++;
     return Node;
+  }
+
+  addToFileDataPartial(line, event, lineNumber) {
+    const temp = {
+      line: line,
+      event: event,
+      lineNumber: lineNumber
+    };
+    this.fileDataPartial.push(temp);
+  }
+
+  publishFileMetadata() {
+    this.fileMetadata.nofCodeUnits = this.codeUnitsCount;
+    this.fileMetadata.nofMethodUnits = this.methodUnitsCount;
+    this.fileMetadata.nofLines = this.fileData.length;
+    const payload = {
+      fileMetadata: this.fileMetadata,
+      fileData: this.fileDataPartial
+    };
+    publish(this.messageContext, STATE, payload);
   }
 }
