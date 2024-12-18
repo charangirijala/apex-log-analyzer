@@ -16,5 +16,9 @@
      <fieldName>fileMetadata</fieldName>
      <description>This is the raw file metadata</description>
 </lightningMessageFields>
+<lightningMessageFields>
+     <fieldName>eventsPicklistValues</fieldName>
+     <description>This contains all unique events</description>
+</lightningMessageFields>
 
 </LightningMessageChannel>
