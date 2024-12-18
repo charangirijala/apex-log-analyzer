@@ -72,10 +72,12 @@ export default class LogPreviewer extends LightningElement {
   }
   get filterValueOptions() {
     let options = this.filterPickListMaster;
-    return options.map((item) => ({
+    let opts = options.map((item) => ({
       ...item,
       selected: this.filterPickListValue.includes(item.value)
     }));
+    console.log("Options generated: ", opts);
+    return opts;
   }
 
   @track activeFilters = [
@@ -267,6 +269,7 @@ export default class LogPreviewer extends LightningElement {
     // if (!this.isFilterEditing) {
     this.isFilterEditing = true;
     this.isFilterPopOverShowing = true;
+    this.filterPickListValue = [];
     this.currentEditFilterIdx = this.activeFilters.length;
     const newFilter = {
       id: this.activeFilters.length,
@@ -381,13 +384,12 @@ export default class LogPreviewer extends LightningElement {
   handleFilterValueChange(event) {
     // this.filterValue = event.detail;
     if (this.currentEditFilterIdx < this.activeFilters.length) {
-      this.filterPickListValue = this.activeFilters[
-        this.currentEditFilterIdx
-      ].filterValues = event.detail.map((filter) => {
-        return filter.value;
-      });
+      this.activeFilters[this.currentEditFilterIdx].filterValues =
+        event.detail.map((filter) => {
+          return filter.value;
+        });
     }
-
+    this.filterPickListValue = [];
     console.log("Selected items: ", this.filterPickListValue);
   }
 

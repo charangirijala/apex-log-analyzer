@@ -179,6 +179,7 @@ export default class MultiSelectCombobox extends LightningElement {
     this.dispatchEvent(
       new CustomEvent("close", { detail: this.selectedOptions })
     );
+    this.selectedOptions = [];
   }
 
   setSelection() {

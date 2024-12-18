@@ -1,8 +1,14 @@
 {
   "orgName": "charangirijala company",
   "edition": "Developer",
-  "features": ["EnableSetPasswordInApi"],
+  "features": ["EnableSetPasswordInApi","Communities"],
   "settings": {
+    "communitiesSettings":{
+      "enableNetworksEnabled":true
+    },
+    "experienceBundleSettings":{
+      "enableExperienceBundleMetadata":true
+    },
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true,
       "enableLightningPreviewPref": true
