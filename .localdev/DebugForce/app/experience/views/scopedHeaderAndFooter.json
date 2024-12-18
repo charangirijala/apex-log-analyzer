@@ -1,0 +1,142 @@
+{
+  "id": "39062fbe-c74b-4238-8b25-036a56ca30f2",
+  "label": "Scoped Header and Footer",
+  "dataProviders": [],
+  "mutations": [],
+  "devName": "scopedHeaderAndFooter",
+  "component": {
+    "label": "Scoped Header and Footer",
+    "id": "39062fbe-c74b-4238-8b25-036a56ca30f2",
+    "brandingSetId": null,
+    "customCssClasses": null,
+    "mobileAttributes": {},
+    "tabletAttributes": {},
+    "variations": [],
+    "events": {},
+    "hasVisibilityRule": false,
+    "hydrationDirective": "EMPTY",
+    "descriptor": "community_byo/scopedHeaderAndFooter",
+    "attributes": {
+      "showThemeFooterAtBottom": {
+        "attribute": true
+      },
+      "stickyThemeHeader": {
+        "attribute": false
+      },
+      "hideThemeFooter": {
+        "attribute": false
+      }
+    },
+    "regions": [
+      {
+        "slotName": "header",
+        "components": [
+          {
+            "descriptor": "community_layout/section",
+            "attributes": {
+              "layoutDirectionMobile": {
+                "attribute": "column"
+              },
+              "backgroundImageConfig": {
+                "attribute": ""
+              },
+              "backgroundImageOverlay": {
+                "attribute": "rgba(0,0,0,0)"
+              },
+              "sectionConfig": {
+                "attribute": "{\"UUID\":\"9cd4643a-aa5f-4ae8-b0bf-57d7358bab06\",\"columns\":[{\"UUID\":\"411d02ef-867c-4ae5-b32e-f0396689941c\",\"columnName\":\"Column 1\",\"columnKey\":\"headerSection\",\"columnWidth\":\"12\",\"seedComponents\":null}]}"
+              },
+              "layoutDirectionDesktop": {
+                "attribute": "row"
+              },
+              "layoutDirectionTablet": {
+                "attribute": "column"
+              },
+              "sectionMinHeight": {
+                "attribute": ""
+              },
+              "componentSpacerSize": {
+                "attribute": ""
+              },
+              "sectionVerticalAlign": {
+                "attribute": "flex-start"
+              },
+              "maxContentWidth": {
+                "attribute": ""
+              },
+              "dxpStyle": {
+                "attribute": "{\"margin\":{\"bottom\":\"0px\",\"left\":\"0px\",\"right\":\"0px\",\"top\":\"0px\"},\"padding\":{\"bottom\":\"0px\",\"left\":\"0px\",\"right\":\"0px\",\"top\":\"0px\"}}"
+              },
+              "sectionColumnGutterWidth": {
+                "attribute": ""
+              }
+            },
+            "regions": [
+              {
+                "slotName": "headerSection",
+                "components": [
+                  {
+                    "descriptor": "c/appNavigation",
+                    "attributes": {},
+                    "regions": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "slotName": "footer",
+        "components": [
+          {
+            "descriptor": "community_layout/section",
+            "attributes": {
+              "layoutDirectionMobile": {
+                "attribute": "column"
+              },
+              "backgroundImageConfig": {
+                "attribute": ""
+              },
+              "backgroundImageOverlay": {
+                "attribute": "rgba(0,0,0,0)"
+              },
+              "sectionConfig": {
+                "attribute": "{\"UUID\":\"3736eecb-3740-4364-85de-b6c27bfbe1c8\",\"columns\":[{\"UUID\":\"af92e073-79c1-4903-8da6-ef4858323d53\",\"columnName\":\"Column 1\",\"columnKey\":\"footerSection\",\"columnWidth\":\"12\",\"seedComponents\":null}]}"
+              },
+              "layoutDirectionDesktop": {
+                "attribute": "row"
+              },
+              "layoutDirectionTablet": {
+                "attribute": "column"
+              },
+              "sectionMinHeight": {
+                "attribute": ""
+              },
+              "componentSpacerSize": {
+                "attribute": ""
+              },
+              "sectionVerticalAlign": {
+                "attribute": "flex-start"
+              },
+              "maxContentWidth": {
+                "attribute": ""
+              },
+              "sectionColumnGutterWidth": {
+                "attribute": ""
+              }
+            },
+            "regions": [
+              {
+                "slotName": "footerSection",
+                "components": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "isThemeLayout": true,
+  "themeLayoutType": "Inner"
+}

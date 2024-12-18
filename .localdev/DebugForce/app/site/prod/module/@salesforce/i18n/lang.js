@@ -1,0 +1,1 @@
+LWR.define('@salesforce/i18n/lang', ['lwr/environment'], function(m) { return `${(m && typeof m === 'object' && 'default' in m ? m.default : m)['locale']}`; });

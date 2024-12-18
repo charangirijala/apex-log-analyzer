@@ -1,0 +1,13 @@
+{
+  "devName": "byo",
+  "label": "Build Your Own (LWR)",
+  "id": "509b6894-8622-4f76-80cb-7a10316bfd11",
+  "themeLayouts": {
+    "ServiceNotAvailable": {
+      "view": "snaThemeLayout"
+    },
+    "Inner": {
+      "view": "scopedHeaderAndFooter"
+    }
+  }
+}

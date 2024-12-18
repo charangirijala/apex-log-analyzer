@@ -1,0 +1,1 @@
+LWR.define('@app/imageOpt', [], function() { return "none"; });

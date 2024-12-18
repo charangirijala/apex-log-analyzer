@@ -1,0 +1,19 @@
+{
+  "environment": {
+    "format": "amd",
+    "bundle": true,
+    "minify": true
+  },
+  "resources": {
+    "lwr-error-shim.js|v/0_13_10": {
+      "inline": true,
+      "mimeType": "application/javascript",
+      "path": "/prod/framework/9b9f9f7e65/lwr_error_shim.js"
+    },
+    "lwr-loader-shim-legacy.bundle.min.js|v/0_13_10": {
+      "inline": false,
+      "mimeType": "application/javascript",
+      "path": "/prod/framework/f6ea60171e/lwr_loader.js"
+    }
+  }
+}

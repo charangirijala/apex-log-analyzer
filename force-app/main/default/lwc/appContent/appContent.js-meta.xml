@@ -3,6 +3,8 @@
     <apiVersion>62.0</apiVersion>
     <isExposed>true</isExposed>
     <targets>
+    <target>lightning__AppPage</target>
+    <target>lightning__HomePage</target>
     <target>lightningCommunity__Page</target>
     <target>lightningCommunity__Default</target>
     <target>lightningCommunity__Page_Layout</target>

@@ -1,0 +1,1 @@
+LWR.define('@salesforce/user/isGuest', [], function() { return true; });

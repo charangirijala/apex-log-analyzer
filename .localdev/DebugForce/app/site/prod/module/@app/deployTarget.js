@@ -1,0 +1,1 @@
+LWR.define('@app/deployTarget', [], function() { return "MRT"; });
