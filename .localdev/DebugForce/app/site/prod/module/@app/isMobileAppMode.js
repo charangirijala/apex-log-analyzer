@@ -1,1 +1,0 @@
-LWR.define('@app/isMobileAppMode', [], function() { return false; });

@@ -1,1 +1,0 @@
-LWR.define('@salesforce/webstore/Id', [], function() { return null; });

@@ -1,1 +1,0 @@
-LWR.define('@app/authenticationCookieName', [], function() { return "__Secure-has-sid"; });

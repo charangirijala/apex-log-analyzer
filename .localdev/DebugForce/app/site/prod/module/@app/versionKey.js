@@ -1,1 +1,0 @@
-LWR.define('@app/versionKey', [], function() { return "35586622fc"; });

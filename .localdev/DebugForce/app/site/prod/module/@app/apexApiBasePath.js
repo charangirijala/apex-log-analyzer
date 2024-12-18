@@ -1,1 +1,0 @@
-LWR.define('@app/apexApiBasePath', ['lwr/environment'], function(m) { return `${(m && typeof m === 'object' && 'default' in m ? m.default : m)['basePath']}/webruntime/api`; });

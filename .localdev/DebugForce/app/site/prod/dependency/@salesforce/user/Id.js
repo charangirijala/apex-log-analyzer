@@ -1,1 +1,0 @@
-LWR.define('@salesforce/user/Id', [], function() { return null; });

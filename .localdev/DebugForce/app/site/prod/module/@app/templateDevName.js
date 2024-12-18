@@ -1,1 +1,0 @@
-LWR.define('@app/templateDevName', [], function() { return "talon-template-byo"; });

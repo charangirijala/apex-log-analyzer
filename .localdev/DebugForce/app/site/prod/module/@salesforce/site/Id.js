@@ -1,1 +1,0 @@
-LWR.define('@salesforce/site/Id', [], function() { return "0DMHy0000008iGnOAI"; });

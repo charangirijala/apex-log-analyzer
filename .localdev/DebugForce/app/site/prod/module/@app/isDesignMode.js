@@ -1,1 +1,0 @@
-LWR.define('@app/isDesignMode', [], function() { return false; });

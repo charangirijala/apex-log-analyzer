@@ -1,1 +1,0 @@
-LWR.define('@app/extraRouteParams', [], function() { return {}; });
