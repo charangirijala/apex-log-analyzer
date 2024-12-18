@@ -436,11 +436,23 @@
                                                     class="slds-show slds-text-body_small"
                                                     >{filter.field}</span
                                                   >
-                                                  <span
-                                                    class="slds-show filter-body"
-                                                    >{filter.operator}
-                                                    {filter.value}</span
+
+                                                  <template
+                                                    lwc:if={filter.isPicklist}
                                                   >
+                                                    <span
+                                                      class="slds-show filter-body"
+                                                      >{filter.operator}
+                                                      {filter.filterValues}</span
+                                                    >
+                                                  </template>
+                                                  <template lwc:else>
+                                                    <span
+                                                      class="slds-show filter-body"
+                                                      >{filter.operator}
+                                                      {filter.value}</span
+                                                    >
+                                                  </template>
                                                 </button>
                                                 <button
                                                   class="slds-button slds-button_icon slds-button_icon slds-button_icon-small"

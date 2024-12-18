@@ -12,7 +12,13 @@ import STATE from "@salesforce/messageChannel/App_Service__c";
  *  id:1,
  *  field:"Created Date",
  *  operator:"Equals",
+ *  isPicklist:false,
  *  value:"2019-12-18T22:00:00.000Z",
+ *  filterValues: [
+        "HEAP_ALLOCATE",
+        "CODE_UNIT_STARTED",
+        "CODE_UNIT_FINISHED"
+      ],
  *  isActive:true,
  *  isEdited:false,
  *  filterItemClass:"slds-filters__item slds-grid slds-grid_vertical-align-center filter-being-edited"
@@ -23,7 +29,9 @@ export default class LogPreviewer extends LightningElement {
   isLoading = false;
   fieldValue;
   operatorValue;
-  filterValue;
+  filterValue = "";
+  filterPickListValue = [];
+  filterPickListMaster = [];
   fileDataSub = null;
   isFilterEditing = false;
   isFilterPopOverShowing = false;
@@ -36,13 +44,15 @@ export default class LogPreviewer extends LightningElement {
     ];
   }
   get operatorOptions() {
-    // { label: "Equals", value: "Equals" },
-    //   { label: "Not Equals", value: "Not Equals" },
-    //   { label: "Greater Than", value: "Greater Than" },
-    //   { label: "Greater Than or Equal", value: "Greater Than or Equal" },
-    //   { label: "Less Than", value: "Less Than" },
-    //   { label: "Less Than or Equal", value: "Less Than or Equal" },
-    //   { label: "Contains", value: "Contains" }
+    /* 
+      { label: "Equals", value: "Equals" },
+      { label: "Not Equals", value: "Not Equals" },
+      { label: "Greater Than", value: "Greater Than" },
+      { label: "Greater Than or Equal", value: "Greater Than or Equal" },
+      { label: "Less Than", value: "Less Than" },
+      { label: "Less Than or Equal", value: "Less Than or Equal" },
+      { label: "Contains", value: "Contains" }
+     */
 
     if (this.fieldValue === "Line") {
       return [
@@ -58,21 +68,24 @@ export default class LogPreviewer extends LightningElement {
   }
 
   get isFilterValuePicklist() {
-    return this.fieldValue === "Event";
+    return this.fieldValue === "Event" && this.filterPickListMaster.length > 0;
   }
   get filterValueOptions() {
-    return [
-      { label: "HEAP_ALLOCATE", value: "HEAP_ALLOCATE" },
-      { label: "CODE_UNIT_STARTED", value: "CODE_UNIT_STARTED" },
-      { label: "CODE_UNIT_FINISHED", value: "CODE_UNIT_FINISHED" }
-    ];
+    let options = this.filterPickListMaster;
+    return options.map((item) => ({
+      ...item,
+      selected: this.filterPickListValue.includes(item.value)
+    }));
   }
+
   @track activeFilters = [
     {
       id: 0,
       field: "Line",
       operator: "Equals",
       value: "2019-12-18T22:00:00.000Z",
+      isPicklist: false,
+      filterValues: [],
       isEdited: false,
       isActive: true,
       filterItemClass:
@@ -82,7 +95,13 @@ export default class LogPreviewer extends LightningElement {
       id: 1,
       field: "Event",
       operator: "Equals",
-      value: ["HEAP_ALLOCATE", "CODE_UNIT_STARTED", "CODE_UNIT_FINISHED"],
+      isPicklist: true,
+      value: "",
+      filterValues: [
+        "HEAP_ALLOCATE",
+        "CODE_UNIT_STARTED",
+        "CODE_UNIT_FINISHED"
+      ],
       isEdited: false,
       isActive: true,
       filterItemClass:
@@ -130,6 +149,8 @@ export default class LogPreviewer extends LightningElement {
       const height = this.popoverTop - popoverHeight;
       popover.style.top = `${height}px `;
     }
+
+    console.log("Rerendering: ", this.activeFilters);
   }
 
   get hasActiveFilters() {
@@ -153,7 +174,7 @@ export default class LogPreviewer extends LightningElement {
 
   setFileData(message) {
     if (message !== null && message !== undefined) {
-      // console.log("[LogPreviewer.js] setFileData called");
+      // console.log("[LogPreviewer.js] setFileData called", message);
       if (message.fileData !== undefined && message.fileData !== null) {
         this.fileData = message.fileData;
         this.pageNumber = 1;
@@ -162,6 +183,16 @@ export default class LogPreviewer extends LightningElement {
       }
       if (message.fileMetadata !== undefined && message.fileMetadata !== null) {
         this.fileMetadata = message.fileMetadata;
+      }
+      if (
+        message.eventsPicklistValues !== undefined &&
+        message.eventsPicklistValues !== null
+      ) {
+        if (Array.isArray(message.eventsPicklistValues)) {
+          this.filterPickListMaster = message.eventsPicklistValues.map(
+            (str) => ({ value: str, label: str })
+          );
+        }
       }
     }
   }
@@ -207,6 +238,7 @@ export default class LogPreviewer extends LightningElement {
       this.calculations();
     }
   }
+
   closeFilter() {
     this.filterClass =
       "slds-panel slds-size_medium slds-panel_docked slds-panel_docked-right slds-panel_drawer filter-panel slds-hidden";
@@ -228,25 +260,28 @@ export default class LogPreviewer extends LightningElement {
     this.activeFilters.forEach((filter) => {
       filter.id = idx++;
     });
+    this.currentEditFilterIdx = 0;
   }
 
   addFilter() {
-    if (!this.isFilterEditing) {
-      this.isFilterEditing = true;
-      this.isFilterPopOverShowing = true;
-      this.currentEditFilterIdx = this.activeFilters.length;
-      const newFilter = {
-        id: this.activeFilters.length,
-        field: "New Filter",
-        operator: "",
-        value: "",
-        isActive: false,
-        isEdited: true,
-        filterItemClass:
-          "slds-filters__item slds-grid slds-grid_vertical-align-center filter-being-edited"
-      };
-      this.activeFilters.push(newFilter);
-    }
+    // if (!this.isFilterEditing) {
+    this.isFilterEditing = true;
+    this.isFilterPopOverShowing = true;
+    this.currentEditFilterIdx = this.activeFilters.length;
+    const newFilter = {
+      id: this.activeFilters.length,
+      field: "New Filter",
+      operator: "",
+      value: "",
+      isPicklist: false,
+      filterValues: [],
+      isActive: false,
+      isEdited: true,
+      filterItemClass:
+        "slds-filters__item slds-grid slds-grid_vertical-align-center filter-being-edited"
+    };
+    this.activeFilters.push(newFilter);
+    // }
   }
 
   removeAllFilters() {
@@ -263,14 +298,22 @@ export default class LogPreviewer extends LightningElement {
 
   saveFilterEdit() {
     this.isFilterEditing = false;
-    this.isFilterPopOverShowing = false;
+    this.handlePopoverClose();
     let idxToRemove = [];
     for (let i = 0; i < this.activeFilters.length; i++) {
       let filter = this.activeFilters[i];
       if (
-        filter.field !== "New Filter" &&
+        filter.field === "Line" &&
         filter.operator !== "" &&
         filter.value !== ""
+      ) {
+        filter.isActive = true;
+        filter.filterItemClass =
+          "slds-filters__item slds-grid slds-grid_vertical-align-center";
+      } else if (
+        filter.field === "Event" &&
+        filter.operator !== "" &&
+        filter.filterValues.length > 0
       ) {
         filter.isActive = true;
         filter.filterItemClass =
@@ -292,16 +335,21 @@ export default class LogPreviewer extends LightningElement {
     this.currentEditFilterIdx = event.currentTarget.dataset.id;
     this.fieldValue = this.activeFilters[this.currentEditFilterIdx].field;
     this.operatorValue = this.activeFilters[this.currentEditFilterIdx].operator;
-    if (
-      typeof this.activeFilters[this.currentEditFilterIdx].value === "string"
-    ) {
+
+    if (Array.isArray(this.activeFilters[this.currentEditFilterIdx].value)) {
+      //this is for picklist
+      this.filterValue = "";
+      this.filterPickListValue =
+        this.activeFilters[this.currentEditFilterIdx].filterValues;
+    } else {
+      // this.reRenderVal = !this.reRenderVal;
       console.log(
-        "typeof",
-        typeof this.activeFilters[this.currentEditFilterIdx].value
+        "reRenderVal; ",
+        this.activeFilters[this.currentEditFilterIdx].value,
+        "rerender item:",
+        this.activeFilters[this.currentEditFilterIdx]
       );
-      this.reRenderVal = !this.reRenderVal;
       this.filterValue = this.activeFilters[this.currentEditFilterIdx].value;
-      console.log("reRenderVal; ", this.filterValue);
     }
     console.log("Filter ID;" + event.currentTarget.dataset.id);
     this.activeFilters[this.currentEditFilterIdx].filterItemClass =
@@ -319,6 +367,8 @@ export default class LogPreviewer extends LightningElement {
     console.log("Field Selected ", event.detail.value);
     this.fieldValue = this.activeFilters[this.currentEditFilterIdx].field =
       event.detail.value;
+    this.activeFilters[this.currentEditFilterIdx].isPicklist =
+      this.fieldValue === "Event" ? true : false;
   }
 
   handleOperatorChange(event) {
@@ -329,15 +379,24 @@ export default class LogPreviewer extends LightningElement {
   }
 
   handleFilterValueChange(event) {
-    console.log("Filter Value Selected ", event.detail);
-    this.filterValue = event.detail;
+    // this.filterValue = event.detail;
+    if (this.currentEditFilterIdx < this.activeFilters.length) {
+      this.filterPickListValue = this.activeFilters[
+        this.currentEditFilterIdx
+      ].filterValues = event.detail.map((filter) => {
+        return filter.value;
+      });
+    }
+
+    console.log("Selected items: ", this.filterPickListValue);
   }
 
   handlePopoverClose() {
     this.isFilterPopOverShowing = false;
     this.fieldValue = null;
     this.operatorValue = null;
-    this.filterValue = null;
+    this.filterValue = "";
+    this.filterPickListValue = [];
   }
 
   handleFilterTextChange(event) {

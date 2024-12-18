@@ -69,6 +69,7 @@ export default class LogFileProcessor extends LightningElement {
   stdExpCount = 0;
   codeUnitsCount = 0;
   methodUnitsCount = 0;
+  eventsPicklistValues = new Set();
   execAnonyCount = 0;
   fileData;
   fileMetadata = {
@@ -115,6 +116,7 @@ export default class LogFileProcessor extends LightningElement {
       if (this.STD_EXP_MATCHER.test(line)) {
         this.stdExpCount++;
         const lineEvent = line.split("|")[1];
+        this.eventsPicklistValues.add(lineEvent);
         /*
          * If the current line is only codeunit or Methodunit then
          * process regex else directly push the line to corresponding * CU / MU
@@ -419,9 +421,11 @@ export default class LogFileProcessor extends LightningElement {
     this.fileMetadata.nofCodeUnits = this.codeUnitsCount;
     this.fileMetadata.nofMethodUnits = this.methodUnitsCount;
     this.fileMetadata.nofLines = this.fileData.length;
+    // console.log("Event Picklist Values: ", this.eventsPicklistValues);
     const payload = {
       fileMetadata: this.fileMetadata,
-      fileData: this.fileDataPartial
+      fileData: this.fileDataPartial,
+      eventsPicklistValues: Array.from(this.eventsPicklistValues)
     };
     publish(this.messageContext, STATE, payload);
   }
